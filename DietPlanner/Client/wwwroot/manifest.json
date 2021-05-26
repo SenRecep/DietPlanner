@@ -1,6 +1,6 @@
 {
-  "name": "DietPlanner.BlazorUi",
-  "short_name": "DietPlanner.BlazorUi",
+  "name": "DietPlanner",
+  "short_name": "DietPlanner",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
