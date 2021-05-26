@@ -7,6 +7,8 @@ namespace DietPlanner.Server.Entities.Interfaces
     public interface IRole : IEntityBase
     {
         string Name { get; set; }
-        IEnumerable<Person> People { get; set; }
+        IEnumerable<Admin> Admins { get; set; }
+        IEnumerable<Patient> Patients { get; set; }
+        IEnumerable<Dietician> Dieticians { get; set; }
     }
 }

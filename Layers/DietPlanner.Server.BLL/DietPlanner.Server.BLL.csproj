@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DTO\DietPlanner.DTO.Validation\DietPlanner.DTO.Validation.csproj" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DietPlanner\Shared\DietPlanner.Shared.csproj" />
     <ProjectReference Include="..\DietPlanner.Server.DAL\DietPlanner.Server.DAL.csproj" />
   </ItemGroup>
 
