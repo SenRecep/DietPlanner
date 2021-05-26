@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DTO\DietPlanner.DTO.Validation\DietPlanner.DTO.Validation.csproj" />
+    <ProjectReference Include="..\DietPlanner.Server.DAL\DietPlanner.Server.DAL.csproj" />
+  </ItemGroup>
+
+</Project>

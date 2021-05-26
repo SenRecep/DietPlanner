@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DietPlanner.Server.BLL\DietPlanner.Server.BLL.csproj" />
+    <ProjectReference Include="..\..\Layers\DietPlanner.Server.BLL\DietPlanner.Server.BLL.csproj" />
     <ProjectReference Include="..\Client\DietPlanner.Client.csproj" />
     <ProjectReference Include="..\Shared\DietPlanner.Shared.csproj" />
   </ItemGroup>
