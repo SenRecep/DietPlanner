@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\DietPlanner.Shared.csproj" />
+    <ProjectReference Include="..\..\Client\DietPlanner.ClientShared\DietPlanner.ClientShared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

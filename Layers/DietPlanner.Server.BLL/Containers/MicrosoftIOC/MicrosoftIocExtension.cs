@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
+using DietPlanner.DTO.Validation;
 using DietPlanner.Server.BLL.ExtensionMethods;
+using DietPlanner.Server.BLL.Interfaces;
+using DietPlanner.Server.BLL.Managers;
 using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Contexts;
 using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories;
 using DietPlanner.Server.DAL.Interfaces;
@@ -36,20 +35,27 @@ namespace DietPlanner.Server.BLL.Containers.MicrosoftIOC
 
             services.AddHttpContextAccessor();
 
-            //services.AddTransient(typeof(IGenericService<>), typeof(GenericManager<>));
-            services.AddTransient(typeof(IGenericRepository<>), typeof(EfGenericRepository<>));
+            #region Services
+            services.AddTransient(typeof(IGenericQueryService<>), typeof(GenericQueryManager<>));
+            services.AddTransient(typeof(IGenericCommandService<>), typeof(GenericCommandManager<>));
+            #endregion
 
-            //services.AddAutoMapper(typeof(ProductMappingProfile));
-            //services.AddScoped<ICustomMapper, CustomMapper>();
+            #region Repositoryies
+            services.AddTransient(typeof(IGenericCommandRepository<>), typeof(EfGenericCommandRepository<>));
+            services.AddTransient(typeof(IGenericQueryRepository<>), typeof(EfGenericQueryRepository<>)); 
+            services.AddTransient(typeof(IGenericSingleQueryRepository<>), typeof(EfGenericSingleQueryRepository<>));
+            #endregion
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddScoped<ICustomMapper, CustomMapper>();
 
         }
 
         public static void AddValidationDependencies(this IMvcBuilder mvcBuilder)
         {
             mvcBuilder.AddFluentValidation(opt =>
-            {
-                //opt.RegisterValidatorsFromAssemblyContaining<ProductCreateDtoValidator>();
-            });
+                opt.RegisterValidatorsFromAssemblyContaining<ValidationLayer>()
+            );
         }
     }
 }

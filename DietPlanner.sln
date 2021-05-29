@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietPlanner.Server", "DietPlanner\Server\DietPlanner.Server.csproj", "{A5A0ED34-C47C-4136-B8C7-051CE5FAD9D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietPlanner.Server", "DietPlanner\Server\DietPlanner.Server.csproj", "{A5A0ED34-C47C-4136-B8C7-051CE5FAD9D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietPlanner.Client", "DietPlanner\Client\DietPlanner.Client.csproj", "{92D67299-B962-452C-A92A-665227F046EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietPlanner.Client", "DietPlanner\Client\DietPlanner.Client.csproj", "{92D67299-B962-452C-A92A-665227F046EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietPlanner.Shared", "DietPlanner\Shared\DietPlanner.Shared.csproj", "{C0D66EB2-8005-411D-B708-CE148627D86C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietPlanner.Shared", "DietPlanner\Shared\DietPlanner.Shared.csproj", "{C0D66EB2-8005-411D-B708-CE148627D86C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{F6589339-3548-4C4A-B6B4-460A9748C8A6}"
 EndProject
@@ -17,17 +17,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{D0ED60
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layers", "Layers", "{CE0C2D4E-588C-44F5-B2BF-B0A9ECB3491A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietPlanner.Server.Entities", "Layers\DietPlanner.Server.Entities\DietPlanner.Server.Entities.csproj", "{74B4B76A-1D56-4237-A7CE-A134BB4551B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietPlanner.Server.Entities", "Layers\DietPlanner.Server.Entities\DietPlanner.Server.Entities.csproj", "{74B4B76A-1D56-4237-A7CE-A134BB4551B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietPlanner.Server.DAL", "Layers\DietPlanner.Server.DAL\DietPlanner.Server.DAL.csproj", "{061B4DB5-0AA0-4A20-AA62-A2F52B9EFEBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietPlanner.Server.DAL", "Layers\DietPlanner.Server.DAL\DietPlanner.Server.DAL.csproj", "{061B4DB5-0AA0-4A20-AA62-A2F52B9EFEBA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DTO", "DTO", "{FD922826-19C0-482A-9D2E-A68013A46949}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietPlanner.DTO", "DTO\DietPlanner.DTO\DietPlanner.DTO.csproj", "{6D1B3AC3-1289-4C13-9A77-72344265F39E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietPlanner.DTO", "DTO\DietPlanner.DTO\DietPlanner.DTO.csproj", "{6D1B3AC3-1289-4C13-9A77-72344265F39E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietPlanner.DTO.Validation", "DTO\DietPlanner.DTO.Validation\DietPlanner.DTO.Validation.csproj", "{7E61671E-20F4-47C1-957A-E28608DCA96E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietPlanner.DTO.Validation", "DTO\DietPlanner.DTO.Validation\DietPlanner.DTO.Validation.csproj", "{7E61671E-20F4-47C1-957A-E28608DCA96E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietPlanner.Server.BLL", "Layers\DietPlanner.Server.BLL\DietPlanner.Server.BLL.csproj", "{28193291-0210-4676-9486-33E492C888D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietPlanner.Server.BLL", "Layers\DietPlanner.Server.BLL\DietPlanner.Server.BLL.csproj", "{28193291-0210-4676-9486-33E492C888D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietPlanner.ClientShared", "Client\DietPlanner.ClientShared\DietPlanner.ClientShared.csproj", "{6A4FBC08-D376-472A-A6FB-FF2FE9768C9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{28193291-0210-4676-9486-33E492C888D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28193291-0210-4676-9486-33E492C888D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28193291-0210-4676-9486-33E492C888D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A4FBC08-D376-472A-A6FB-FF2FE9768C9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A4FBC08-D376-472A-A6FB-FF2FE9768C9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A4FBC08-D376-472A-A6FB-FF2FE9768C9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A4FBC08-D376-472A-A6FB-FF2FE9768C9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{6D1B3AC3-1289-4C13-9A77-72344265F39E} = {FD922826-19C0-482A-9D2E-A68013A46949}
 		{7E61671E-20F4-47C1-957A-E28608DCA96E} = {FD922826-19C0-482A-9D2E-A68013A46949}
 		{28193291-0210-4676-9486-33E492C888D3} = {CE0C2D4E-588C-44F5-B2BF-B0A9ECB3491A}
+		{6A4FBC08-D376-472A-A6FB-FF2FE9768C9D} = {55B7FA75-9D48-43A0-B8A1-321905865E7E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26C7660C-326C-4523-A815-02FD3681D8CC}

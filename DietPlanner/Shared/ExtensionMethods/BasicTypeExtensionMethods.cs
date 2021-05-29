@@ -1,4 +1,4 @@
-﻿namespace DietPlanner.Server.BLL.ExtensionMethods
+﻿namespace DietPlanner.Shared.ExtensionMethods
 {
     public static class BasicTypeExtensionMethods
     {

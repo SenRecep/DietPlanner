@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 using DietPlanner.Server.DAL.Interfaces;
@@ -11,34 +12,22 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
 {
-    public class EfGenericRepository<T> : IGenericRepository<T>
+    public class EfGenericCommandRepository<T> : IGenericCommandRepository<T>
        where T : class, IEntityBase, new()
-
     {
         private readonly DbContext dbContext;
         private readonly DbSet<T> table;
 
         private readonly IDbContextTransaction dbContextTransaction;
 
-        public EfGenericRepository(DbContext dbContext)
+        public EfGenericCommandRepository(DbContext dbContext)
         {
             this.dbContext = dbContext;
             table = dbContext.Set<T>();
             dbContextTransaction = dbContext.Database.BeginTransaction();
         }
-
-        #region GetAll
-        public async Task<IEnumerable<T>> GetAllAsync() => await table.Where(x => !x.IsDeleted).ToListAsync();
-
-        public async Task<IEnumerable<T>> GetAllWithDeletedAsync() => await table.ToListAsync();
-
-        #endregion
-
-        #region Get
-        public async Task<T> GetByIdAsync(Guid id) => await table.FindAsync(id);
-        #endregion
-
-        #region CUD
+      
+        #region CRUD
 
         public async Task<T> AddAsync(T entity)
         {
@@ -63,6 +52,9 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
                 await UpdateAsync(entity);
             }
         }
+
+
+
         #endregion
 
         #region Commit
@@ -74,7 +66,7 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
                 await SaveChangesAsync();
                 commitState = true;
             }
-            catch (Exception)
+            catch 
             {
                 commitState = false;
             }

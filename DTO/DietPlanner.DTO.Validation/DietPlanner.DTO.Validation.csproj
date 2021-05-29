@@ -8,4 +8,8 @@
     <ProjectReference Include="..\DietPlanner.DTO\DietPlanner.DTO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FluentValidation\" />
+  </ItemGroup>
+
 </Project>
