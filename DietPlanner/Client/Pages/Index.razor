@@ -1,18 +1,28 @@
 ﻿@page "/"
-@inject DietPlanner.ClientShared.Services.Interfaces.IGoogleHttpclientService service
+@implements  IDisposable
+@inject ITestService testService
+@inject HttpInterceptorService interceptor
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
-@res
+@dataValue
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
+@code{
 
-@code {
-      string res = "AAA";
+    string dataValue;
+
     protected override async Task OnInitializedAsync()
     {
-        res= await service.GetAsync();
+        interceptor.RegisterEvent();
+        var res = await testService.GetAsync();
+        dataValue = res.Data;
+    }
+    public void Dispose()
+    {
+        interceptor.DisposeEvent();
     }
 }
+

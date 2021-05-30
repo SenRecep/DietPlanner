@@ -22,16 +22,15 @@ namespace DietPlanner.Client
         {
             try
             {
-
                 Log.Logger = LoggerExtensionMethods.SerilogInit(true);
 
                 WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+                builder.Logging.AddSerilog();
+
                 builder.RootComponents.Add<App>("#app");
 
-                builder.Services.AddDependencies();
-
-                builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+                builder.Services.AddDependencies(builder.HostEnvironment.BaseAddress);
 
                 Log.Information("Starting host...");
 

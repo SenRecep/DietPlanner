@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietPlanner.DTO.Validation"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietPlanner.Server.BLL", "Layers\DietPlanner.Server.BLL\DietPlanner.Server.BLL.csproj", "{28193291-0210-4676-9486-33E492C888D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DietPlanner.ClientShared", "Client\DietPlanner.ClientShared\DietPlanner.ClientShared.csproj", "{6A4FBC08-D376-472A-A6FB-FF2FE9768C9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DietPlanner.ClientShared", "Client\DietPlanner.ClientShared\DietPlanner.ClientShared.csproj", "{6A4FBC08-D376-472A-A6FB-FF2FE9768C9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
