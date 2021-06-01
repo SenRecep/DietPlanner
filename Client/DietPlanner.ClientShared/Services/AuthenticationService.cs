@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using DietPlanner.ClientShared.Services.Interfaces;
 using DietPlanner.DTO.Auth;
+using DietPlanner.Shared.ExtensionMethods;
 
 using Microsoft.AspNetCore.Components;
 
@@ -28,6 +29,8 @@ namespace DietPlanner.ClientShared.Services
             this.userStorageService = userStorageService;
         }
         public UserDto User { get; private set; }
+
+        public bool IsAuthorize => User is not null;
 
         public async Task Initialize()
         {

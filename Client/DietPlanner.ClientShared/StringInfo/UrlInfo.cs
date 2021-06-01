@@ -1,4 +1,4 @@
-﻿namespace DietPlanner.Client.Pages
+﻿namespace DietPlanner.ClientShared.StringInfo
 {
     public struct UrlInfo
     {

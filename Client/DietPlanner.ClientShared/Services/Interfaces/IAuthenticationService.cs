@@ -10,5 +10,6 @@ namespace DietPlanner.ClientShared.Services.Interfaces
         Task Initialize();
         Task Login(string username, string password);
         Task Logout();
+        bool IsAuthorize { get; }
     }
 }

@@ -1,0 +1,21 @@
+﻿@inject IAuthenticationService authService
+
+@if (authService.IsAuthorize)
+{
+    @Authorized
+
+}
+else
+{
+    @NotAuthorized
+}
+
+
+@code {
+    [Parameter]
+    public RenderFragment Authorized { get; set; }
+
+    [Parameter]
+    public RenderFragment NotAuthorized { get; set; }
+
+}
