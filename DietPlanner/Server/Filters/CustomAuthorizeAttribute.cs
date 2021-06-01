@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 
@@ -88,6 +89,8 @@ namespace DietPlanner.Server.Filters
 
         public bool IsValidToken(AuthModel authModel)
         {
+            if (allowedroles.Length>0)
+                 return allowedroles.Any(x=>x.Equals(authModel.Role));
             return true;
         }
     }

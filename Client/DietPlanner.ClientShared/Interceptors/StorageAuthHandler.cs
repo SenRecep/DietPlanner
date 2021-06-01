@@ -11,11 +11,11 @@ using DietPlanner.Shared.StringInfo;
 
 namespace DietPlanner.ClientShared.Interceptors
 {
-    public class SessionAuthHandler : DelegatingHandler
+    public class StorageAuthHandler : DelegatingHandler
     {
         private readonly IUserStorageService userSessionService;
 
-        public SessionAuthHandler(IUserStorageService userSessionService)
+        public StorageAuthHandler(IUserStorageService userSessionService)
         {
             this.userSessionService = userSessionService;
         }
@@ -29,7 +29,7 @@ namespace DietPlanner.ClientShared.Interceptors
             request.Headers.Add(AuthInfo.CUSTOM_AUTH_HEADER_KEY, authJson);
             HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
             if (response.StatusCode == HttpStatusCode.Forbidden)
-                return new(HttpStatusCode.Forbidden);
+                return new(response.StatusCode);
             return response;
         }
     }

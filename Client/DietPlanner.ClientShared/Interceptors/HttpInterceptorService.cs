@@ -26,17 +26,17 @@ namespace DietPlanner.ClientShared.Interceptors
                 string message;
                 switch (statusCode)
                 {
-                    case HttpStatusCode.NotFound:
-                        _navManager.NavigateTo("/404");
-                        message = "The requested resorce was not found.";
-                        break;
                     case HttpStatusCode.Forbidden:
-                        _navManager.NavigateTo("/403");
+                        _navManager.NavigateTo("/auth/accessdenied");
                         message = "You are not authorized to access here";
                         break;
                     case HttpStatusCode.Unauthorized:
-                        _navManager.NavigateTo("/unauthorized");
+                        _navManager.NavigateTo("/auth/unauthorized");
                         message = "User is not authorized";
+                        break;
+                    case HttpStatusCode.NotFound:
+                        _navManager.NavigateTo("/404");
+                        message = "The requested resorce was not found.";
                         break;
                     default:
                         _navManager.NavigateTo("/500");

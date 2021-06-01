@@ -26,13 +26,13 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
             });
 
 
-            services.AddScoped<SessionAuthHandler>();
+            services.AddScoped<StorageAuthHandler>();
 
             services.AddHttpClient(HTTP_CLIENT_NAME, (sp, cl) =>
             {
                 cl.BaseAddress = new Uri(baseAddress);
                 cl.EnableIntercept(sp);
-            }).AddHttpMessageHandler<SessionAuthHandler>();
+            }).AddHttpMessageHandler<StorageAuthHandler>();
 
             services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient(HTTP_CLIENT_NAME));
             services.AddHttpClientInterceptor();

@@ -1,0 +1,11 @@
+﻿@page "/auth/accessdenied"
+@page "/auth/accessdenied/{ReturnUrl}"
+
+<h3>AccessDenied</h3>
+
+<h3>@ReturnUrl</h3>
+
+@code{
+    [Parameter]
+    public string ReturnUrl { get; set; }
+}
