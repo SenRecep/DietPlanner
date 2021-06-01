@@ -1,18 +1,25 @@
 ﻿using System.Threading.Tasks;
 
+using DietPlanner.DTO.Response;
 using DietPlanner.DTO.Test;
+using DietPlanner.Server.BLL.ExtensionMethods;
+using DietPlanner.Server.ControllerBases;
+using DietPlanner.Server.Filters;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace DietPlanner.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    [CustomAuthorize]
+    public class ValuesController : CustomControllerBase
     {
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
-            return Ok(await Task.FromResult(new TestModel() { Data="PATATES"}));
+            return CreateResponseInstance(Response<TestModel>.Success(new() { Data = "Vay be" }, StatusCodes.Status200OK));
         }
     }
 }

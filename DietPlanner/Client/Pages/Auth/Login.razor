@@ -1,0 +1,10 @@
+﻿@page "/auth/login"
+@page "/auth/login/{ReturnUrl}"
+<h3>Login</h3>
+
+<h3>@ReturnUrl</h3>
+
+@code{
+    [Parameter]
+    public string ReturnUrl { get; set; }
+}

@@ -8,17 +8,18 @@ Welcome to your new app.
 
 @dataValue
 
+
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code{
 
     string dataValue;
-
     protected override async Task OnInitializedAsync()
     {
         interceptor.RegisterEvent();
         var res = await testService.GetAsync();
-        dataValue = res.Data;
+        if (res.IsSuccessful)
+            dataValue = res.Data.Data;
     }
     public void Dispose()
     {

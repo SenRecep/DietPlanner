@@ -12,10 +12,10 @@
     <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
     <Folder Include="ValidationRules\" />
-    <Folder Include="Settings\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazored.SessionStorage" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="Toolbelt.Blazor.HttpClientInterceptor" Version="9.2.1" />
   </ItemGroup>

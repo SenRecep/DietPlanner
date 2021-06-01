@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 using DietPlanner.Shared.Exceptions;
 
@@ -25,15 +20,19 @@ namespace DietPlanner.ClientShared.Interceptors
         public void RegisterEvent() => _interceptor.AfterSend += InterceptResponse;
         private void InterceptResponse(object sender, HttpClientInterceptorEventArgs e)
         {
-            string message = string.Empty;
             if (!e.Response.IsSuccessStatusCode)
             {
-                var statusCode = e.Response.StatusCode;
+                HttpStatusCode statusCode = e.Response.StatusCode;
+                string message;
                 switch (statusCode)
                 {
                     case HttpStatusCode.NotFound:
                         _navManager.NavigateTo("/404");
                         message = "The requested resorce was not found.";
+                        break;
+                    case HttpStatusCode.Forbidden:
+                        _navManager.NavigateTo("/403");
+                        message = "You are not authorized to access here";
                         break;
                     case HttpStatusCode.Unauthorized:
                         _navManager.NavigateTo("/unauthorized");

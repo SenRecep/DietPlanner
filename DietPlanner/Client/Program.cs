@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 using DietPlanner.ClientShared.Containers.MicrosoftIOC;
+using DietPlanner.ClientShared.Services;
+using DietPlanner.ClientShared.Services.Interfaces;
 using DietPlanner.Shared.ExtensionMethods;
 
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -30,7 +32,14 @@ namespace DietPlanner.Client
 
                 builder.RootComponents.Add<App>("#app");
 
+
+                #region Add Services
                 builder.Services.AddDependencies(builder.HostEnvironment.BaseAddress);
+
+                builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+                #endregion
+
+
 
                 Log.Information("Starting host...");
 
