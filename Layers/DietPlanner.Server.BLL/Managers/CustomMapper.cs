@@ -15,8 +15,6 @@ namespace DietPlanner.Server.BLL.Managers
 
             foreach (PropertyInfo dtoProperty in dtoTypeProperties)
             {
-                if (dtoProperty.IsNull())
-                    continue;
                 PropertyInfo entityProperty = entityProperties
                     .FirstOrDefault(x =>
                     x.Name.Equals(dtoProperty.Name) &&

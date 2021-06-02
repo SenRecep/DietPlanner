@@ -39,9 +39,12 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
 
             services.AddScoped<HttpInterceptorService>();
 
-            services.AddScoped<ITestService, TestService>();
+            services.AddHttpClient<ITestService, TestService>(cnf=> cnf.BaseAddress= new Uri(baseAddress));
+
+            services.AddHttpClient<IAuthenticationService, AuthenticationService>(cnf => cnf.BaseAddress = new Uri(baseAddress));
 
             services.AddScoped<IUserStorageService, UserSessionService>();
+
 
         }
     }

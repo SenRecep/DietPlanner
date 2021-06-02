@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="ComponentBases\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>

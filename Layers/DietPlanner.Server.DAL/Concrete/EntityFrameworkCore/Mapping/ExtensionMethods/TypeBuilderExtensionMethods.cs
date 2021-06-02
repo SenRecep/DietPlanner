@@ -34,6 +34,7 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Mapping.ExtensionM
             builder.Property(x => x.PhoneNumber).HasMaxLength(11).IsRequired();
             builder.Property(x => x.Password).IsRequired();
             builder.Property(x => x.RoleId).IsRequired();
+            builder.HasIndex(x=>x.IdentityNumber).IsUnique();
         }
     }
 }

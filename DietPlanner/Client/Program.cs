@@ -35,8 +35,6 @@ namespace DietPlanner.Client
 
                 #region Add Services
                 builder.Services.AddDependencies(builder.HostEnvironment.BaseAddress);
-
-                builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
                 #endregion
 
 

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 using DietPlanner.ClientShared.Services.Interfaces;
 using DietPlanner.DTO.Response;
-using DietPlanner.DTO.Test;
 
 namespace DietPlanner.ClientShared.Services
 {
@@ -18,11 +16,9 @@ namespace DietPlanner.ClientShared.Services
             this.httpClient = httpClient;
         }
 
-        public async Task<Response<TestModel>> GetAsync()
+        public async Task<Response<string>> GetAsync()
         {
-            httpClient.DefaultRequestHeaders.Add("userId",$"{Guid.NewGuid()}");
-            Response<TestModel> response = await httpClient.GetFromJsonAsync<Response<TestModel>>("api/values");
-            return response;
+            return await httpClient.GetFromJsonAsync<Response<string>>("api/user");
         }
     }
 }

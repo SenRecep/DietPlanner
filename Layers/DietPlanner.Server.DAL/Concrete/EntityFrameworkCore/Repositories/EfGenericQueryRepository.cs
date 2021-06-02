@@ -29,10 +29,6 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
         public async Task<IEnumerable<T>> GetAllWithDeletedAsync() => await table.ToListAsync();
         #endregion
 
-        #region Get
-        public async Task<T> GetByIdAsync(Guid id) => await table.FindAsync(id);
-        #endregion
-
         #region Dispose
 
         public async ValueTask DisposeAsync() => await dbContext.DisposeAsync();

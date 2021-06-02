@@ -1,17 +1,12 @@
-﻿@inherits LayoutComponentBase
+﻿
+@inherits LayoutComponentBase
+@inject NavigationManager navigationManager
+<link href="/css/layout/dist/main.css" rel="stylesheet" />
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
-
-        <div class="content px-4">
+<main>
+    <div class="main-container row mx-0">
+        <div class="page col-md-8 offset-md-2 col-sm-10 offset-sm-1 px-0  ">
             @Body
         </div>
     </div>
-</div>
+</main>

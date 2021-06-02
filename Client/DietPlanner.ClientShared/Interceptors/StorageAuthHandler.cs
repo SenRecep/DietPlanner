@@ -13,23 +13,21 @@ namespace DietPlanner.ClientShared.Interceptors
 {
     public class StorageAuthHandler : DelegatingHandler
     {
-        private readonly IUserStorageService userSessionService;
+        private readonly IUserStorageService userStorageService;
 
-        public StorageAuthHandler(IUserStorageService userSessionService)
+        public StorageAuthHandler(IUserStorageService userStorageService)
         {
-            this.userSessionService = userSessionService;
+            this.userStorageService = userStorageService;
         }
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            UserDto loginUser = await userSessionService.GetAsync();
+            UserDto loginUser = await userStorageService.GetAsync();
             if (loginUser.IsNull())
                 return new(HttpStatusCode.Unauthorized);
             AuthModel authModel = new(loginUser.Id, loginUser.Role?.Name);
             string authJson = JsonSerializer.Serialize(authModel);
             request.Headers.Add(AuthInfo.CUSTOM_AUTH_HEADER_KEY, authJson);
             HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
-            if (response.StatusCode == HttpStatusCode.Forbidden)
-                return new(response.StatusCode);
             return response;
         }
     }

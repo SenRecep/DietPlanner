@@ -38,12 +38,14 @@ namespace DietPlanner.Server.BLL.Containers.MicrosoftIOC
             #region Services
             services.AddTransient(typeof(IGenericQueryService<>), typeof(GenericQueryManager<>));
             services.AddTransient(typeof(IGenericCommandService<>), typeof(GenericCommandManager<>));
+            services.AddScoped<IPersonService, PersonManager>();
             #endregion
 
             #region Repositoryies
             services.AddTransient(typeof(IGenericCommandRepository<>), typeof(EfGenericCommandRepository<>));
             services.AddTransient(typeof(IGenericQueryRepository<>), typeof(EfGenericQueryRepository<>)); 
             services.AddTransient(typeof(IGenericSingleQueryRepository<>), typeof(EfGenericSingleQueryRepository<>));
+            services.AddScoped<IPersonRepository, EfPersonRepository>();
             #endregion
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

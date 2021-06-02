@@ -1,0 +1,32 @@
+﻿.main-container {
+    height: 100%;
+    width: 100%;
+    color: var(--color4);
+    background-color: var(--color4);
+
+    .page {
+        height: 100%;
+        width: 100%;
+        background-color: var(--color7);
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            background-color: var(--color6);
+            color: var(--color4);
+
+            a {
+                font-size: 1.75rem;
+                padding-left: 0.5rem;
+                color: var(--color4);
+            }
+
+            h3 {
+                flex: 1;
+                margin: 0;
+                padding-left: 1rem;
+            }
+
+        }
+    }
+}

@@ -1,29 +1,18 @@
 ﻿@page "/"
-@implements  IDisposable
 @inject ITestService testService
-@inject HttpInterceptorService interceptor
-<h1>Hello, world!</h1>
+@inject HttpInterceptorService interceptorService
+<h1>Index</h1>
 
-Welcome to your new app.
+@val
 
-@dataValue
-
-
-<SurveyPrompt Title="How is Blazor working for you?" />
-
-@code{
-
-    string dataValue;
+@code
+{
+    private string val;
     protected override async Task OnInitializedAsync()
     {
-        interceptor.RegisterEvent();
+        interceptorService.RegisterEvent();
         var res = await testService.GetAsync();
         if (res.IsSuccessful)
-            dataValue = res.Data.Data;
-    }
-    public void Dispose()
-    {
-        interceptor.DisposeEvent();
+            val = res.Data;
     }
 }
-

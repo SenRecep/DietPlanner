@@ -6,17 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>DietPlanner</title>
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/app.css" rel="stylesheet" />
-    <link href="DietPlanner.Client.styles.css" rel="stylesheet" />
+
+    <link href="/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/lib/modern-normalize/modern-normalize.min.css" rel="stylesheet" />
+    <link href="/css/colors.css" rel="stylesheet" />
+    <link href="/css/layout/dist/layout.css" rel="stylesheet" />
+
     <link href="manifest.json" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
 </head>
 
 <body>
-    <div id="app">Loading...</div>
+    <div id="app">
+        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+            <div class="loading">
+                <div class="spinner-border" style="width:3rem;height:3rem" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <script src="/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/lib/font-awesome/js/all.min.js"></script>
 </body>
 
 </html>

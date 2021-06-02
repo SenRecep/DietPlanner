@@ -10,8 +10,10 @@ using DietPlanner.Server.BLL.ExtensionMethods;
 using DietPlanner.Shared.ExtensionMethods;
 using DietPlanner.Shared.StringInfo;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Primitives;
 
 namespace DietPlanner.Server.Filters
 {
@@ -40,7 +42,7 @@ namespace DietPlanner.Server.Filters
             if (filterContext == null)
                 return;
 
-            Microsoft.Extensions.Primitives.StringValues authModelJson = filterContext.HttpContext.Request.Headers[AuthInfo.CUSTOM_AUTH_HEADER_KEY];
+            StringValues authModelJson = filterContext.HttpContext.Request.Headers[AuthInfo.CUSTOM_AUTH_HEADER_KEY];
             if (authModelJson.ToString().IsEmpty())
             {
                 NotExistToken(filterContext);
@@ -63,7 +65,7 @@ namespace DietPlanner.Server.Filters
                 return;
             }
 
-            Microsoft.AspNetCore.Http.HttpResponse response = filterContext.HttpContext.Response;
+            HttpResponse response = filterContext.HttpContext.Response;
             response.Headers.Add("userId", authModel.UserId.ToString());
             response.Headers.Add("role", authModel.Role);
             if (IsValidToken(authModel))

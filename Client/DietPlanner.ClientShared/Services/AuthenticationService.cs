@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
 using DietPlanner.ClientShared.Services.Interfaces;
 using DietPlanner.DTO.Auth;
+using DietPlanner.DTO.Response;
 using DietPlanner.Shared.ExtensionMethods;
 
 using Microsoft.AspNetCore.Components;
@@ -37,24 +39,16 @@ namespace DietPlanner.ClientShared.Services
             User = await userStorageService.GetAsync();
         }
 
-        public async Task Login(string username, string password)
+        public async Task<Response<UserDto>> Login(LoginDto dto)
         {
-            //Istek atilacak
-            User = new UserDto()
+            var httpResponse = await httpClient.PostAsJsonAsync<LoginDto>("api/user/login", dto);
+            var response = await httpResponse.Content.ReadFromJsonAsync<Response<UserDto>>();
+            if (response.IsSuccessful)
             {
-                Address = "Address",
-                Email = "mail",
-                FirstName = "recep",
-                IdentityNumber = "77",
-                LastName = "sen",
-                PhoneNumber = "num",
-                Role = new RoleDto()
-                {
-                    Name = "admin"
-                },
-                Id = Guid.NewGuid()
-            };
-            await userStorageService.SetAsync(User);
+                User = response.Data;
+                await userStorageService.SetAsync(User);
+            }
+            return response;
         }
 
         public async Task Logout()
