@@ -19,12 +19,12 @@ namespace DietPlanner.ClientShared.Services
     {
         private readonly NavigationManager navigationManager;
         private readonly HttpClient httpClient;
-        private readonly IUserStorageService userStorageService;
+        private readonly IUserStorageSyncService userStorageService;
 
         public AuthenticationService(
             NavigationManager navigationManager,
             HttpClient httpClient,
-            IUserStorageService userStorageService)
+            IUserStorageSyncService userStorageService)
         {
             this.navigationManager = navigationManager;
             this.httpClient = httpClient;
@@ -34,9 +34,9 @@ namespace DietPlanner.ClientShared.Services
 
         public bool IsAuthorize => User is not null;
 
-        public async Task Initialize()
+        public void Initialize()
         {
-            User = await userStorageService.GetAsync();
+            User = userStorageService.Get();
         }
 
         public async Task<Response<UserDto>> Login(LoginDto dto)
@@ -46,15 +46,15 @@ namespace DietPlanner.ClientShared.Services
             if (response.IsSuccessful)
             {
                 User = response.Data;
-                await userStorageService.SetAsync(User);
+                userStorageService.Set(User);
             }
             return response;
         }
 
-        public async Task Logout()
+        public  void Logout()
         {
             User = null;
-            await userStorageService.ClearAsync();
+             userStorageService.Clear();
             navigationManager.NavigateTo("auth/login");
         }
     }

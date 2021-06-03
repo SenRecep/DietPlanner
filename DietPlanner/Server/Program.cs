@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Contexts;
+using DietPlanner.Server.Seed;
 using DietPlanner.Shared.ExtensionMethods;
 
 using Microsoft.AspNetCore.Hosting;
@@ -30,8 +31,9 @@ namespace DietPlanner.Server
                 IServiceProvider services = serviceScope.ServiceProvider;
 
                 DietPlannerDbContext configurationDbContext = services.GetRequiredService<DietPlannerDbContext>();
-
+                UserRoleSeed seeder = services.GetRequiredService<UserRoleSeed>();
                 configurationDbContext.Database.Migrate();
+                await seeder.SeedAsync();
 
                 Log.Information("Starting host...");
                 await host.RunAsync();

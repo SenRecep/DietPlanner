@@ -1,12 +1,18 @@
 ﻿
 using System;
 using System.Net.Http;
+using System.Reflection;
 
 using Blazored.SessionStorage;
 
 using DietPlanner.ClientShared.Interceptors;
 using DietPlanner.ClientShared.Services;
 using DietPlanner.ClientShared.Services.Interfaces;
+using DietPlanner.DTO.Auth;
+using DietPlanner.DTO.Validation;
+using DietPlanner.DTO.Validation.FluentValidation.Auth;
+
+using FluentValidation;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -45,8 +51,11 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
             services.AddHttpClient<IAuthenticationService, AuthenticationService>(cnf => cnf.BaseAddress = new Uri(baseAddress));
 
             services.AddScoped<IUserStorageService, UserSessionService>();
+            services.AddScoped<IUserStorageSyncService, UserSessionSyncService>();
 
             services.AddSingleton<IPageStateService,PageStateService>();
+
+           services.AddValidatorsFromAssemblyContaining<ValidationLayer>();
         }
     }
 }

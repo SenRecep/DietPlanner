@@ -1,5 +1,6 @@
 
 using DietPlanner.Server.BLL.Containers.MicrosoftIOC;
+using DietPlanner.Server.Seed;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +24,7 @@ namespace DietPlanner.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDependencies(configuration, environment);
+            services.AddScoped<UserRoleSeed>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

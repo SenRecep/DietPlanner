@@ -26,8 +26,6 @@ namespace DietPlanner.Server.BLL.Managers
         public async Task<UserDto> LoginAsync(LoginDto dto)
         {
             var found = await personRepository.LoginAsync(dto.IdentityNumber,dto.Password);
-            //if (found is null)
-            //    return null;
             return mapper.Map<UserDto>(found);
         }
     }

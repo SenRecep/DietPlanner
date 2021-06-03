@@ -1,15 +1,81 @@
 ﻿@page "/auth/login"
 @page "/auth/login/{ReturnUrl}"
 @inject IPageStateService pageStateService
-<h3>Login</h3>
+@inject IValidator<LoginDto> validator
+@inject IAuthenticationService authService
 
-<h3>@ReturnUrl</h3>
+<div class="section">
+    <EditForm Model="LoginModel" OnValidSubmit="ValidSubmitAsync">
+        <FluentValidationValidator Validator="validator" />
+
+
+        <div class="d-flex justify-content-center">
+            <img class="img-fluid" style="height:120px" src="/img/apple.svg" alt="Login Logo" />
+        </div>
+
+        @if (!errorMessage.IsEmpty())
+        {
+            <div class="row text-danger mb-2">
+                <div class="col-8 offset-2">
+                    @((MarkupString)errorMessage)
+                </div>
+            </div>
+        }
+        <div class="form-row">
+            <div class="form-group col-8 offset-2">
+                <label for="FirstName">Kimlik No</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <InputText @bind-Value="LoginModel.IdentityNumber" type="text" class="form-control" placeholder="Kimlik No" id="IdentityNumber" />
+                </div>
+                <ValidationMessage For="() => LoginModel.IdentityNumber"></ValidationMessage>
+            </div>
+            <div class="form-group col-8  offset-2">
+                <label for="FirstName">Parola</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+                    <InputText @bind-Value="LoginModel.Password" type="password" class="form-control" placeholder="Parola" id="Password" />
+                </div>
+                <ValidationMessage For="() => LoginModel.Password"></ValidationMessage>
+            </div>
+
+        </div>
+        <div class="row d-flex justify-content-around">
+            <button type="submit" class="btn btn-primary">
+                @if (pageStateService.IsLoading)
+                {
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                }
+                Giris Yap
+            </button>
+        </div>
+    </EditForm>
+</div>
+
 
 @code{
+
+    private string errorMessage;
+
     [Parameter] public string ReturnUrl { get; set; }
 
+    public LoginDto LoginModel { get; set; } = new();
     protected override void OnInitialized()
     {
         pageStateService.Title = "Login";
+    }
+    protected async Task ValidSubmitAsync()
+    {
+        pageStateService.IsLoading = true;
+        var response = await authService.Login(LoginModel);
+        if (!response.IsSuccessful)
+        {
+            errorMessage = response.ErrorData.GetErrors("<br/>");
+        }
+        pageStateService.IsLoading = false;
     }
 }

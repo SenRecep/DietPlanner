@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using DietPlanner.ClientShared.Containers.MicrosoftIOC;
 using DietPlanner.ClientShared.Services;
 using DietPlanner.ClientShared.Services.Interfaces;
+using DietPlanner.DTO.Validation.FluentValidation.Auth;
 using DietPlanner.Shared.ExtensionMethods;
+
+using FluentValidation;
 
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;

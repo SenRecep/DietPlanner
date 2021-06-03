@@ -1,6 +1,6 @@
 ﻿@inject IPageStateService PageStateService
 @inject NavigationManager navManager
-<div class="page-header">
+<div class="page-header py-1">
     @if (!PageStateService.PreviousUrl.IsEmpty())
     {
         <a href="@PageStateService.PreviousUrl"><i class="fas fa-arrow-left"></i></a>

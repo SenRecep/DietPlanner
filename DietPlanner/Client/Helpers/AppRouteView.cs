@@ -8,6 +8,7 @@ using DietPlanner.Shared.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.Extensions.Logging;
 
 namespace DietPlanner.Client.Helpers
 {
@@ -24,13 +25,13 @@ namespace DietPlanner.Client.Helpers
             Attribute attribute = Attribute.GetCustomAttribute(RouteData.PageType, typeof(AuthorizeAttribute));
             if (attribute != null)
             {
+                AuthenticationService.Initialize();
                 if (AuthenticationService.User == null)
                 {
                     string returnUrl = WebUtility.UrlEncode(new Uri(NavigationManager.Uri).PathAndQuery);
                     NavigationManager.NavigateTo($"auth/login/{returnUrl}");
                     return;
                 }
-
                 AuthorizeAttribute authorizeAttribute = (AuthorizeAttribute)attribute;
                 bool doYouHaveAccess = false;
                 if (authorizeAttribute != null &&
@@ -38,6 +39,10 @@ namespace DietPlanner.Client.Helpers
                     AuthenticationService.User.Role != null &&
                     !AuthenticationService.User.Role.Name.IsEmpty())
                     doYouHaveAccess = authorizeAttribute.Roles.Split(",").Any(x => x.Equals(AuthenticationService.User.Role.Name));
+
+                if (authorizeAttribute != null &&
+                  authorizeAttribute.Roles.IsEmpty())
+                    doYouHaveAccess = true;
 
                 if (!doYouHaveAccess)
                 {

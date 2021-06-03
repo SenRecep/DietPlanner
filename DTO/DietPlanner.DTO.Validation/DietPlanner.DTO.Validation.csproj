@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DietPlanner.DTO\DietPlanner.DTO.csproj" />
+    <PackageReference Include="FluentValidation" Version="10.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FluentValidation\" />
+    <ProjectReference Include="..\DietPlanner.DTO\DietPlanner.DTO.csproj" />
   </ItemGroup>
 
 </Project>

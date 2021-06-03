@@ -8,9 +8,9 @@ namespace DietPlanner.ClientShared.Services.Interfaces
     public interface IAuthenticationService
     {
         UserDto User { get; }
-        Task Initialize();
+        void Initialize();
         Task<Response<UserDto>> Login(LoginDto dto);
-        Task Logout();
+        void Logout();
         bool IsAuthorize { get; }
     }
 }

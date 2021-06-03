@@ -2,6 +2,7 @@
 using AutoMapper;
 
 using DietPlanner.DTO.Auth;
+using DietPlanner.Server.Entities.Concrete;
 using DietPlanner.Server.Entities.Interfaces;
 
 namespace DietPlanner.Server.BLL.Mapping.AutoMapper
@@ -10,7 +11,9 @@ namespace DietPlanner.Server.BLL.Mapping.AutoMapper
     {
         public PersonProfile()
         {
+            CreateMap<Role, RoleDto>();
             CreateMap<IPerson, UserDto>();
+
         }
     }
 }
