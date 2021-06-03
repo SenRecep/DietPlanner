@@ -1,12 +1,37 @@
-﻿
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 @inject NavigationManager navigationManager
+@inject IPageStateService pageStateService
+@implements IDisposable
 <link href="/css/layout/dist/main.css" rel="stylesheet" />
 
 <main>
     <div class="main-container row mx-0">
-        <div class="page col-md-8 offset-md-2 col-sm-10 offset-sm-1 px-0  ">
+        <div class="page col-md-8 offset-md-2 col-sm-10 offset-sm-1 px-0 position-relative ">
+            <PageHeader @ref="PageHeader" />
             @Body
         </div>
     </div>
 </main>
+
+@code {
+
+    public PageHeader PageHeader { get; set; }
+
+    protected override void OnInitialized()
+    {
+        pageStateService.Url = navigationManager.GetUrl();
+        navigationManager.LocationChanged += HandleLocactionChanged;
+    }
+
+    public void Dispose()
+    {
+        navigationManager.LocationChanged -= HandleLocactionChanged;
+    }
+
+    private void HandleLocactionChanged(Object sender, LocationChangedEventArgs args)
+    {
+        pageStateService.Url = navigationManager.GetUrl();
+        PageHeader.Update();
+    }
+
+} 

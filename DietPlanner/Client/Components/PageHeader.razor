@@ -1,12 +1,17 @@
-﻿<div class="page-header">
-    <a href="@Url"><i class="fas fa-arrow-left"></i></a>
-    <h3>@Title</h3>
+﻿@inject IPageStateService PageStateService
+@inject NavigationManager navManager
+<div class="page-header">
+    @if (!PageStateService.PreviousUrl.IsEmpty())
+    {
+        <a href="@PageStateService.PreviousUrl"><i class="fas fa-arrow-left"></i></a>
+    }
+    <h3>@PageStateService.Title</h3>
 </div>
 
-
-@code{
-    [Parameter]
-    public string Title { get; set; }
-    [Parameter]
-    public string Url { get; set; } = "/";
+@code
+{
+    public void Update()
+    {
+        StateHasChanged();
+    }
 }

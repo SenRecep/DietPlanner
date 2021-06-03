@@ -24,11 +24,10 @@ namespace DietPlanner.Client
         {
             try
             {
-                Log.Logger = LoggerExtensionMethods.SerilogInit(true);
-
                 WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-                builder.Logging.AddSerilog();
+                builder.Logging.ClearProviders();
+                builder.Logging.AddSerilog(LoggerExtensionMethods.SerilogInit(true));
 
                 builder.RootComponents.Add<App>("#app");
 

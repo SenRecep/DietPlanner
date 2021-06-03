@@ -9,7 +9,7 @@ namespace DietPlanner.ClientShared.Services.Interfaces
     {
         UserDto User { get; }
         Task Initialize();
-        Task<Response<UserDto>> Login(string identityNumber, string password);
+        Task<Response<UserDto>> Login(LoginDto dto);
         Task Logout();
         bool IsAuthorize { get; }
     }

@@ -1,18 +1,13 @@
 ﻿@page "/"
-@inject ITestService testService
-@inject HttpInterceptorService interceptorService
-<h1>Index</h1>
+@inject IPageStateService PageStateService
 
-@val
+<h1>Index</h1>
 
 @code
 {
-    private string val;
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        interceptorService.RegisterEvent();
-        var res = await testService.GetAsync();
-        if (res.IsSuccessful)
-            val = res.Data;
+        PageStateService.Title = "Anasayfa";
     }
+
 }

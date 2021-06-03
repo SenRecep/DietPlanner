@@ -41,7 +41,7 @@ namespace DietPlanner.ClientShared.Services
 
         public async Task<Response<UserDto>> Login(LoginDto dto)
         {
-            var httpResponse = await httpClient.PostAsJsonAsync<LoginDto>("api/user/login", dto);
+            var httpResponse = await httpClient.PostAsJsonAsync("api/user/login", dto);
             var response = await httpResponse.Content.ReadFromJsonAsync<Response<UserDto>>();
             if (response.IsSuccessful)
             {

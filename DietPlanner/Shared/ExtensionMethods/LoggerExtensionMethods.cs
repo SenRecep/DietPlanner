@@ -32,12 +32,10 @@ namespace DietPlanner.Shared.ExtensionMethods
                 .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day, outputTemplate: logTemplate);
 
             if (isBlazor)
-                conf.WriteTo.BrowserConsole(outputTemplate: "%cserilog{_}color:white;background:#8c7574;border-radius:3px;padding:1px 2px;font-weight:600;" + logTemplate);
+                conf.WriteTo.BrowserConsole(outputTemplate: "[%cserilog{_}color:white;background:#8c7574;border-radius:3px;padding:1px 2px;font-weight:600;" + logTemplate);
             else
                 conf.WriteTo.Console(outputTemplate: logTemplate, theme: AnsiConsoleTheme.Literate);
-            
-            Logger logger = conf.CreateLogger();
-            return logger;
+            return conf.CreateLogger(); 
         }
 
         public static void LogResponse<T, R>(this ILogger<T> logger, Response<R> response, string message = "") where R : class

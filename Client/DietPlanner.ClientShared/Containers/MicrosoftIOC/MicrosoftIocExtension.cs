@@ -25,6 +25,7 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
                 cnf.JsonSerializerOptions.WriteIndented = true;
             });
 
+            services.AddHttpClientInterceptor();
 
             services.AddScoped<StorageAuthHandler>();
 
@@ -35,9 +36,9 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
             }).AddHttpMessageHandler<StorageAuthHandler>();
 
             services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient(HTTP_CLIENT_NAME));
-            services.AddHttpClientInterceptor();
 
             services.AddScoped<HttpInterceptorService>();
+
 
             services.AddHttpClient<ITestService, TestService>(cnf=> cnf.BaseAddress= new Uri(baseAddress));
 
@@ -45,7 +46,7 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
 
             services.AddScoped<IUserStorageService, UserSessionService>();
 
-
+            services.AddSingleton<IPageStateService,PageStateService>();
         }
     }
 }

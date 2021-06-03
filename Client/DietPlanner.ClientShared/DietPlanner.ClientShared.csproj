@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Enums\" />
-    <Folder Include="ExtensionMethods\" />
     <Folder Include="Helpers\" />
     <Folder Include="Mapping\" />
     <Folder Include="Models\" />
