@@ -1,15 +1,11 @@
 ﻿@page "/"
 @inject IPageStateService PageStateService
 @inject IUserStorage userStorage
-
-<h1>Patates</h1>
-
 <CustomAuthorizeView>
     <Authorized>
         <p>@userStorage.User.IdentityNumber</p>
         <p>@userStorage.User.FirstName</p>
         <p>@userStorage.User.Role.Name</p>
-        <a href="@(UrlInfo.Logout)">Cikis yap</a>
     </Authorized>
     <NotAuthorized>
         <p>do do dostum giris yapmalisin</p>
