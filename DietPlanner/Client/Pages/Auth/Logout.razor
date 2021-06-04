@@ -1,6 +1,10 @@
 ﻿@page "/auth/logout"
+@inject IAuthenticationService authService
 <h3>Logout</h3>
 
 @code {
-
+    protected override void OnInitialized()
+    {
+        authService.Logout();
+    }
 }

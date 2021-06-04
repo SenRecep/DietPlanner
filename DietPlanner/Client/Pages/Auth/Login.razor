@@ -3,8 +3,10 @@
 @inject IPageStateService pageStateService
 @inject IValidator<LoginDto> validator
 @inject IAuthenticationService authService
+@inject NavigationManager navManager
 
 <div class="section">
+
     <EditForm Model="LoginModel" OnValidSubmit="ValidSubmitAsync">
         <FluentValidationValidator Validator="validator" />
 
@@ -75,6 +77,15 @@
         if (!response.IsSuccessful)
         {
             errorMessage = response.ErrorData.GetErrors("<br/>");
+        }
+        else
+        {
+            if (!ReturnUrl.IsEmpty())
+            {
+                navManager.NavigateTo(ReturnUrl);
+                return;
+            }
+            navManager.NavigateTo(UrlInfo.Index);
         }
         pageStateService.IsLoading = false;
     }

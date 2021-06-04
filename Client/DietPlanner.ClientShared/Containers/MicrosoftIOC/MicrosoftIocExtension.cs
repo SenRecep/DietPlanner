@@ -3,11 +3,13 @@ using System;
 using System.Net.Http;
 using System.Reflection;
 
+using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 
 using DietPlanner.ClientShared.Interceptors;
 using DietPlanner.ClientShared.Services;
 using DietPlanner.ClientShared.Services.Interfaces;
+using DietPlanner.ClientShared.Services.UserServices;
 using DietPlanner.DTO.Auth;
 using DietPlanner.DTO.Validation;
 using DietPlanner.DTO.Validation.FluentValidation.Auth;
@@ -25,8 +27,12 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
         private const string HTTP_CLIENT_NAME = "httpClient";
         public static void AddDependencies(this IServiceCollection services, string baseAddress)
         {
+            //services.AddBlazoredSessionStorage(cnf =>
+            //{
+            //    cnf.JsonSerializerOptions.WriteIndented = true;
+            //});
 
-            services.AddBlazoredSessionStorage(cnf =>
+            services.AddBlazoredLocalStorage(cnf =>
             {
                 cnf.JsonSerializerOptions.WriteIndented = true;
             });
@@ -50,12 +56,16 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
 
             services.AddHttpClient<IAuthenticationService, AuthenticationService>(cnf => cnf.BaseAddress = new Uri(baseAddress));
 
-            services.AddScoped<IUserStorageService, UserSessionService>();
-            services.AddScoped<IUserStorageSyncService, UserSessionSyncService>();
+            //services.AddScoped<IUserStorageService, UserSessionService>();
+            //services.AddScoped<IUserStorageSyncService, UserSessionSyncService>();
+
+            services.AddScoped<IUserStorageService, UserLocalStorageService>();
+            services.AddScoped<IUserStorageSyncService, UserLocalStorageSyncService>();
 
             services.AddSingleton<IPageStateService,PageStateService>();
+            services.AddSingleton<IUserStorage,UserStorage>();
 
-           services.AddValidatorsFromAssemblyContaining<ValidationLayer>();
+            services.AddValidatorsFromAssemblyContaining<ValidationLayer>();
         }
     }
 }

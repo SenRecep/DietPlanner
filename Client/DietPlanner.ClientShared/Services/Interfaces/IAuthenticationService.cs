@@ -7,10 +7,10 @@ namespace DietPlanner.ClientShared.Services.Interfaces
 {
     public interface IAuthenticationService
     {
-        UserDto User { get; }
         void Initialize();
         Task<Response<UserDto>> Login(LoginDto dto);
         void Logout();
+        IUserStorage UserStorage { get; }
         bool IsAuthorize { get; }
     }
 }

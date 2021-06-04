@@ -43,7 +43,14 @@ namespace DietPlanner.Client
 
                 Log.Information("Starting host...");
 
-                await builder.Build().RunAsync();
+                var host = builder.Build();
+
+                var storageService = host.Services.GetRequiredService<IUserStorageService>();
+                var userStorage = host.Services.GetRequiredService<IUserStorage>();
+
+                userStorage.User = await storageService.GetAsync();
+
+                await host.RunAsync();
 
                 return 0;
             }
