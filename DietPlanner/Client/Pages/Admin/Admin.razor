@@ -1,0 +1,78 @@
+﻿@page "/admin"
+@attribute [CustomAuthorize(RoleInfo.Admin)]
+@inject IPageStateService pageStateService
+@inject IAdminHttpService adminService
+@inject HttpInterceptorService interceptorService
+@implements IDisposable
+
+<link href="/css/admin/dist/main.css" rel="stylesheet" />
+<div class="admin-page">
+    <div class="section overflow-auto">
+        @if (pageStateService.IsLoading)
+        {
+            <Loading />
+        }
+        else
+        {
+            <div class="table-responsive w-100 h-100">
+                <div class="row d-flex justify-content-center mx-0 mb-3">
+                    <button class="btn btn-primary" ><i class="fas fa-plus"></i></button>
+                </div>
+                <table class="table position-relative table-light table-striped table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Ad</th>
+                            <th>Soayd</th>
+                            <th>TC</th>
+                            <th>Tel No</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Dieticians.IsNotNull())
+                        {
+                            @foreach (var item in Dieticians)
+                            {
+                                <tr>
+                                    <td>@item.FirstName</td>
+                                    <td>@item.LastName</td>
+                                    <td>@item.IdentityNumber</td>
+                                    <td>@item.PhoneNumber</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Ad</th>
+                            <th>Soayd</th>
+                            <th>TC</th>
+                            <th>Tel No</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        }
+
+    </div>
+
+</div>
+
+@code {
+    public IEnumerable<UserDto> Dieticians { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        pageStateService.Title = "Admin";
+        pageStateService.IsLoading = true;
+        interceptorService.RegisterEvent();
+        var response = await adminService.GetAllDietician();
+        if (response.IsSuccessful)
+            Dieticians = response.Data;
+        pageStateService.IsLoading = false;
+    }
+
+    public void Dispose()
+    {
+        interceptorService.DisposeEvent();
+    }
+}

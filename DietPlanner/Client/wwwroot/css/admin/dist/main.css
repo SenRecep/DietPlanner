@@ -1,0 +1,7 @@
+.admin-page .section {
+  max-height: 88vh;
+}
+.admin-page .section table th {
+  position: sticky;
+  top: 0;
+}

@@ -13,7 +13,6 @@ namespace DietPlanner.Server.BLL.Mapping.AutoMapper
         {
             CreateMap<Role, RoleDto>();
             CreateMap<IPerson, UserDto>();
-
         }
     }
 }

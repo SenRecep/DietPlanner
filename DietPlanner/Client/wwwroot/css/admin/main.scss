@@ -1,0 +1,11 @@
+.admin-page{
+    .section{
+        max-height: 88vh;
+        table{
+            th{
+                position: sticky;
+                top: 0;
+            }
+        }
+    }
+}
