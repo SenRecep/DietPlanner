@@ -1,11 +1,24 @@
 ﻿@inject IPageStateService PageStateService
 @inject NavigationManager navManager
+@inject IUserStorage userStorage
 <div class="page-header py-1">
     @if (!PageStateService.PreviousUrl.IsEmpty())
     {
         <a href="@PageStateService.PreviousUrl"><i class="fas fa-arrow-left"></i></a>
     }
     <h3>@PageStateService.Title</h3>
+    <div class="auth-side">
+        <CustomAuthorizeView>
+            <Authorized>
+                <h6 class="mb-0  text-truncate">@userStorage.User.IdentityNumber</h6>
+                <a class="btn btn-link btn-sm  text-truncate" href="@(UrlInfo.Logout)">Çıkış</a>
+            </Authorized>
+            <NotAuthorized>
+                <a class="btn btn-link" href="@(UrlInfo.Login)">Giriş Yap</a>
+            </NotAuthorized>
+        </CustomAuthorizeView>
+    </div>
+
 </div>
 
 @code

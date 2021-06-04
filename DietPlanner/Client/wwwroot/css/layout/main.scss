@@ -26,6 +26,14 @@
                 margin: 0;
                 padding-left: 1rem;
             }
+            .auth-side{
+                display: flex;
+                align-items: center;
+                justify-content: right;
+                a{
+                    font-size: 1rem;
+                }
+            }
 
         }
         .section{

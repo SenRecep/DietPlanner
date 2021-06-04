@@ -25,6 +25,14 @@
   margin: 0;
   padding-left: 1rem;
 }
+.main-container .page .page-header .auth-side {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+.main-container .page .page-header .auth-side a {
+  font-size: 1rem;
+}
 .main-container .page .section {
   background-color: var(--color6);
   margin: 1rem;
