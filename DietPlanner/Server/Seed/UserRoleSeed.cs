@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using DietPlanner.Server.BLL.StringInfos;
 using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Contexts;
 using DietPlanner.Server.Entities.Concrete;
+using DietPlanner.Shared.DesignPatterns.FluentBuilder;
+using DietPlanner.Shared.Helpers;
 using DietPlanner.Shared.StringInfo;
 
 using Microsoft.EntityFrameworkCore;
@@ -25,9 +26,9 @@ namespace DietPlanner.Server.Seed
         {
             if (dbContext.Roles.Any())
                 return;
-            await dbContext.Roles.AddAsync(new Role() { Name=RoleInfo.Admin});
-            await dbContext.Roles.AddAsync(new Role() { Name=RoleInfo.Patient});
-            await dbContext.Roles.AddAsync(new Role() { Name=RoleInfo.Dietician});
+            await dbContext.Roles.AddAsync(new() { Name = RoleInfo.Admin });
+            await dbContext.Roles.AddAsync(new() { Name = RoleInfo.Patient });
+            await dbContext.Roles.AddAsync(new() { Name = RoleInfo.Dietician });
             await dbContext.SaveChangesAsync();
         }
 
@@ -35,20 +36,21 @@ namespace DietPlanner.Server.Seed
         {
             if (dbContext.Admins.Any())
                 return;
-            var adminRole = await dbContext.Roles.FirstOrDefaultAsync(x=>x.Name.Equals(RoleInfo.Admin));
-            await dbContext.Admins.AddAsync(new Admin()
-            {
-                Address = "Istanbul",
-                CreateUserId = Guid.Parse(UserStringInfo.SystemUserId),
-                CreatedTime=DateTime.Now,
-                Email="admin@dietplanner.com",
-                FirstName="Admin",
-                LastName="1",
-                IdentityNumber="11111111112",
-                Password="Password12*",
-                PhoneNumber="05319649002",
-                Role= adminRole
-            }) ;
+            Role adminRole = await dbContext.Roles.FirstOrDefaultAsync(x => x.Name.Equals(RoleInfo.Admin));
+
+            await dbContext.Admins.AddAsync(FluentBuilder<Admin>.Init()
+                .GiveAValue(x => x.Address, "Istanbul")
+                .GiveAValue(x => x.CreateUserId, Guid.Parse(UserStringInfo.SystemUserId))
+                .GiveAValue(x => x.CreatedTime, DateTime.Now)
+                .GiveAValue(x => x.Email, "admin@dietplanner.com")
+                .GiveAValue(x => x.FirstName, "Admin")
+                .GiveAValue(x => x.LastName, "1")
+                .GiveAValue(x => x.IdentityNumber, "11111111112")
+                .GiveAValue(x => x.Password, "Password12*")
+                .GiveAValue(x => x.PhoneNumber, "05319649002")
+                .GiveAValue(x => x.Role, adminRole)
+                .Use(admin => admin.Password = ToPasswordRepository.PasswordCryptographyCombine(admin.Password))
+                .Take());
             await dbContext.SaveChangesAsync();
         }
 

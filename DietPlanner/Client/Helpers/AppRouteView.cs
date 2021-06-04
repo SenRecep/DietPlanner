@@ -8,10 +8,7 @@ using DietPlanner.Shared.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.Extensions.Logging;
-
-using Serilog;
 
 namespace DietPlanner.Client.Helpers
 {
@@ -23,20 +20,17 @@ namespace DietPlanner.Client.Helpers
         [Inject]
         public IAuthenticationService AuthenticationService { get; set; }
 
-        [Inject]
-        public ILogger<AppRouteView> Logger { get; set; }
 
         protected override void Render(RenderTreeBuilder builder)
         {
             Attribute attribute = Attribute.GetCustomAttribute(RouteData.PageType, typeof(AuthorizeAttribute));
-            Logger.LogInformation(RouteData.PageType.Name);
             if (attribute != null)
             {
                 AuthenticationService.Initialize();
                 if (AuthenticationService.UserStorage.User == null)
                 {
                     string returnUrl = WebUtility.UrlEncode(new Uri(NavigationManager.Uri).PathAndQuery);
-                    NavigationManager.NavigateTo($"/auth/login/{returnUrl}",true);
+                    NavigationManager.NavigateTo($"/auth/login/{returnUrl}", true);
                     return;
                 }
                 AuthorizeAttribute authorizeAttribute = (AuthorizeAttribute)attribute;
@@ -56,7 +50,7 @@ namespace DietPlanner.Client.Helpers
                 if (!doYouHaveAccess)
                 {
                     string returnUrl = WebUtility.UrlEncode(new Uri(NavigationManager.Uri).PathAndQuery);
-                    NavigationManager.NavigateTo($"/auth/accessdenied/{returnUrl}",true);
+                    NavigationManager.NavigateTo($"/auth/accessdenied/{returnUrl}", true);
                     return;
                 }
             }
