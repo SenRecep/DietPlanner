@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using DietPlanner.ClientShared.Services.Interfaces;
 using DietPlanner.DTO.Auth;
+using DietPlanner.DTO.Person;
 using DietPlanner.DTO.Response;
 
 namespace DietPlanner.ClientShared.Services
@@ -14,6 +15,12 @@ namespace DietPlanner.ClientShared.Services
         private readonly HttpClient httpClient;
 
         public AdminHttpService(HttpClient httpClient) => this.httpClient = httpClient;
+
+        public async Task<Response<UserDto>> CreateDietician(UserCreateDto userCreateDto)
+        {
+            var response = await httpClient.PostAsJsonAsync("api/admin/CreateDietician", userCreateDto);
+            return await response.Content.ReadFromJsonAsync<Response<UserDto>>();
+        }
 
         public async Task<Response<IEnumerable<UserDto>>> GetAllDietician() => await httpClient.GetFromJsonAsync<Response<IEnumerable<UserDto>>>("api/admin/GetAllDietician");
     }

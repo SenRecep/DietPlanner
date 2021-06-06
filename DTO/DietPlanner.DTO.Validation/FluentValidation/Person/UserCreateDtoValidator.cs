@@ -14,13 +14,22 @@ namespace DietPlanner.DTO.Validation.FluentValidation.Person
     {
         public UserCreateDtoValidator()
         {
-            RuleFor(x => x.FirstName).NotEmpty().WithMessage("Ad boş geçilemez");
+            RuleFor(x => x.FirstName)
+                .NotEmpty().WithMessage("Ad boş geçilemez")
+                .MaximumLength(40).WithMessage("Ad 40 karakterden fazla olamaz");
 
-            RuleFor(x => x.LastName).NotEmpty().WithMessage("Soyad boş geçilemez");
+            RuleFor(x => x.LastName)
+                .NotEmpty().WithMessage("Soyad boş geçilemez")
+                .MaximumLength(40).WithMessage("Soyad 40 karakterden fazla olamaz");
 
-            RuleFor(x => x.Address).NotEmpty().WithMessage("Adres boş geçilemez");
+            RuleFor(x => x.Address)
+                .NotEmpty().WithMessage("Adres boş geçilemez")
+                .MaximumLength(200).WithMessage("Adres 200 karakterden fazla olamaz");
 
-            RuleFor(x => x.Email).NotEmpty().WithMessage("Email boş geçilemez");
+            RuleFor(x => x.Email).NotEmpty()
+                .WithMessage("Email boş geçilemez")
+                .EmailAddress().WithMessage("Email formatı hatalı")
+                .MaximumLength(50).WithMessage("Soyad 50 karakterden fazla olamaz");
 
             RuleFor(x => x.PhoneNumber)
                 .NotEmpty().WithMessage("Telefon numarası boş geçilemez")

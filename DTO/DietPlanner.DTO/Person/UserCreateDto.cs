@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 using DietPlanner.DTO.Interfaces;
 
 namespace DietPlanner.DTO.Person
@@ -11,5 +13,7 @@ namespace DietPlanner.DTO.Person
         public string Email { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
+        public string Password { get; set; } = "";
+        public Guid RoleId { get; set; }
     }
 }

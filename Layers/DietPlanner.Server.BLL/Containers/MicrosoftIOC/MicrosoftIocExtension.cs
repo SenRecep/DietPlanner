@@ -39,6 +39,7 @@ namespace DietPlanner.Server.BLL.Containers.MicrosoftIOC
             services.AddTransient(typeof(IGenericQueryService<>), typeof(GenericQueryManager<>));
             services.AddTransient(typeof(IGenericCommandService<>), typeof(GenericCommandManager<>));
             services.AddScoped<IPersonService, PersonManager>();
+            services.AddScoped<IRoleService, RoleManager>();
             #endregion
 
             #region Repositoryies
@@ -46,6 +47,8 @@ namespace DietPlanner.Server.BLL.Containers.MicrosoftIOC
             services.AddTransient(typeof(IGenericQueryRepository<>), typeof(EfGenericQueryRepository<>)); 
             services.AddTransient(typeof(IGenericSingleQueryRepository<>), typeof(EfGenericSingleQueryRepository<>));
             services.AddScoped<IPersonRepository, EfPersonRepository>();
+            services.AddScoped<IPersonSingleQueryRepository, EfPersonSingleQueryRepository>();
+            services.AddScoped<IRoleRepository, EfRoleRepository>();
             #endregion
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

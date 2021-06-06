@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 
 using DietPlanner.Shared.Exceptions;
 
@@ -10,6 +11,12 @@ namespace DietPlanner.ClientShared.Interceptors
 {
     public class HttpInterceptorService
     {
+        private readonly HttpStatusCode[] specificCodes = new[] {
+            HttpStatusCode.InternalServerError,
+            HttpStatusCode.Forbidden,
+            HttpStatusCode.Unauthorized,
+            HttpStatusCode.NotFound,
+        };
         private readonly HttpClientInterceptor _interceptor;
         private readonly NavigationManager _navManager;
         public HttpInterceptorService(HttpClientInterceptor interceptor, NavigationManager navManager)
@@ -20,11 +27,10 @@ namespace DietPlanner.ClientShared.Interceptors
         public void RegisterEvent() => _interceptor.AfterSend += InterceptResponse;
         private void InterceptResponse(object sender, HttpClientInterceptorEventArgs e)
         {
-            if (!e.Response.IsSuccessStatusCode)
+            if (specificCodes.Any(x=>x.Equals(e.Response.StatusCode)))
             {
-                HttpStatusCode statusCode = e.Response.StatusCode;
                 string message;
-                switch (statusCode)
+                switch (e.Response.StatusCode)
                 {
                     case HttpStatusCode.Forbidden:
                         _navManager.NavigateTo("/auth/accessdenied");

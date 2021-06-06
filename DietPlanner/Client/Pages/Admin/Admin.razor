@@ -59,41 +59,55 @@
 
 </div>
 
-<Modal Title="Diyetisyen Ekle" IsForm="true"  CloseTitle="İptal" TaskTitle="Ekle" >
+<Modal Title="Diyetisyen Ekle" IsForm="true" CloseTitle="İptal" TaskTitle="Ekle">
     <Body>
-        <EditForm id="form" Model="UserCreateDto" OnValidSubmit="ValidSubmit">
-            <FluentValidationValidator Validator="userCreateDtoValidator"/>
-            <div class="form-row">
-                <label for="IdentityNumber">Kimlik No</label>
-                <InputText @bind-Value="UserCreateDto.IdentityNumber" type="text" class="form-control" placeholder="Tc" id="IdentityNumber" />
-                <ValidationMessage For="() => UserCreateDto.IdentityNumber"></ValidationMessage>
-            </div>
-            <div class="form-row">
-                <label for="FirstName">Ad</label>
-                <InputText @bind-Value="UserCreateDto.FirstName" type="text" class="form-control" placeholder="Ad" id="FirstName" />
-                <ValidationMessage For="() => UserCreateDto.FirstName"></ValidationMessage>
-            </div>
-            <div class="form-row">
-                <label for="LastName">Soyad</label>
-                <InputText @bind-Value="UserCreateDto.LastName" type="text" class="form-control" placeholder="Soyad" id="LastName" />
-                <ValidationMessage For="() => UserCreateDto.LastName"></ValidationMessage>
-            </div>
-            <div class="form-row">
-                <label for="Email">Email</label>
-                <InputText @bind-Value="UserCreateDto.Email" type="email" class="form-control" placeholder="Email" id="Email" />
-                <ValidationMessage For="() => UserCreateDto.Email"></ValidationMessage>
-            </div>
-            <div class="form-row">
-                <label for="PhoneNumber">Telefon</label>
-                <InputText @bind-Value="UserCreateDto.PhoneNumber" type="text" class="form-control" placeholder="Telefon" id="PhoneNumber" />
-                <ValidationMessage For="() => UserCreateDto.PhoneNumber"></ValidationMessage>
-            </div>
-            <div class="form-row">
-                <label for="Address">Adres</label>
-                <InputTextArea @bind-Value="UserCreateDto.Address"  class="form-control" placeholder="Adres" id="Address" />
-                <ValidationMessage For="() => UserCreateDto.Address"></ValidationMessage>
-            </div>
-        </EditForm>
+        @if (ModalLoading)
+        {
+            <Loading />
+        }
+        else
+        {
+            <EditForm id="form" Model="UserCreateDto" OnValidSubmit="ValidSubmit">
+                <FluentValidationValidator Validator="userCreateDtoValidator" />
+                @if (!ErrorMessage.IsEmpty())
+                {
+                    <div class="row text-danger mb-2 pl-1">
+                        @((MarkupString)ErrorMessage)
+                    </div>
+                }
+                <div class="form-row">
+                    <label for="IdentityNumber">Kimlik No</label>
+                    <InputText @bind-Value="UserCreateDto.IdentityNumber" type="text" class="form-control" placeholder="Tc" id="IdentityNumber" />
+                    <ValidationMessage For="() => UserCreateDto.IdentityNumber"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="FirstName">Ad</label>
+                    <InputText @bind-Value="UserCreateDto.FirstName" type="text" class="form-control" placeholder="Ad" id="FirstName" />
+                    <ValidationMessage For="() => UserCreateDto.FirstName"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="LastName">Soyad</label>
+                    <InputText @bind-Value="UserCreateDto.LastName" type="text" class="form-control" placeholder="Soyad" id="LastName" />
+                    <ValidationMessage For="() => UserCreateDto.LastName"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="Email">Email</label>
+                    <InputText @bind-Value="UserCreateDto.Email" type="email" class="form-control" placeholder="Email" id="Email" />
+                    <ValidationMessage For="() => UserCreateDto.Email"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="PhoneNumber">Telefon</label>
+                    <InputText @bind-Value="UserCreateDto.PhoneNumber" type="text" class="form-control" placeholder="Telefon" id="PhoneNumber" />
+                    <ValidationMessage For="() => UserCreateDto.PhoneNumber"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="Address">Adres</label>
+                    <InputTextArea @bind-Value="UserCreateDto.Address" class="form-control" placeholder="Adres" id="Address" />
+                    <ValidationMessage For="() => UserCreateDto.Address"></ValidationMessage>
+                </div>
+            </EditForm>
+        }
+
     </Body>
 </Modal>
 
@@ -102,10 +116,12 @@
 
     public UserCreateDto UserCreateDto { get; set; } = new();
 
+    public string ErrorMessage { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    public bool ModalLoading { get; set; }
+
+    protected async Task InitAsync()
     {
-        pageStateService.Title = "Admin";
         pageStateService.IsLoading = true;
         interceptorService.RegisterEvent();
         var response = await adminService.GetAllDietician();
@@ -114,10 +130,28 @@
         pageStateService.IsLoading = false;
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        pageStateService.Title = "Admin";
+        await InitAsync();
+    }
+
 
     public async Task ValidSubmit()
     {
-        await jsRuntime.InvokeVoidAsync("closeModal", "modal");
+        ModalLoading = true;
+        interceptorService.RegisterEvent();
+        var response = await adminService.CreateDietician(UserCreateDto);
+        if (!response.IsSuccessful)
+            ErrorMessage = response.ErrorData.GetErrors("<br/>");
+        else
+        {
+            ErrorMessage = "";
+            UserCreateDto = new();
+            await jsRuntime.InvokeVoidAsync("closeModal", "modal");
+        }
+        ModalLoading = false;
+        await InitAsync();
     }
 
     public void Dispose()
