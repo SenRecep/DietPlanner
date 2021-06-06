@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace DietPlanner.Shared.DesignPatterns.FluentBuilder
+namespace DietPlanner.Shared.DesignPatterns.FluentFactory
 {
     public interface IBuilder<T>
     {

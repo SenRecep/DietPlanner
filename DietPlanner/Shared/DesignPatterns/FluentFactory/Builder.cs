@@ -2,7 +2,9 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace DietPlanner.Shared.DesignPatterns.FluentBuilder
+using DietPlanner.Shared.ExtensionMethods;
+
+namespace DietPlanner.Shared.DesignPatterns.FluentFactory
 {
     public class Builder<T> : IBuilder<T>
     {
@@ -12,9 +14,12 @@ namespace DietPlanner.Shared.DesignPatterns.FluentBuilder
         {
             PropertyInfo propertyInfo;
             if (propertyExpression.Body is MemberExpression body)
-                propertyInfo = body.Member as PropertyInfo;
+                propertyInfo = body.Member.Cast<PropertyInfo>();
             else
-                propertyInfo = (((UnaryExpression)propertyExpression.Body).Operand as MemberExpression).Member as PropertyInfo;
+                propertyInfo = propertyExpression
+                    .Body.Cast<UnaryExpression>()
+                    .Operand.Cast<MemberExpression>()
+                    .Member.Cast<PropertyInfo>();
             return propertyInfo;
         }
 

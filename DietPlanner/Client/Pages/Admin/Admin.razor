@@ -3,6 +3,8 @@
 @inject IPageStateService pageStateService
 @inject IAdminHttpService adminService
 @inject HttpInterceptorService interceptorService
+@inject IJSRuntime jsRuntime
+@inject IValidator<UserCreateDto> userCreateDtoValidator
 @implements IDisposable
 
 <link href="/css/admin/dist/main.css" rel="stylesheet" />
@@ -16,7 +18,7 @@
         {
             <div class="table-responsive w-100 h-100">
                 <div class="row d-flex justify-content-center mx-0 mb-3">
-                    <button class="btn btn-primary" ><i class="fas fa-plus"></i></button>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#modal"><i class="fas fa-plus"></i></button>
                 </div>
                 <table class="table position-relative table-light table-striped table-hover mb-0">
                     <thead>
@@ -57,8 +59,49 @@
 
 </div>
 
+<Modal Title="Diyetisyen Ekle" IsForm="true"  CloseTitle="İptal" TaskTitle="Ekle" >
+    <Body>
+        <EditForm id="form" Model="UserCreateDto" OnValidSubmit="ValidSubmit">
+            <FluentValidationValidator Validator="userCreateDtoValidator"/>
+            <div class="form-row">
+                <label for="IdentityNumber">Kimlik No</label>
+                <InputText @bind-Value="UserCreateDto.IdentityNumber" type="text" class="form-control" placeholder="Tc" id="IdentityNumber" />
+                <ValidationMessage For="() => UserCreateDto.IdentityNumber"></ValidationMessage>
+            </div>
+            <div class="form-row">
+                <label for="FirstName">Ad</label>
+                <InputText @bind-Value="UserCreateDto.FirstName" type="text" class="form-control" placeholder="Ad" id="FirstName" />
+                <ValidationMessage For="() => UserCreateDto.FirstName"></ValidationMessage>
+            </div>
+            <div class="form-row">
+                <label for="LastName">Soyad</label>
+                <InputText @bind-Value="UserCreateDto.LastName" type="text" class="form-control" placeholder="Soyad" id="LastName" />
+                <ValidationMessage For="() => UserCreateDto.LastName"></ValidationMessage>
+            </div>
+            <div class="form-row">
+                <label for="Email">Email</label>
+                <InputText @bind-Value="UserCreateDto.Email" type="email" class="form-control" placeholder="Email" id="Email" />
+                <ValidationMessage For="() => UserCreateDto.Email"></ValidationMessage>
+            </div>
+            <div class="form-row">
+                <label for="PhoneNumber">Telefon</label>
+                <InputText @bind-Value="UserCreateDto.PhoneNumber" type="text" class="form-control" placeholder="Telefon" id="PhoneNumber" />
+                <ValidationMessage For="() => UserCreateDto.PhoneNumber"></ValidationMessage>
+            </div>
+            <div class="form-row">
+                <label for="Address">Adres</label>
+                <InputTextArea @bind-Value="UserCreateDto.Address"  class="form-control" placeholder="Adres" id="Address" />
+                <ValidationMessage For="() => UserCreateDto.Address"></ValidationMessage>
+            </div>
+        </EditForm>
+    </Body>
+</Modal>
+
 @code {
     public IEnumerable<UserDto> Dieticians { get; set; }
+
+    public UserCreateDto UserCreateDto { get; set; } = new();
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -69,6 +112,12 @@
         if (response.IsSuccessful)
             Dieticians = response.Data;
         pageStateService.IsLoading = false;
+    }
+
+
+    public async Task ValidSubmit()
+    {
+        await jsRuntime.InvokeVoidAsync("closeModal", "modal");
     }
 
     public void Dispose()

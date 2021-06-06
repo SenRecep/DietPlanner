@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using DietPlanner.Server.BLL.StringInfos;
 using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Contexts;
 using DietPlanner.Server.Entities.Concrete;
-using DietPlanner.Shared.DesignPatterns.FluentBuilder;
+using DietPlanner.Shared.DesignPatterns.FluentFactory;
 using DietPlanner.Shared.Helpers;
 using DietPlanner.Shared.StringInfo;
 
@@ -38,7 +38,7 @@ namespace DietPlanner.Server.Seed
                 return;
             Role adminRole = await dbContext.Roles.FirstOrDefaultAsync(x => x.Name.Equals(RoleInfo.Admin));
 
-            await dbContext.Admins.AddAsync(FluentBuilder<Admin>.Init()
+            await dbContext.Admins.AddAsync(FluentFactory<Admin>.Init()
                 .GiveAValue(x => x.Address, "Istanbul")
                 .GiveAValue(x => x.CreateUserId, Guid.Parse(UserStringInfo.SystemUserId))
                 .GiveAValue(x => x.CreatedTime, DateTime.Now)

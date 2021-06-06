@@ -127,7 +127,7 @@
         /// <returns></returns>
         public static string PasswordCryptographyCombine(string pass)
         {
-            return (Md5(Sha384(Sha256(pass))));
+            return Md5(Sha384(Sha256(pass)));
         }
     }
 }
