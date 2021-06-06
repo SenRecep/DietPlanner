@@ -85,7 +85,13 @@
                 navManager.NavigateTo(ReturnUrl);
                 return;
             }
-            navManager.NavigateTo(UrlInfo.Index);
+            navManager.NavigateTo(response.Data.Role.Name switch
+            {
+                RoleInfo.Admin => "/admin",
+                RoleInfo.Dietician => "/dietician",
+                RoleInfo.Patient => "/patient",
+                _ => "/"
+            });
         }
         pageStateService.IsLoading = false;
     }

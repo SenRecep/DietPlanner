@@ -41,5 +41,17 @@
             margin: 1rem;
             padding: 1rem;
         }
+        .custom-navbar{
+            justify-content: start;
+            flex-wrap: nowrap;
+            margin: 0;
+            a{
+                display: block;
+                padding: 0.5rem 1rem;
+                margin: 0 0.2rem;
+                background-color: var(--color2);
+                color: var(--color4);
+            }
+        }
     }
 }

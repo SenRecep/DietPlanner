@@ -4,6 +4,7 @@ using DietPlanner.DTO.Validation;
 using DietPlanner.Server.BLL.ExtensionMethods;
 using DietPlanner.Server.BLL.Interfaces;
 using DietPlanner.Server.BLL.Managers;
+using DietPlanner.Server.BLL.Settings;
 using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Contexts;
 using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories;
 using DietPlanner.Server.DAL.Interfaces;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace DietPlanner.Server.BLL.Containers.MicrosoftIOC
 {
@@ -35,11 +37,13 @@ namespace DietPlanner.Server.BLL.Containers.MicrosoftIOC
 
             services.AddHttpContextAccessor();
 
+
             #region Services
             services.AddTransient(typeof(IGenericQueryService<>), typeof(GenericQueryManager<>));
             services.AddTransient(typeof(IGenericCommandService<>), typeof(GenericCommandManager<>));
             services.AddScoped<IPersonService, PersonManager>();
             services.AddScoped<IRoleService, RoleManager>();
+            services.AddTransient<IMailService, MailService>();
             #endregion
 
             #region Repositoryies
@@ -53,6 +57,11 @@ namespace DietPlanner.Server.BLL.Containers.MicrosoftIOC
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<ICustomMapper, CustomMapper>();
+
+
+            services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
+            services.AddSingleton<IMailSettings>(sp => sp.GetRequiredService<IOptions<MailSettings>>().Value);
+
 
         }
 

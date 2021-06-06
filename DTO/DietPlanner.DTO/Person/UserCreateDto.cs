@@ -15,5 +15,6 @@ namespace DietPlanner.DTO.Person
         public string PhoneNumber { get; set; }
         public string Password { get; set; } = "";
         public Guid RoleId { get; set; }
+        public Guid CreateUserId { get; set; }
     }
 }

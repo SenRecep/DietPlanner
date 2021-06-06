@@ -4,7 +4,6 @@ using DietPlanner.DTO.Auth;
 using DietPlanner.DTO.Response;
 using DietPlanner.Server.BLL.ExtensionMethods;
 using DietPlanner.Server.BLL.Interfaces;
-using DietPlanner.Shared.Helpers;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +23,6 @@ namespace DietPlanner.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            dto.Password = ToPasswordRepository.PasswordCryptographyCombine(dto.Password);
             var found = await personService.LoginAsync(dto);
             if (found is null)
                 return Response<UserDto>.Fail(
@@ -33,6 +31,7 @@ namespace DietPlanner.Server.Controllers
                     path: "[POST] api/user/login",
                     errors: "Kullanıcı kimlik numarası veya parola hatalı"
                     ).CreateResponseInstance();
+
             return Response<UserDto>.Success(found, StatusCodes.Status200OK).CreateResponseInstance();
         }
     }

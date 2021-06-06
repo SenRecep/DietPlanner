@@ -24,17 +24,18 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
         public async Task<IPerson> LoginAsync(string identityNumber, string password)
         {
             IPerson found;
-            found = await context.Patients.Include(x=>x.Role).FirstOrDefaultAsync(person => person.IdentityNumber.Equals(identityNumber) && person.Password.Equals(password));
+            found = await context.Patients.Include(x => x.Role).FirstOrDefaultAsync(person => person.IdentityNumber.Equals(identityNumber));
             if (found is not null)
                 return found;
 
-            found = await context.Dieticians.Include(x => x.Role).FirstOrDefaultAsync(person => person.IdentityNumber.Equals(identityNumber) && person.Password.Equals(password));
+            found = await context.Dieticians.Include(x => x.Role).FirstOrDefaultAsync(person => person.IdentityNumber.Equals(identityNumber));
             if (found is not null)
                 return found;
 
-            found = await context.Admins.Include(x => x.Role).FirstOrDefaultAsync(person => person.IdentityNumber.Equals(identityNumber) && person.Password.Equals(password));
+            found = await context.Admins.Include(x => x.Role).FirstOrDefaultAsync(person => person.IdentityNumber.Equals(identityNumber));
             if (found is not null)
-                return found;
+                if (BCrypt.Net.BCrypt.Verify(password, found.Password))
+                    return found;
 
             return null;
         }

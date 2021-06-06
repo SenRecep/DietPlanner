@@ -1,9 +1,11 @@
 using System;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 using DietPlanner.ClientShared.Containers.MicrosoftIOC;
+using DietPlanner.ClientShared.Models;
 using DietPlanner.ClientShared.Services;
 using DietPlanner.ClientShared.Services.Interfaces;
 using DietPlanner.DTO.Validation.FluentValidation.Auth;
@@ -11,7 +13,9 @@ using DietPlanner.Shared.ExtensionMethods;
 
 using FluentValidation;
 
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -33,6 +37,8 @@ namespace DietPlanner.Client
                 builder.Logging.AddSerilog(LoggerExtensionMethods.SerilogInit(true));
 
                 builder.RootComponents.Add<App>("#app");
+
+                 AddConfiguration(builder);
 
 
                 #region Add Services
@@ -63,6 +69,19 @@ namespace DietPlanner.Client
             {
                 Log.CloseAndFlush();
             }
+        }
+
+        public static  void AddConfiguration(WebAssemblyHostBuilder builder)
+        {
+            builder.Services.AddSingleton(async p =>
+            {
+                var http = new HttpClient()
+                {
+                    BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
+                };
+                return await http.GetFromJsonAsync<NavLinks>("navlinks.json")
+                    .ConfigureAwait(false);
+            });
         }
     }
 }

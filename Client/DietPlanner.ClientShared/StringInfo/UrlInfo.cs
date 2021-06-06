@@ -3,6 +3,7 @@
     public struct UrlInfo
     {
         public const string Index = "/";
+        public const string Admin = "/admin";
 
         public const string Login = "/auth/login";
         public const string Register = "/auth/register";

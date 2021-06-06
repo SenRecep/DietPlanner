@@ -1,0 +1,31 @@
+﻿@inject Task<NavLinks> NavLinks
+@if (NavbarModels.IsNotNull())
+{
+    <div class="custom-navbar row">
+        @foreach (var item in NavbarModels)
+        {
+            <a href="@(item.Url)">@item.Title</a>
+        }
+    </div>
+}
+
+@code{
+
+    public List<NavbarModel> NavbarModels { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var allNavLink = await NavLinks;
+
+        NavbarModels = Type switch
+        {
+            NavbarType.Patient => allNavLink.Patient,
+            NavbarType.Dietician => allNavLink.Dietician,
+            NavbarType.Admin => allNavLink.Admin,
+            _=>null
+        };
+
+    }
+    [Parameter]
+    public NavbarType Type { get; set; }
+}

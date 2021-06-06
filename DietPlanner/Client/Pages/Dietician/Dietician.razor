@@ -1,0 +1,19 @@
+﻿@page "/dietician"
+@attribute [CustomAuthorize(RoleInfo.Dietician)]
+@inject IPageStateService pageStateService
+
+<Navbar Type="NavbarType.Dietician"/>
+
+@code
+{
+    protected async Task InitAsync()
+    {
+        await Task.Delay(100);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        pageStateService.Title = "Diyetisyen";
+        await InitAsync();
+    }
+}

@@ -6,9 +6,9 @@ using DietPlanner.Server.BLL.StringInfos;
 using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Contexts;
 using DietPlanner.Server.Entities.Concrete;
 using DietPlanner.Shared.DesignPatterns.FluentFactory;
-using DietPlanner.Shared.Helpers;
 using DietPlanner.Shared.StringInfo;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DietPlanner.Server.Seed
@@ -49,7 +49,7 @@ namespace DietPlanner.Server.Seed
                 .GiveAValue(x => x.Password, "Password12*")
                 .GiveAValue(x => x.PhoneNumber, "05319649002")
                 .GiveAValue(x => x.Role, adminRole)
-                .Use(admin => admin.Password = ToPasswordRepository.PasswordCryptographyCombine(admin.Password))
+                .Use(admin => admin.Password = BCrypt.Net.BCrypt.HashPassword(admin.Password))
                 .Take());
             await dbContext.SaveChangesAsync();
         }

@@ -33,7 +33,7 @@ namespace DietPlanner.Server.BLL.Managers
             IPerson person = await personSingleQueryRepository.GetPersonByIdentityNumber(personType,identityNumber);
             if (person.IsNotNull() && person.IsDeleted)
                 person = null;
-            return mapper.Map<UserDto>(person);
+            return mapper.Map<UserDto>(person); 
         }
 
         public async Task<UserDto> LoginAsync(LoginDto dto)
