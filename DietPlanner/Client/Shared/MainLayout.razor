@@ -2,36 +2,60 @@
 @inject NavigationManager navigationManager
 @inject IPageStateService pageStateService
 @implements IDisposable
+@implements ISubject
 <link href="/css/layout/dist/main.css" rel="stylesheet" />
 
 <main>
     <div class="main-container row mx-0">
         <div class="page col-md-8 offset-md-2 col-sm-10 offset-sm-1 px-0 position-relative ">
             <PageHeader @ref="PageHeader" />
+            <Navbar @ref="Navbar" />
             @Body
         </div>
     </div>
 </main>
 
 @code {
+    private List<IObserver> observers = new List<IObserver>();
 
     public PageHeader PageHeader { get; set; }
+    public Navbar Navbar { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Attach(PageHeader);
+            Attach(Navbar);
+        }
+    }
 
     protected override void OnInitialized()
     {
         pageStateService.Url = navigationManager.GetUrl();
         navigationManager.LocationChanged += HandleLocactionChanged;
+
     }
 
-    public void Dispose()
-    {
-        navigationManager.LocationChanged -= HandleLocactionChanged;
-    }
 
     private void HandleLocactionChanged(Object sender, LocationChangedEventArgs args)
     {
         pageStateService.Url = navigationManager.GetUrl();
-        PageHeader.Update();
+        Notify();
     }
+
+
+    public void Attach(IObserver observer) => observers.Add(observer);
+
+    public void Detach(IObserver observer) => observers.Remove(observer);
+
+    public void Notify() => observers.ForEach(x => x.Update(this));
+
+    public void Dispose()
+    {
+        navigationManager.LocationChanged -= HandleLocactionChanged;
+        observers.Clear();
+    }
+
 
 } 

@@ -1,4 +1,5 @@
 ﻿
+using DietPlanner.ClientShared.Models;
 using DietPlanner.ClientShared.Services.Interfaces;
 
 namespace DietPlanner.ClientShared.Services
@@ -9,6 +10,7 @@ namespace DietPlanner.ClientShared.Services
         public bool IsLoading { get; set; }
         public string Title { get; set; }
         public string PreviousUrl { get; set; }
+        public NavbarType NavbarType { get; set; }
         public string Url
         {
             get { return url; }
@@ -18,6 +20,5 @@ namespace DietPlanner.ClientShared.Services
                 url = value;
             }
         }
-
     }
 }

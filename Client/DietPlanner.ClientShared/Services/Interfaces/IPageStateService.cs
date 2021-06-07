@@ -1,4 +1,6 @@
-﻿namespace DietPlanner.ClientShared.Services.Interfaces
+﻿using DietPlanner.ClientShared.Models;
+
+namespace DietPlanner.ClientShared.Services.Interfaces
 {
     public interface IPageStateService
     {
@@ -6,5 +8,6 @@
         string Title { get; set; }
         string PreviousUrl { get; set; }
         string Url { get; set; }
+        NavbarType NavbarType { get; set; }
     }
 }

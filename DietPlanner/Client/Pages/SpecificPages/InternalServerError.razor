@@ -1,2 +1,13 @@
 ﻿@page "/500"
+@inject IPageStateService pageStateService
 <h3>Something went really wrong. Please contact administrator.</h3>
+
+@code{
+
+    protected override void OnInitialized()
+    {
+        pageStateService.Title = "500";
+        pageStateService.NavbarType = NavbarType.None;
+    }
+
+}

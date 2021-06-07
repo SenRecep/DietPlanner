@@ -7,6 +7,7 @@
     }
     public enum NavbarType
     {
+        None,
         Admin,
         Dietician,
         Patient

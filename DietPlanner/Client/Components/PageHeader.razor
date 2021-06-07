@@ -1,6 +1,7 @@
 ﻿@inject IPageStateService PageStateService
 @inject NavigationManager navManager
 @inject IUserStorage userStorage
+@implements IObserver
 <div class="page-header py-1">
     @if (!PageStateService.PreviousUrl.IsEmpty())
     {
@@ -23,8 +24,5 @@
 
 @code
 {
-    public void Update()
-    {
-        StateHasChanged();
-    }
+    public void Update(ISubject subject)=> StateHasChanged();
 }

@@ -1,11 +1,19 @@
 ﻿@page "/auth/accessdenied"
 @page "/auth/accessdenied/{ReturnUrl}"
+@inject IPageStateService pageStateService
 
 <h3>AccessDenied</h3>
 
 <h3>@ReturnUrl</h3>
 
 @code{
+
+    protected override void OnInitialized()
+    {
+        pageStateService.Title = "Access Denied";
+        pageStateService.NavbarType = NavbarType.None;
+    }
+
     [Parameter]
     public string ReturnUrl { get; set; }
 }

@@ -1,2 +1,13 @@
 ﻿@page "/404"
+@inject IPageStateService pageStateService
 <h3>NotFound</h3>
+
+@code{
+
+    protected override void OnInitialized()
+    {
+        pageStateService.Title = "404";
+        pageStateService.NavbarType = NavbarType.None;
+    }
+
+}

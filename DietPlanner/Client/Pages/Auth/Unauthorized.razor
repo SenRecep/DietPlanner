@@ -1,2 +1,14 @@
 ﻿@page "/auth/unauthorized"
-<h3>You are not authorized.</h3>
+@inject IPageStateService pageStateService
+
+<h3>Unauthorized</h3>
+
+@code{
+
+    protected override void OnInitialized()
+    {
+        pageStateService.Title = "Unauthorized";
+        pageStateService.NavbarType = NavbarType.None;
+    }
+
+}

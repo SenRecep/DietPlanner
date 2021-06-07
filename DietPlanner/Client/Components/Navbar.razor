@@ -1,4 +1,6 @@
 ﻿@inject Task<NavLinks> NavLinks
+@inject IPageStateService pageStateService
+@implements IObserver
 @if (NavbarModels.IsNotNull())
 {
     <div class="custom-navbar row">
@@ -10,22 +12,25 @@
 }
 
 @code{
-
     public List<NavbarModel> NavbarModels { get; set; }
+
+    private async Task InitAsync()
+    {
+        var navLinks = await NavLinks;
+        NavbarModels = pageStateService.NavbarType switch
+        {
+            NavbarType.Patient => navLinks.Patient,
+            NavbarType.Dietician => navLinks.Dietician,
+            NavbarType.Admin => navLinks.Admin,
+            _ => null
+        };
+        StateHasChanged();
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        var allNavLink = await NavLinks;
-
-        NavbarModels = Type switch
-        {
-            NavbarType.Patient => allNavLink.Patient,
-            NavbarType.Dietician => allNavLink.Dietician,
-            NavbarType.Admin => allNavLink.Admin,
-            _=>null
-        };
-
+        await InitAsync();
     }
-    [Parameter]
-    public NavbarType Type { get; set; }
+
+    public void Update(ISubject subject) => InitAsync().Wait();
 }

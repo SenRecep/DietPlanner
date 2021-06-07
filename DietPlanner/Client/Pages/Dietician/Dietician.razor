@@ -2,7 +2,7 @@
 @attribute [CustomAuthorize(RoleInfo.Dietician)]
 @inject IPageStateService pageStateService
 
-<Navbar Type="NavbarType.Dietician"/>
+<h1>dietician</h1>
 
 @code
 {
@@ -14,6 +14,7 @@
     protected override async Task OnInitializedAsync()
     {
         pageStateService.Title = "Diyetisyen";
+        pageStateService.NavbarType=NavbarType.Dietician;
         await InitAsync();
     }
 }
