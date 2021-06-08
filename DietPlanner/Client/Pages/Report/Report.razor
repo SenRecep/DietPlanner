@@ -1,0 +1,12 @@
+﻿@page "/report"
+@attribute [CustomAuthorize(RoleInfo.Dietician)]
+@inject IPageStateService pageStateService
+
+<h1>Rapor</h1>
+@code{
+    protected override  void OnInitialized()
+    {
+        pageStateService.Title = "Rapor";
+        pageStateService.NavbarType = NavbarType.Dietician;
+    }
+}

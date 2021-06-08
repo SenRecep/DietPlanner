@@ -1,20 +1,41 @@
 ﻿@page "/dietician"
 @attribute [CustomAuthorize(RoleInfo.Dietician)]
 @inject IPageStateService pageStateService
+@inject IUserStorage userStorage
 
-<h1>dietician</h1>
+<div class="section row">
+    <div class="col-md-6 row">
+        <p>Ad: </p>
+        <p class="ml-2">@userStorage.User.FirstName</p>
+    </div>
+    <div class="col-md-6 row">
+        <p>Soyad: </p>
+        <p class="ml-2">@userStorage.User.LastName</p>
+    </div>
+    <div class="col-md-6 row">
+        <p>Tc No: </p>
+        <p class="ml-2">@userStorage.User.IdentityNumber</p>
+    </div>
+    <div class="col-md-6 row">
+        <p>Email: </p>
+        <p class="ml-2">@userStorage.User.Email</p>
+    </div>
+    <div class="col-md-6 row">
+        <p>Telefon: </p>
+        <p class="ml-2">@userStorage.User.PhoneNumber</p>
+    </div>
+    <div class="col-md-12 row">
+        <p>Adres: </p>
+        <p class="ml-2">@userStorage.User.Address</p>
+    </div>
+</div>
 
 @code
 {
-    protected async Task InitAsync()
-    {
-        await Task.Delay(100);
-    }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         pageStateService.Title = "Diyetisyen";
-        pageStateService.NavbarType=NavbarType.Dietician;
-        await InitAsync();
+        pageStateService.NavbarType = NavbarType.Dietician;
     }
 }

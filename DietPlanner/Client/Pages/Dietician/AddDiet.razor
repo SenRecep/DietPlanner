@@ -1,24 +1,104 @@
-@page "/adddiet"
+﻿@page "/dietician/adddiet"
 @attribute [CustomAuthorize(RoleInfo.Dietician)]
 @inject IPageStateService pageStateService
+@inject IDieticianHttpService dieticianHttpService
+@inject HttpInterceptorService httpInterceptor
+@inject IValidator<ReportCreateDto> validator
+@inject IJSRuntime jsRuntime
+@inject NavigationManager navManager
 
-<link href="/css/Client/dist/adddiet.css" rel="stylesheet" />
+<link href="/css/dietician/dist/adddiet.css" rel="stylesheet" />
 
-<div class="section">
-    Merhaba ben denemelik bir objeyim.
-</div>
+@if (pageStateService.IsLoading)
+{
+    <Loading />
+}
+else
+{
+    <div class="section">
+        <EditForm Model="ReportCreateDto" OnValidSubmit="ValidSubmit">
+            <FluentValidationValidator Validator="validator" />
+
+            <div class="form-row">
+                <label for="DiseaseId">Hastalık</label>
+                <select id="DiseaseId" @bind="ReportCreateDto.DiseaseId" class="custom-select">
+                    @foreach (var item in Treatment.Diseases)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                <ValidationMessage For="()=>ReportCreateDto.DiseaseId"></ValidationMessage>
+            </div>
+            <div class="form-row">
+                <label for="DietId">Diyet</label>
+                <select id="DietId" @bind="ReportCreateDto.DietId" class="custom-select">
+                    @foreach (var item in Treatment.Diets)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                <ValidationMessage For="()=>ReportCreateDto.DietId"></ValidationMessage>
+            </div>
+            <div class="form-row my-2">
+                <label for="PatientId">Hasta</label>
+                <select id="PatientId" @bind="ReportCreateDto.PatientId" class="custom-select">
+                    @foreach (var item in Treatment.Patients)
+                    {
+                        <option value="@item.Id">@item.IdentityNumber | @item.FirstName @item.LastName</option>
+                    }
+                </select>
+                <ValidationMessage For="()=>ReportCreateDto.PatientId"></ValidationMessage>
+            </div>
+            <div class="form-row justify-content-center mt-3">
+                <input class="btn btn-success" type="submit" value="Diyet Ata" />
+            </div>
+
+        </EditForm>
+    </div>
+
+}
+
+<Modal Title="Bilgi" CloseTitle="İptal" TaskTitle="Rapor Sayfasına git" TaskEvent="ModalSuccessEvent">
+    <Body>
+        <p>Diyet başarı ile eklendi</p>
+        <p>Rapor sayfasına gitmek istiyor musunuz?</p>
+    </Body>
+</Modal>
 
 @code
 {
+    public ReportCreateDto ReportCreateDto { get; set; } = new();
+
+    public TreatmentDto Treatment { get; set; } = new();
     protected async Task InitAsync()
     {
+        pageStateService.IsLoading = true;
         await Task.Delay(100);
+        pageStateService.IsLoading = false;
     }
 
     protected override async Task OnInitializedAsync()
     {
         pageStateService.Title = "Diyet Atama";
-        pageStateService.NavbarType=NavbarType.Dietician;
+        pageStateService.NavbarType = NavbarType.Dietician;
+        httpInterceptor.RegisterEvent();
         await InitAsync();
     }
+
+    protected async Task ValidSubmit()
+    {
+        pageStateService.IsLoading = true;
+        var response = await dieticianHttpService.CreateReportAsync(ReportCreateDto);
+        pageStateService.IsLoading = false;
+        if (response.IsSuccessful)
+            await jsRuntime.InvokeVoidAsync("showModal", "modal");
+
+    }
+
+    protected async Task ModalSuccessEvent()
+    {
+        await jsRuntime.InvokeVoidAsync("closeModal", "modal");
+        navManager.NavigateTo(UrlInfo.Report);
+    }
+
 }

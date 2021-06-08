@@ -11,10 +11,11 @@ namespace DietPlanner.Server.Entities.Interfaces
         Disease Disease { get; set; }
         Diet Diet { get; set; }
 
-
         Guid PatientId { get; set; }
         Guid DieticianId { get; set; }
         Guid DiseaseId { get; set; }
         Guid DietId { get; set; }
+
+        DateTime EndTime { get; set; }
     }
 }

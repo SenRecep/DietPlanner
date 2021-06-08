@@ -12,7 +12,6 @@ namespace DietPlanner.Server.BLL.Managers
         {
             PropertyInfo[] entityProperties = entity.GetType().GetProperties();
             PropertyInfo[] dtoTypeProperties = dto.GetType().GetProperties();
-
             foreach (PropertyInfo dtoProperty in dtoTypeProperties)
             {
                 PropertyInfo entityProperty = entityProperties

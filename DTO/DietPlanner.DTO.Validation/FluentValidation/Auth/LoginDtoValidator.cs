@@ -15,7 +15,7 @@ namespace DietPlanner.DTO.Validation.FluentValidation.Auth
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Parola boş geçilemez")
-                .Matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,20}$").WithMessage("Parolanız yeterince güçlü değil");
+                .Matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,35}$").WithMessage("Parolanız yeterince güçlü değil");
         }
     }
 }

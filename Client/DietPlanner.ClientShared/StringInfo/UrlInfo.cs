@@ -4,6 +4,8 @@
     {
         public const string Index = "/";
         public const string Admin = "/admin";
+        public const string Dietician = "/dietician";
+        public const string Report = "/report";
 
         public const string Login = "/auth/login";
         public const string Register = "/auth/register";

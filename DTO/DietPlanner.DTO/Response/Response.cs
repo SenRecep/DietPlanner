@@ -4,7 +4,7 @@
     {
         public static Response<T> Success(T data, int statusCode) => new(data, statusCode, true, null);
 
-        public static Response<T> Success(int statusCode) => new(default, statusCode, true, null);
+        public static Response<T> Success(int statusCode=200) => new(default, statusCode, true, null);
 
         public static Response<T> Fail(int statusCode, bool isShow, string path, params string[] errors)
             => new(default, statusCode, false, Error.SendError(path, isShow, errors));
