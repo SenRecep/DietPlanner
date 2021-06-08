@@ -1,0 +1,7 @@
+.diet-page .section {
+  max-height: 78vh;
+}
+.diet-page .section table th {
+  position: sticky;
+  top: 0;
+}

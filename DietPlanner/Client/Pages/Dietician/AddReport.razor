@@ -1,4 +1,4 @@
-﻿@page "/dietician/adddiet"
+﻿@page "/dietician/report"
 @attribute [CustomAuthorize(RoleInfo.Dietician)]
 @inject IPageStateService pageStateService
 @inject IDieticianHttpService dieticianHttpService
@@ -6,8 +6,8 @@
 @inject IValidator<ReportCreateDto> validator
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navManager
+@implements IDisposable 
 
-<link href="/css/dietician/dist/adddiet.css" rel="stylesheet" />
 
 @if (pageStateService.IsLoading)
 {
@@ -101,6 +101,11 @@ else
     {
         await jsRuntime.InvokeVoidAsync("closeModal", "modal");
         navManager.NavigateTo(UrlInfo.Report);
+    }
+
+    public void Dispose()
+    {
+        httpInterceptor.DisposeEvent();
     }
 
 }

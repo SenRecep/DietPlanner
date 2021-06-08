@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using DietPlanner.DTO.Auth;
+using DietPlanner.DTO.Diet;
 using DietPlanner.DTO.Other;
 using DietPlanner.DTO.Person;
 using DietPlanner.DTO.Report;
@@ -15,5 +16,6 @@ namespace DietPlanner.ClientShared.Services.Interfaces
         Task<Response<NoContent>> CreateReportAsync(ReportCreateDto reportCreateDto);
         Task<Response<TreatmentDto>> GetTreatmentAsync();
         Task<Response<UserDto>> CratePatientAsync(UserCreateDto userCreateDto);
+        Task<Response<NoContent>> CreateDietAsync(DietCreateDto dietCreateDto);
     }
 }

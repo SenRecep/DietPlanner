@@ -134,6 +134,7 @@
     {
         pageStateService.Title = "Admin";
         pageStateService.NavbarType = NavbarType.Admin;
+        interceptorService.RegisterEvent();
         await InitAsync();
     }
 
@@ -141,7 +142,6 @@
     public async Task ValidSubmit()
     {
         ModalLoading = true;
-        interceptorService.RegisterEvent();
         var response = await adminService.CreateDieticianAsync(UserCreateDto);
         if (!response.IsSuccessful)
             ErrorMessage = response.ErrorData.GetErrors("<br/>");
@@ -149,9 +149,9 @@
         {
             ErrorMessage = "";
             UserCreateDto = new();
-            await jsRuntime.InvokeVoidAsync("closeModal", "modal");
         }
         ModalLoading = false;
+        await jsRuntime.InvokeVoidAsync("closeModal", "modal");
         await InitAsync();
     }
 

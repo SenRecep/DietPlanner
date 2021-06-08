@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using DietPlanner.ClientShared.Services.Interfaces;
 using DietPlanner.DTO.Auth;
+using DietPlanner.DTO.Diet;
 using DietPlanner.DTO.Other;
 using DietPlanner.DTO.Person;
 using DietPlanner.DTO.Report;
@@ -26,6 +27,12 @@ namespace DietPlanner.ClientShared.Services
         {
             var response = await httpClient.PostAsJsonAsync("api/dietician/CreatePatient", userCreateDto);
             return await response.Content.ReadFromJsonAsync<Response<UserDto>>();
+        }
+
+        public async Task<Response<NoContent>> CreateDietAsync(DietCreateDto dietCreateDto)
+        {
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/diet", dietCreateDto);
+            return await response.Content.ReadFromJsonAsync<Response<NoContent>>();
         }
 
         public async Task<Response<NoContent>> CreateReportAsync(ReportCreateDto reportCreateDto)

@@ -3,6 +3,7 @@ using AutoMapper;
 
 using DietPlanner.DTO.Diet;
 using DietPlanner.DTO.Disease;
+using DietPlanner.DTO.Food;
 using DietPlanner.DTO.Patient;
 using DietPlanner.DTO.Report;
 using DietPlanner.Server.Entities.Concrete;
@@ -17,6 +18,11 @@ namespace DietPlanner.Server.BLL.Mapping.AutoMapper
             CreateMap<Disease, DiseaseDto>();
             CreateMap<Patient, PatientDto>();
             CreateMap<ReportCreateDto, Report>();
+
+            CreateMap<DietCreateDto, Diet>();
+
+            CreateMap<Food, FoodDto>();
+            CreateMap<Food, FoodCreateDto>();
         }
     }
 }

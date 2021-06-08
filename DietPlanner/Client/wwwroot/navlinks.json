@@ -2,15 +2,11 @@
   "Dietician": [
     {
       "Title": "Diyet Atama",
-      "Url": "/dietician/adddiet"
-    },
-    {
-      "Title": "Diyet Olustur",
-      "Url": "/diet/creatediet"
+      "Url": "/dietician/report"
     },
     {
       "Title": "Diyet Listesi",
-      "Url": "/diet/list"
+      "Url": "/diet"
     },
     {
       "Title": "Hastalar",
