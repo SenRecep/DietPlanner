@@ -1,0 +1,24 @@
+@page "/adddiet"
+@attribute [CustomAuthorize(RoleInfo.Dietician)]
+@inject IPageStateService pageStateService
+
+<link href="/css/Client/dist/adddiet.css" rel="stylesheet" />
+
+<div class="section">
+    Merhaba ben denemelik bir objeyim.
+</div>
+
+@code
+{
+    protected async Task InitAsync()
+    {
+        await Task.Delay(100);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        pageStateService.Title = "Diyet Atama";
+        pageStateService.NavbarType=NavbarType.Dietician;
+        await InitAsync();
+    }
+}
