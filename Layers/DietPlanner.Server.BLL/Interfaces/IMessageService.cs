@@ -4,8 +4,8 @@ using DietPlanner.Server.BLL.Models;
 
 namespace DietPlanner.Server.BLL.Interfaces
 {
-    public interface IMailService
+    public interface IMessageService
     {
-        Task SendWelcomeEmailAsync(WelcomeRequest request);
+        public Task SendWelcomeAsync(WelcomeRequest request);
     }
 }

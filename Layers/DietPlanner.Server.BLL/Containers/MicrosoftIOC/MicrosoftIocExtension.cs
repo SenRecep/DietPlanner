@@ -43,7 +43,7 @@ namespace DietPlanner.Server.BLL.Containers.MicrosoftIOC
             services.AddTransient(typeof(IGenericCommandService<>), typeof(GenericCommandManager<>));
             services.AddScoped<IPersonService, PersonManager>();
             services.AddScoped<IRoleService, RoleManager>();
-            services.AddTransient<IMailService, MailService>();
+            services.AddTransient<IMessageService, MailService>();
             #endregion
 
             #region Repositoryies
