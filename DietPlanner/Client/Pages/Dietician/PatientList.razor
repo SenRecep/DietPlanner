@@ -1,7 +1,7 @@
-﻿@page "/admin"
-@attribute [CustomAuthorize(RoleInfo.Admin)]
+﻿@page "/patient/list"
+@attribute [CustomAuthorize(RoleInfo.Dietician)]
 @inject IPageStateService pageStateService
-@inject IAdminHttpService adminService
+@inject IDieticianHttpService dieticianService
 @inject HttpInterceptorService interceptorService
 @inject IJSRuntime jsRuntime
 @inject IValidator<UserCreateDto> userCreateDtoValidator
@@ -124,7 +124,7 @@
     {
         pageStateService.IsLoading = true;
         interceptorService.RegisterEvent();
-        var response = await adminService.GetAllDieticianAsync();
+        var response = await dieticianService.GetAllPatientAsync();
         if (response.IsSuccessful)
             Dieticians = response.Data;
         pageStateService.IsLoading = false;
@@ -132,8 +132,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        pageStateService.Title = "Admin";
-        pageStateService.NavbarType = NavbarType.Admin;
+        pageStateService.Title = "Hastalar";
+        pageStateService.NavbarType = NavbarType.Dietician;
         await InitAsync();
     }
 
@@ -142,16 +142,16 @@
     {
         ModalLoading = true;
         interceptorService.RegisterEvent();
-        var response = await adminService.CreateDieticianAsync(UserCreateDto);
+        var response = await dieticianService.CratePatientAsync(UserCreateDto);
         if (!response.IsSuccessful)
             ErrorMessage = response.ErrorData.GetErrors("<br/>");
         else
         {
             ErrorMessage = "";
             UserCreateDto = new();
-            await jsRuntime.InvokeVoidAsync("closeModal", "modal");
         }
         ModalLoading = false;
+        await jsRuntime.InvokeVoidAsync("closeModal", "modal");
         await InitAsync();
     }
 

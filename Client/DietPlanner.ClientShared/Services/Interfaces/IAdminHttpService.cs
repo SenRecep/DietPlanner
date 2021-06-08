@@ -9,7 +9,7 @@ namespace DietPlanner.ClientShared.Services.Interfaces
 {
     public interface IAdminHttpService
     {
-        Task<Response<IEnumerable<UserDto>>> GetAllDietician();
-        Task<Response<UserDto>> CreateDietician(UserCreateDto userCreateDto);
+        Task<Response<IEnumerable<UserDto>>> GetAllDieticianAsync();
+        Task<Response<UserDto>> CreateDieticianAsync(UserCreateDto userCreateDto);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,7 +10,6 @@ using DietPlanner.DTO.Response;
 using DietPlanner.Server.BLL.ExtensionMethods;
 using DietPlanner.Server.BLL.Helpers;
 using DietPlanner.Server.BLL.Interfaces;
-using DietPlanner.Server.ControllerBases;
 using DietPlanner.Server.Entities.Concrete;
 using DietPlanner.Server.Entities.Enums;
 using DietPlanner.Server.Filters;
@@ -26,7 +24,7 @@ namespace DietPlanner.Server.Controllers
     [ApiController]
     [Route("api/[controller]/[action]")]
     [CustomAuthorize(RoleInfo.Admin)]
-    public class AdminController : CustomControllerBase
+    public class AdminController : ControllerBase
     {
         private readonly IGenericQueryService<Dietician> genericDieticianService;
         private readonly IGenericCommandService<Dietician> genericDieticianCommandService;

@@ -2,7 +2,7 @@
 {
     public record Response<T>(T Data, int StatusCode, bool IsSuccessful, Error ErrorData)
     {
-        public static Response<T> Success(T data, int statusCode) => new(data, statusCode, true, null);
+        public static Response<T> Success(T data, int statusCode=200) => new(data, statusCode, true, null);
 
         public static Response<T> Success(int statusCode=200) => new(default, statusCode, true, null);
 

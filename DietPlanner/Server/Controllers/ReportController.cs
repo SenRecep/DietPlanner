@@ -7,7 +7,6 @@ using DietPlanner.DTO.Report;
 using DietPlanner.DTO.Response;
 using DietPlanner.Server.BLL.ExtensionMethods;
 using DietPlanner.Server.BLL.Interfaces;
-using DietPlanner.Server.ControllerBases;
 using DietPlanner.Server.DAL.Interfaces;
 using DietPlanner.Server.Entities.Concrete;
 using DietPlanner.Server.Filters;
@@ -22,7 +21,7 @@ namespace DietPlanner.Server.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [CustomAuthorize(RoleInfo.Dietician)]
-    public class ReportController : CustomControllerBase
+    public class ReportController : ControllerBase
     {
         private readonly IGenericCommandService<Report> genericReportCommandService;
 

@@ -73,7 +73,9 @@ else
     protected async Task InitAsync()
     {
         pageStateService.IsLoading = true;
-        await Task.Delay(100);
+        var response = await dieticianHttpService.GetTreatmentAsync();
+        if (response.IsSuccessful)
+            Treatment = response.Data;
         pageStateService.IsLoading = false;
     }
 
