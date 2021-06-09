@@ -26,7 +26,7 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
             table = dbContext.Set<T>();
             dbContextTransaction = dbContext.Database.BeginTransaction();
         }
-      
+
         #region CRUD
 
         public async Task<T> AddAsync(T entity)
@@ -35,6 +35,8 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
             await table.AddAsync(entity);
             return entity;
         }
+
+        public async Task AddRangeAsync(IEnumerable<T> entities) => await table.AddRangeAsync(entities);
 
         public async Task UpdateAsync(T entity)
         {
@@ -60,18 +62,25 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
         #region Commit
         public async Task<bool> Commit(bool state = true)
         {
+            if (!state)
+            {
+                await dbContextTransaction.RollbackAsync();
+                await DisposeAsync();
+                return state;
+            }
+
             bool commitState;
             try
             {
                 await SaveChangesAsync();
                 commitState = true;
             }
-            catch 
+            catch
             {
                 commitState = false;
             }
 
-            if (commitState && state)
+            if (commitState )
                 await dbContextTransaction.CommitAsync();
             else
                 await dbContextTransaction.RollbackAsync();
@@ -89,6 +98,8 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
         #region Save
 
         public async Task<int> SaveChangesAsync() => await dbContext.SaveChangesAsync();
+
+
 
         #endregion
 

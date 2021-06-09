@@ -12,90 +12,8 @@
         }
         else
         {
-    <EditForm Model="DietCreateDto" OnValidSubmit="DietCreateValidSubmit">
-        <FluentValidationValidator Validator="Validator"></FluentValidationValidator>
-        @if (!ErrorMessage.IsEmpty())
-        {
-            <div class="row text-danger mb-2 pl-1">
-                @((MarkupString)ErrorMessage)
-            </div>
-        }
-        <div class="form-row">
-            <label for="Name">Ad</label>
-            <InputText @bind-Value="DietCreateDto.Name" type="text" class="form-control" placeholder="Ad" id="Name" />
-            <ValidationMessage For="() => DietCreateDto.Name"></ValidationMessage>
-        </div>
-        <div class="form-row">
-            <label for="Description">Açıklama</label>
-            <InputText @bind-Value="DietCreateDto.Description" type="text" class="form-control" placeholder="Açıklama" id="Description" />
-            <ValidationMessage For="() => DietCreateDto.Description"></ValidationMessage>
-        </div>
-        <div class="table-responsive w-100 h-100">
-            <div class="row d-flex justify-content-center mx-0 my-3">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal"><i class="fas fa-plus"></i></button>
-            </div>
-            <ValidationMessage For="() => DietCreateDto.TransferDietFoods"></ValidationMessage>
-            @if (!ListValidMessage.IsEmpty())
-            {
-                <div class="row text-danger mb-2 pl-1 mx-0">
-                    @((MarkupString)ListValidMessage)
-                </div>
-            }
-            <table class="table position-relative table-light table-striped table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th class="text-center">Durum</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (DietCreateDto.TransferDietFoods.IsNotNull())
-                    {
-                        @foreach (var item in DietCreateDto.TransferDietFoods)
-                        {
-                            <tr>
-                                <th>@item.Name</th>
-                                <th class="text-truncate">@item.Description</th>
-                                <th class="text-center">
-                                    <input @bind="item.IsSelected" type="checkbox" class="form-check-input" />
-                                </th>
-                            </tr>
-                        }
-                    }
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th class="text-center">Durum</th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-
-        <div class="form-row justify-content-center mt-3">
-            <input class="btn btn-success" type="submit" value="Diyet Olustur" />
-        </div>
-
-    </EditForm>
-
-        }
-
-    </div>
-
-</div>
-
-<!--<Modal Title="Diyetisyen Ekle" IsForm="true" CloseTitle="İptal" TaskTitle="Ekle">
-    <Body>
-        @if (ModalLoading)
-        {
-            <Loading />
-        }
-        else
-        {-->
-            @*<EditForm id="form" Model="UserCreateDto" OnValidSubmit="ValidSubmit">
-                <FluentValidationValidator Validator="userCreateDtoValidator" />
+            <EditForm Model="DietCreateDto" OnValidSubmit="DietCreateValidSubmit">
+                <FluentValidationValidator Validator="Validator"></FluentValidationValidator>
                 @if (!ErrorMessage.IsEmpty())
                 {
                     <div class="row text-danger mb-2 pl-1">
@@ -103,13 +21,99 @@
                     </div>
                 }
                 <div class="form-row">
-                    <label for="IdentityNumber">Kimlik No</label>
-                    <InputText @bind-Value="UserCreateDto.IdentityNumber" type="text" class="form-control" placeholder="Tc" id="IdentityNumber" />
-                    <ValidationMessage For="() => UserCreateDto.IdentityNumber"></ValidationMessage>
+                    <label for="Name">Ad</label>
+                    <InputText @bind-Value="DietCreateDto.Name" type="text" class="form-control" placeholder="Ad" id="Name" />
+                    <ValidationMessage For="() => DietCreateDto.Name"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="Description">Açıklama</label>
+                    <InputTextArea @bind-Value="DietCreateDto.Description" type="text" class="form-control" placeholder="Açıklama" id="Description" />
+                    <ValidationMessage For="() => DietCreateDto.Description"></ValidationMessage>
+                </div>
+                <div class="table-responsive w-100 h-100">
+                    <div class="row d-flex justify-content-center mx-0 my-3">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <ValidationMessage For="() => DietCreateDto.TransferDietFoods"></ValidationMessage>
+                    @if (!ListValidMessage.IsEmpty())
+                    {
+                        <div class="row text-danger mb-2 pl-1 mx-0">
+                            @((MarkupString)ListValidMessage)
+                        </div>
+                    }
+                    <table class="table position-relative table-light table-striped table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th class="text-center">Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (DietCreateDto.TransferDietFoods.IsNotNull())
+                            {
+                                @foreach (var item in DietCreateDto.TransferDietFoods)
+                                {
+                                    <tr>
+                                        <th>@item.Name</th>
+                                        <th class="text-truncate">@item.Description</th>
+                                        <th class="text-center">
+                                            <input @bind="item.IsSelected" type="checkbox" class="form-check-input" />
+                                        </th>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th class="text-center">Durum</th>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
 
-            </EditForm>*@
-        <!--}
+                <div class="form-row justify-content-center mt-3">
+                    <input class="btn btn-success" type="submit" value="Diyet Olustur" />
+                </div>
+
+            </EditForm>
+
+        }
+
+    </div>
+
+</div>
+
+<Modal Title="Yemek Ekle" IsForm="true" CloseTitle="İptal" TaskTitle="Ekle">
+    <Body>
+        @if (ModalLoading)
+        {
+            <Loading />
+        }
+        else
+        {
+            <EditForm id="form" Model="FoodCreateDto" OnValidSubmit="ModalValidSubmit">
+                <FluentValidationValidator Validator="ModalValidator" />
+                @if (!ModalErrorMessage.IsEmpty())
+                {
+                    <div class="row text-danger mb-2 pl-1">
+                        @((MarkupString)ModalErrorMessage)
+                    </div>
+                }
+                <div class="form-row">
+                    <label for="Name">Ad</label>
+                    <InputText @bind-Value="FoodCreateDto.Name" type="text" class="form-control" placeholder="Ad" id="Name" />
+                    <ValidationMessage For="() => FoodCreateDto.Name"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="Description">Açıklama</label>
+                    <InputTextArea @bind-Value="FoodCreateDto.Description" type="text" class="form-control" placeholder="Açıklama" id="Description" />
+                    <ValidationMessage For="() => FoodCreateDto.Description"></ValidationMessage>
+                </div>
+            </EditForm>
+        }
 
     </Body>
-</Modal>-->
+</Modal>

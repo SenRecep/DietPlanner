@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Net;
+using System.Net.Http.Json;
 
 using DietPlanner.Shared.Exceptions;
 
@@ -27,7 +28,7 @@ namespace DietPlanner.ClientShared.Interceptors
         public void RegisterEvent() => _interceptor.AfterSend += InterceptResponse;
         private void InterceptResponse(object sender, HttpClientInterceptorEventArgs e)
         {
-            if (specificCodes.Any(x=>x.Equals(e.Response.StatusCode)))
+            if (specificCodes.Any(x => x.Equals(e.Response.StatusCode)))
             {
                 string message;
                 switch (e.Response.StatusCode)

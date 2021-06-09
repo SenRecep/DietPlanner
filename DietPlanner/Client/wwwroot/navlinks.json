@@ -11,6 +11,10 @@
     {
       "Title": "Hastalar",
       "Url": "/patient/list"
+    },
+    {
+      "Title": "Hastalıklar",
+      "Url": "/disease/list"
     }
   ],
     "Admin": [

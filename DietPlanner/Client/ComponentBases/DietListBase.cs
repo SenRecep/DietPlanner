@@ -16,19 +16,24 @@ using DietPlanner.Shared.ExtensionMethods;
 using FluentValidation;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace DietPlanner.Client.ComponentBases
 {
-    public class DietListBase : ComponentBase,IDisposable
+    public class DietListBase : ComponentBase, IDisposable
     {
         [Inject]
         public IPageStateService PageStateService { get; set; }
 
         [Inject]
         public IDieticianHttpService DieticianHttpService { get; set; }
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
 
         [Inject]
         public IValidator<DietCreateDto> Validator { get; set; }
+        [Inject]
+        public IValidator<FoodCreateDto> ModalValidator { get; set; }
 
         [Inject]
         public HttpInterceptorService httpInterceptor { get; set; }
@@ -37,36 +42,44 @@ namespace DietPlanner.Client.ComponentBases
         public NavigationManager NavigationManager { get; set; }
 
         public DietCreateDto DietCreateDto { get; set; } = new();
+        public FoodCreateDto FoodCreateDto { get; set; } = new();
 
         public string ErrorMessage { get; set; }
+        public string ModalErrorMessage { get; set; }
         public string ListValidMessage { get; set; }
+        public bool ModalLoading { get; set; }
 
         protected override void OnInitialized()
         {
             PageStateService.Title = "Diyet Oluştur";
             PageStateService.NavbarType = NavbarType.Dietician;
             httpInterceptor.RegisterEvent();
-            DietCreateDto.TransferDietFoods = new List<FoodCreateDto>()
-            {
-                new() { Name="Ekmek",Description="Kepek ekmeği",Id=Guid.NewGuid(),IsSelected=false},
-                new() { Name="Ekmek 2",Description="Kepek ekmeği yemek",Id=Guid.NewGuid(),IsSelected=true},
-                new() { Name="Ekmek 3",Description="Kepek ekmeği yarismasi",Id=Guid.NewGuid(),IsSelected=false},
-                new() { Name="Ekmek 4",Description="Kepek ekmeği",Id=Guid.NewGuid(),IsSelected=true}
-            };
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await InitFoodTableAsync();
+        }
+
+        protected async Task InitFoodTableAsync()
+        {
+            Response<IEnumerable<DietFoodCreateDto>> response = await DieticianHttpService.GetAllFood();
+            if (response.IsSuccessful)
+                DietCreateDto.TransferDietFoods = response.Data;
         }
 
         protected async Task DietCreateValidSubmit()
         {
-            if (DietCreateDto.TransferDietFoods.IsNull() || (DietCreateDto.TransferDietFoods.IsNotNull() && !DietCreateDto.TransferDietFoods.Any(x=>x.IsSelected)))
+            if (DietCreateDto.TransferDietFoods.IsNull() || !DietCreateDto.TransferDietFoods.Any(x => x.IsSelected))
             {
                 ListValidMessage = "Yemek Seçmelisiniz";
                 return;
             }
-            DietCreateDto.DietFoods = DietCreateDto.TransferDietFoods.Where(x => x.IsSelected).Select(x => new FoodSimpleCreateDto()
+            DietCreateDto.SimpleDietFoods = DietCreateDto.TransferDietFoods.Where(x => x.IsSelected).Select(x => new FoodSimpleCreateDto()
             {
                 Id = x.Id
             });
-            var temp = DietCreateDto.TransferDietFoods;
+            IEnumerable<DietFoodCreateDto> temp = DietCreateDto.TransferDietFoods;
             DietCreateDto.TransferDietFoods = null;
             Response<NoContent> response = await DieticianHttpService.CreateDietAsync(DietCreateDto);
             if (response.IsSuccessful)
@@ -78,9 +91,22 @@ namespace DietPlanner.Client.ComponentBases
             }
         }
 
-        public void Dispose()
+        protected async Task ModalValidSubmit()
         {
-            httpInterceptor.DisposeEvent();
+            ModalLoading = true;
+            var response = await DieticianHttpService.CreateFood(FoodCreateDto);
+            if (!response.IsSuccessful)
+                ModalErrorMessage = response.ErrorData.GetErrors("<br/>");
+            else
+            {
+                ModalErrorMessage = "";
+                FoodCreateDto = new();
+            }
+            await InitFoodTableAsync();
+            ModalLoading = false;
+            await JSRuntime.InvokeVoidAsync("closeModal", "modal");
         }
+
+        public void Dispose() => httpInterceptor.DisposeEvent();
     }
 }

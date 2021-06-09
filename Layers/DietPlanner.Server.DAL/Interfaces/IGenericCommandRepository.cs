@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using DietPlanner.Server.Entities.Interfaces;
 
@@ -8,6 +9,7 @@ namespace DietPlanner.Server.DAL.Interfaces
         where T : class, IEntityBase, new()
     {
         public Task<T> AddAsync(T entity);
+        public Task AddRangeAsync(IEnumerable<T> entities);
         public Task UpdateAsync(T entity);
 
         public Task RemoveAsync(T entity, bool hardDelete = false);

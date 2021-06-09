@@ -18,11 +18,12 @@ namespace DietPlanner.Server.BLL.Mapping.AutoMapper
             CreateMap<Disease, DiseaseDto>();
             CreateMap<Patient, PatientDto>();
             CreateMap<ReportCreateDto, Report>();
+            CreateMap<FoodCreateDto, Food>();
 
             CreateMap<DietCreateDto, Diet>();
 
             CreateMap<Food, FoodDto>();
-            CreateMap<Food, FoodCreateDto>();
+            CreateMap<Food, DietFoodCreateDto>();
         }
     }
 }

@@ -1,0 +1,153 @@
+﻿@page "/disease/list"
+@attribute [CustomAuthorize(RoleInfo.Dietician)]
+@inject IPageStateService pageStateService
+@inject IDieticianHttpService dieticianService
+@inject HttpInterceptorService interceptorService
+@inject IJSRuntime jsRuntime
+@inject IValidator<UserCreateDto> userCreateDtoValidator
+@implements IDisposable
+
+<link href="/css/dietician/dist/adddiet.css" rel="stylesheet" />
+<div class="diet-page">
+    <div class="section overflow-auto">
+        @if (pageStateService.IsLoading)
+        {
+            <Loading />
+        }
+        else
+        {
+            <div class="table-responsive w-100 h-100">
+                <div class="row d-flex justify-content-center mx-0 mb-3">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#modal"><i class="fas fa-plus"></i></button>
+                </div>
+                <table class="table position-relative table-light table-striped table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Hastalık Adı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Dieticians.IsNotNull())
+                        {
+                            @foreach (var item in Dieticians)
+                            {
+                                <tr>
+                                    <td>@item.FirstName</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Hastalık Adı</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        }
+
+    </div>
+
+</div>
+
+<Modal Title="Hastalık Ekle" IsForm="true" CloseTitle="İptal" TaskTitle="Ekle">
+    <Body>
+        @if (ModalLoading)
+        {
+            <Loading />
+        }
+        else
+        {
+            <EditForm id="form" Model="UserCreateDto" OnValidSubmit="ValidSubmit">
+                <FluentValidationValidator Validator="userCreateDtoValidator" />
+                @if (!ErrorMessage.IsEmpty())
+                {
+                    <div class="row text-danger mb-2 pl-1">
+                        @((MarkupString)ErrorMessage)
+                    </div>
+                }
+                <div class="form-row">
+                    <label for="IdentityNumber">Kimlik No</label>
+                    <InputText @bind-Value="UserCreateDto.IdentityNumber" type="text" class="form-control" placeholder="Tc" id="IdentityNumber" />
+                    <ValidationMessage For="() => UserCreateDto.IdentityNumber"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="FirstName">Ad</label>
+                    <InputText @bind-Value="UserCreateDto.FirstName" type="text" class="form-control" placeholder="Ad" id="FirstName" />
+                    <ValidationMessage For="() => UserCreateDto.FirstName"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="LastName">Soyad</label>
+                    <InputText @bind-Value="UserCreateDto.LastName" type="text" class="form-control" placeholder="Soyad" id="LastName" />
+                    <ValidationMessage For="() => UserCreateDto.LastName"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="Email">Email</label>
+                    <InputText @bind-Value="UserCreateDto.Email" type="email" class="form-control" placeholder="Email" id="Email" />
+                    <ValidationMessage For="() => UserCreateDto.Email"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="PhoneNumber">Telefon</label>
+                    <InputText @bind-Value="UserCreateDto.PhoneNumber" type="text" class="form-control" placeholder="Telefon" id="PhoneNumber" />
+                    <ValidationMessage For="() => UserCreateDto.PhoneNumber"></ValidationMessage>
+                </div>
+                <div class="form-row">
+                    <label for="Address">Adres</label>
+                    <InputTextArea @bind-Value="UserCreateDto.Address" class="form-control" placeholder="Adres" id="Address" />
+                    <ValidationMessage For="() => UserCreateDto.Address"></ValidationMessage>
+                </div>
+            </EditForm>
+        }
+
+    </Body>
+</Modal>
+
+@code {
+    public IEnumerable<DiseaseDto> Diseases { get; set; }
+
+    public DiseaseCreateDto DiseaseCreateDto { get; set; } = new();
+
+    public string ErrorMessage { get; set; }
+
+    public bool ModalLoading { get; set; }
+
+    protected async Task InitAsync()
+    {
+        pageStateService.IsLoading = true;
+        interceptorService.RegisterEvent();
+        var response = await dieticianService.GetAllPatientAsync();
+        if (response.IsSuccessful)
+            Dieticians = response.Data;
+        pageStateService.IsLoading = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        pageStateService.Title = "Hastalar";
+        pageStateService.NavbarType = NavbarType.Dietician;
+        await InitAsync();
+    }
+
+
+    public async Task ValidSubmit()
+    {
+        ModalLoading = true;
+        interceptorService.RegisterEvent();
+        var response = await dieticianService.CratePatientAsync(UserCreateDto);
+        if (!response.IsSuccessful)
+            ErrorMessage = response.ErrorData.GetErrors("<br/>");
+        else
+        {
+            ErrorMessage = "";
+            UserCreateDto = new();
+        }
+        ModalLoading = false;
+        await jsRuntime.InvokeVoidAsync("closeModal", "modal");
+        await InitAsync();
+    }
+
+    public void Dispose()
+    {
+        interceptorService.DisposeEvent();
+    }
+}
