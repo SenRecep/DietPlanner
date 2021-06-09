@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using DietPlanner.DTO.Auth;
 using DietPlanner.DTO.Diet;
+using DietPlanner.DTO.Disease;
 using DietPlanner.DTO.Food;
 using DietPlanner.DTO.Other;
 using DietPlanner.DTO.Person;
@@ -21,5 +22,11 @@ namespace DietPlanner.ClientShared.Services.Interfaces
 
         Task<Response<NoContent>> CreateFood(FoodCreateDto foodCreateDto);
         Task<Response<IEnumerable<DietFoodCreateDto>>> GetAllFood();
+
+        Task<Response<NoContent>> CreateDisease(DiseaseCreateDto diseaseCreateDto);
+
+        Task<Response<IEnumerable<DiseaseDto>>> GetAllDieases();
+
+
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DietPlanner.ClientShared.Services.Interfaces;
 using DietPlanner.DTO.Auth;
 using DietPlanner.DTO.Diet;
+using DietPlanner.DTO.Disease;
 using DietPlanner.DTO.Food;
 using DietPlanner.DTO.Other;
 using DietPlanner.DTO.Person;
@@ -36,6 +37,12 @@ namespace DietPlanner.ClientShared.Services
             return await response.Content.ReadFromJsonAsync<Response<NoContent>>();
         }
 
+        public async Task<Response<NoContent>> CreateDisease(DiseaseCreateDto diseaseCreateDto)
+        {
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/disease", diseaseCreateDto);
+            return await response.Content.ReadFromJsonAsync<Response<NoContent>>();
+        }
+
         public async Task<Response<NoContent>> CreateFood(FoodCreateDto foodCreateDto)
         {
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/food", foodCreateDto);
@@ -48,6 +55,8 @@ namespace DietPlanner.ClientShared.Services
             return await response.Content.ReadFromJsonAsync<Response<NoContent>>();
         }
 
+        public async Task<Response<IEnumerable<DiseaseDto>>> GetAllDieases()
+        => await httpClient.GetFromJsonAsync<Response<IEnumerable<DiseaseDto>>>("api/disease");
         public async Task<Response<IEnumerable<DietFoodCreateDto>>> GetAllFood() 
             => await httpClient.GetFromJsonAsync<Response<IEnumerable<DietFoodCreateDto>>>("api/food");
 
