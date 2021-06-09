@@ -63,7 +63,7 @@ namespace DietPlanner.Client.ComponentBases
 
         protected async Task InitFoodTableAsync()
         {
-            Response<IEnumerable<DietFoodCreateDto>> response = await DieticianHttpService.GetAllFood();
+            Response<IEnumerable<DietFoodCreateDto>> response = await DieticianHttpService.GetAllFoodAsync();
             if (response.IsSuccessful)
                 DietCreateDto.TransferDietFoods = response.Data;
         }
@@ -94,7 +94,7 @@ namespace DietPlanner.Client.ComponentBases
         protected async Task ModalValidSubmit()
         {
             ModalLoading = true;
-            var response = await DieticianHttpService.CreateFood(FoodCreateDto);
+            var response = await DieticianHttpService.CreateFoodAsync(FoodCreateDto);
             if (!response.IsSuccessful)
                 ModalErrorMessage = response.ErrorData.GetErrors("<br/>");
             else

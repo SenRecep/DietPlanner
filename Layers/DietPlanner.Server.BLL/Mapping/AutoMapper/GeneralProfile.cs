@@ -8,6 +8,7 @@ using DietPlanner.DTO.Patient;
 using DietPlanner.DTO.Report;
 using DietPlanner.Server.Entities.Concrete;
 
+
 namespace DietPlanner.Server.BLL.Mapping.AutoMapper
 {
     public class GeneralProfile : Profile
@@ -21,6 +22,7 @@ namespace DietPlanner.Server.BLL.Mapping.AutoMapper
             CreateMap<FoodCreateDto, Food>();
 
             CreateMap<DietCreateDto, Diet>();
+            CreateMap<DiseaseCreateDto, Disease>();
 
             CreateMap<Food, FoodDto>();
             CreateMap<Food, DietFoodCreateDto>();

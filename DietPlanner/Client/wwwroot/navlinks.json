@@ -1,4 +1,4 @@
-{
+﻿{
   "Dietician": [
     {
       "Title": "Diyet Atama",
@@ -13,7 +13,7 @@
       "Url": "/patient/list"
     },
     {
-      "Title": "Hastal�klar",
+      "Title": "Hastalıklar",
       "Url": "/disease/list"
     }
   ],

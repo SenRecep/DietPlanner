@@ -20,12 +20,12 @@ namespace DietPlanner.ClientShared.Services.Interfaces
         Task<Response<UserDto>> CratePatientAsync(UserCreateDto userCreateDto);
         Task<Response<NoContent>> CreateDietAsync(DietCreateDto dietCreateDto);
 
-        Task<Response<NoContent>> CreateFood(FoodCreateDto foodCreateDto);
-        Task<Response<IEnumerable<DietFoodCreateDto>>> GetAllFood();
+        Task<Response<NoContent>> CreateFoodAsync(FoodCreateDto foodCreateDto);
+        Task<Response<IEnumerable<DietFoodCreateDto>>> GetAllFoodAsync();
 
-        Task<Response<NoContent>> CreateDisease(DiseaseCreateDto diseaseCreateDto);
+        Task<Response<NoContent>> CreateDiseaseAsync(DiseaseCreateDto diseaseCreateDto);
 
-        Task<Response<IEnumerable<DiseaseDto>>> GetAllDieases();
+        Task<Response<IEnumerable<DiseaseDto>>> GetAllDieasesAsync();
 
 
     }

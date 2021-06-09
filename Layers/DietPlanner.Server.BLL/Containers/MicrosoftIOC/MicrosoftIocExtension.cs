@@ -53,6 +53,7 @@ namespace DietPlanner.Server.BLL.Containers.MicrosoftIOC
             services.AddScoped<IPersonRepository, EfPersonRepository>();
             services.AddScoped<IPersonSingleQueryRepository, EfPersonSingleQueryRepository>();
             services.AddScoped<IRoleRepository, EfRoleRepository>();
+            services.AddScoped<IPatientRepository, EfPatientRepository>();
             #endregion
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

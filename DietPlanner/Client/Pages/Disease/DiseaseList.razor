@@ -4,7 +4,7 @@
 @inject IDieticianHttpService dieticianService
 @inject HttpInterceptorService interceptorService
 @inject IJSRuntime jsRuntime
-@inject IValidator<UserCreateDto> userCreateDtoValidator
+@inject IValidator<DiseaseCreateDto> validator
 @implements IDisposable
 
 <link href="/css/dietician/dist/adddiet.css" rel="stylesheet" />
@@ -27,12 +27,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Dieticians.IsNotNull())
+                        @if (Diseases.IsNotNull())
                         {
-                            @foreach (var item in Dieticians)
+                            @foreach (var item in Diseases)
                             {
                                 <tr>
-                                    <td>@item.FirstName</td>
+                                    <td>@item.Name</td>
                                 </tr>
                             }
                         }
@@ -58,8 +58,8 @@
         }
         else
         {
-            <EditForm id="form" Model="UserCreateDto" OnValidSubmit="ValidSubmit">
-                <FluentValidationValidator Validator="userCreateDtoValidator" />
+            <EditForm id="form" Model="DiseaseCreateDto" OnValidSubmit="ValidSubmit">
+                <FluentValidationValidator Validator="validator" />
                 @if (!ErrorMessage.IsEmpty())
                 {
                     <div class="row text-danger mb-2 pl-1">
@@ -67,34 +67,9 @@
                     </div>
                 }
                 <div class="form-row">
-                    <label for="IdentityNumber">Kimlik No</label>
-                    <InputText @bind-Value="UserCreateDto.IdentityNumber" type="text" class="form-control" placeholder="Tc" id="IdentityNumber" />
-                    <ValidationMessage For="() => UserCreateDto.IdentityNumber"></ValidationMessage>
-                </div>
-                <div class="form-row">
-                    <label for="FirstName">Ad</label>
-                    <InputText @bind-Value="UserCreateDto.FirstName" type="text" class="form-control" placeholder="Ad" id="FirstName" />
-                    <ValidationMessage For="() => UserCreateDto.FirstName"></ValidationMessage>
-                </div>
-                <div class="form-row">
-                    <label for="LastName">Soyad</label>
-                    <InputText @bind-Value="UserCreateDto.LastName" type="text" class="form-control" placeholder="Soyad" id="LastName" />
-                    <ValidationMessage For="() => UserCreateDto.LastName"></ValidationMessage>
-                </div>
-                <div class="form-row">
-                    <label for="Email">Email</label>
-                    <InputText @bind-Value="UserCreateDto.Email" type="email" class="form-control" placeholder="Email" id="Email" />
-                    <ValidationMessage For="() => UserCreateDto.Email"></ValidationMessage>
-                </div>
-                <div class="form-row">
-                    <label for="PhoneNumber">Telefon</label>
-                    <InputText @bind-Value="UserCreateDto.PhoneNumber" type="text" class="form-control" placeholder="Telefon" id="PhoneNumber" />
-                    <ValidationMessage For="() => UserCreateDto.PhoneNumber"></ValidationMessage>
-                </div>
-                <div class="form-row">
-                    <label for="Address">Adres</label>
-                    <InputTextArea @bind-Value="UserCreateDto.Address" class="form-control" placeholder="Adres" id="Address" />
-                    <ValidationMessage For="() => UserCreateDto.Address"></ValidationMessage>
+                    <label for="Name">Hastalık adı</label>
+                    <InputText @bind-Value="DiseaseCreateDto.Name" type="text" class="form-control" placeholder="Hastalık Adı" id="Name" />
+                    <ValidationMessage For="() => DiseaseCreateDto.Name"></ValidationMessage>
                 </div>
             </EditForm>
         }
@@ -115,15 +90,15 @@
     {
         pageStateService.IsLoading = true;
         interceptorService.RegisterEvent();
-        var response = await dieticianService.GetAllPatientAsync();
+        var response = await dieticianService.GetAllDieasesAsync();
         if (response.IsSuccessful)
-            Dieticians = response.Data;
+            Diseases = response.Data;
         pageStateService.IsLoading = false;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        pageStateService.Title = "Hastalar";
+        pageStateService.Title = "Hastalıklar";
         pageStateService.NavbarType = NavbarType.Dietician;
         await InitAsync();
     }
@@ -133,13 +108,13 @@
     {
         ModalLoading = true;
         interceptorService.RegisterEvent();
-        var response = await dieticianService.CratePatientAsync(UserCreateDto);
+        var response = await dieticianService.CreateDiseaseAsync(DiseaseCreateDto);
         if (!response.IsSuccessful)
             ErrorMessage = response.ErrorData.GetErrors("<br/>");
         else
         {
             ErrorMessage = "";
-            UserCreateDto = new();
+            DiseaseCreateDto = new();
         }
         ModalLoading = false;
         await jsRuntime.InvokeVoidAsync("closeModal", "modal");

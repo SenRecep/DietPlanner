@@ -1,4 +1,5 @@
 ﻿
+using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Mapping.ExtensionMethods;
 using DietPlanner.Server.Entities.Concrete;
 
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,11 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Mapping
     {
         public void Configure(EntityTypeBuilder<Report> builder)
         {
+            builder.EntityBaseMap();
+
+            builder.Property(x=>x.StartTime).IsRequired();
+            builder.Property(x=>x.EndTime).IsRequired();
+
             builder.HasOne(x=>x.Diet)
                 .WithMany(x=>x.Reports)
                 .HasForeignKey(x=>x.DietId)

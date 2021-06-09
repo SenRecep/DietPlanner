@@ -16,6 +16,7 @@ namespace DietPlanner.Server.Entities.Interfaces
         Guid DiseaseId { get; set; }
         Guid DietId { get; set; }
 
+        DateTime StartTime { get; set; }
         DateTime EndTime { get; set; }
     }
 }

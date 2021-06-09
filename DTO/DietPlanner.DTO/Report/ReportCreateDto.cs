@@ -9,11 +9,12 @@ namespace DietPlanner.DTO.Report
         public Guid PatientId { get; set; }
         public Guid DieticianId { get; set; }
         public Guid DiseaseId { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
 
 
         //-------------------
         public Guid DietId { get; set; }
         public Guid CreateUserId { get; set; }
-        public DateTime EndTime { get; set; }
     }
 }

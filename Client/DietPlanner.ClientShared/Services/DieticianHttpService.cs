@@ -37,13 +37,13 @@ namespace DietPlanner.ClientShared.Services
             return await response.Content.ReadFromJsonAsync<Response<NoContent>>();
         }
 
-        public async Task<Response<NoContent>> CreateDisease(DiseaseCreateDto diseaseCreateDto)
+        public async Task<Response<NoContent>> CreateDiseaseAsync(DiseaseCreateDto diseaseCreateDto)
         {
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/disease", diseaseCreateDto);
             return await response.Content.ReadFromJsonAsync<Response<NoContent>>();
         }
 
-        public async Task<Response<NoContent>> CreateFood(FoodCreateDto foodCreateDto)
+        public async Task<Response<NoContent>> CreateFoodAsync(FoodCreateDto foodCreateDto)
         {
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/food", foodCreateDto);
             return await response.Content.ReadFromJsonAsync<Response<NoContent>>();
@@ -55,9 +55,9 @@ namespace DietPlanner.ClientShared.Services
             return await response.Content.ReadFromJsonAsync<Response<NoContent>>();
         }
 
-        public async Task<Response<IEnumerable<DiseaseDto>>> GetAllDieases()
+        public async Task<Response<IEnumerable<DiseaseDto>>> GetAllDieasesAsync()
         => await httpClient.GetFromJsonAsync<Response<IEnumerable<DiseaseDto>>>("api/disease");
-        public async Task<Response<IEnumerable<DietFoodCreateDto>>> GetAllFood() 
+        public async Task<Response<IEnumerable<DietFoodCreateDto>>> GetAllFoodAsync() 
             => await httpClient.GetFromJsonAsync<Response<IEnumerable<DietFoodCreateDto>>>("api/food");
 
         public async Task<Response<IEnumerable<UserDto>>> GetAllPatientAsync()

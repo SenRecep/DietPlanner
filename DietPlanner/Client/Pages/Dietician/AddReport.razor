@@ -6,7 +6,7 @@
 @inject IValidator<ReportCreateDto> validator
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navManager
-@implements IDisposable 
+@implements IDisposable
 
 
 @if (pageStateService.IsLoading)
@@ -18,8 +18,13 @@ else
     <div class="section">
         <EditForm Model="ReportCreateDto" OnValidSubmit="ValidSubmit">
             <FluentValidationValidator Validator="validator" />
-
-            <div class="form-row">
+            @if (!ErrorMessage.IsEmpty())
+            {
+                <div class="row text-danger mb-2 pl-1">
+                    @((MarkupString)ErrorMessage)
+                </div>
+            }
+            <div class="form-row mb-2">
                 <label for="DiseaseId">Hastalık</label>
                 <select id="DiseaseId" @bind="ReportCreateDto.DiseaseId" class="custom-select">
                     @foreach (var item in Treatment.Diseases)
@@ -29,7 +34,7 @@ else
                 </select>
                 <ValidationMessage For="()=>ReportCreateDto.DiseaseId"></ValidationMessage>
             </div>
-            <div class="form-row">
+            <div class="form-row mb-2">
                 <label for="DietId">Diyet</label>
                 <select id="DietId" @bind="ReportCreateDto.DietId" class="custom-select">
                     @foreach (var item in Treatment.Diets)
@@ -39,7 +44,7 @@ else
                 </select>
                 <ValidationMessage For="()=>ReportCreateDto.DietId"></ValidationMessage>
             </div>
-            <div class="form-row my-2">
+            <div class="form-row mb-2">
                 <label for="PatientId">Hasta</label>
                 <select id="PatientId" @bind="ReportCreateDto.PatientId" class="custom-select">
                     @foreach (var item in Treatment.Patients)
@@ -49,7 +54,20 @@ else
                 </select>
                 <ValidationMessage For="()=>ReportCreateDto.PatientId"></ValidationMessage>
             </div>
-            <div class="form-row justify-content-center mt-3">
+
+            <div class="form-row mb-2">
+                <label for="StartTime">Diyet başlangıç tarihi</label>
+                <InputDate @bind-Value="ReportCreateDto.StartTime" type="date" class="form-control" id="StartTime"></InputDate>
+                <ValidationMessage For="()=>ReportCreateDto.StartTime"></ValidationMessage>
+            </div>
+
+            <div class="form-row mb-2">
+                <label for="EndTime">Diyet bitiş tarihi</label>
+                <InputDate @bind-Value="ReportCreateDto.EndTime" type="date" class="form-control" id="EndTime"></InputDate>
+                <ValidationMessage For="()=>ReportCreateDto.EndTime"></ValidationMessage>
+            </div>
+
+            <div class="form-row justify-content-center mt-1">
                 <input class="btn btn-success" type="submit" value="Diyet Ata" />
             </div>
 
@@ -67,7 +85,8 @@ else
 
 @code
 {
-    public ReportCreateDto ReportCreateDto { get; set; } = new();
+    public ReportCreateDto ReportCreateDto { get; set; } = new() { EndTime = DateTime.Now };
+    public string ErrorMessage { get; set; }
 
     public TreatmentDto Treatment { get; set; } = new();
     protected async Task InitAsync()
@@ -94,6 +113,10 @@ else
         pageStateService.IsLoading = false;
         if (response.IsSuccessful)
             await jsRuntime.InvokeVoidAsync("showModal", "modal");
+        else
+        {
+            ErrorMessage = response.ErrorData.GetErrors("<br/>");
+        }
 
     }
 
