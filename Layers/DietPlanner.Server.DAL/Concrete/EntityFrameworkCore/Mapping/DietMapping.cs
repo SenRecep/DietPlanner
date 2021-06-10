@@ -13,7 +13,7 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Mapping
         {
             builder.EntityBaseMap();
             builder.Property(x => x.Name).HasMaxLength(30).IsRequired();
-            builder.Property(x => x.Description).HasMaxLength(500).IsRequired();
+            builder.Property(x => x.Description).HasMaxLength(1500).IsRequired();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
         {
             this.dbContext = dbContext;
         }
-        public async Task<(bool State, IEnumerable<string> Errors)> CheckReportDateByUserIdAsync(Guid userId, DateTimeRange range)
+        public async Task<(bool State, List<string> Errors)> CheckReportDateByUserIdAsync(Guid userId, DateTimeRange range)
         {
             var errors = new List<string>();
             var user = await dbContext.Patients.Include(x => x.Reports).FirstOrDefaultAsync(x => x.Id == userId);

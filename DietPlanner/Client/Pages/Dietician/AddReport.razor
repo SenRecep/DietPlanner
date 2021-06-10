@@ -85,7 +85,7 @@ else
 
 @code
 {
-    public ReportCreateDto ReportCreateDto { get; set; } = new() { EndTime = DateTime.Now };
+    public ReportCreateDto ReportCreateDto { get; set; } = new() { EndTime = DateTime.Now , StartTime = DateTime.Now };
     public string ErrorMessage { get; set; }
 
     public TreatmentDto Treatment { get; set; } = new();

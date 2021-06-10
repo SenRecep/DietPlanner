@@ -43,20 +43,19 @@ namespace DietPlanner.Server.Controllers
             FluentFactory<ReportCreateDto>.Init(reportCreateDto)
                 .GiveAValue(x => x.DieticianId, Response.GetUserId())
                 .GiveAValue(x => x.CreateUserId, Response.GetUserId());
-            var result = await patientRepository.CheckReportDateByUserIdAsync(
+            var (State, Errors) = await patientRepository.CheckReportDateByUserIdAsync(
                 reportCreateDto.PatientId,
                 new() { Start = reportCreateDto.StartTime, End = reportCreateDto.EndTime });
 
-            if (!result.State)
+            if (!State)
             {
+                Errors.Add("Seçtiğiniz aralıkta çakışan diyetleriniz mevcut");
                 var response= Response<NoContent>.Fail(
                        statusCode: StatusCodes.Status400BadRequest,
                        isShow: true,
                        path: "[HTTPPOST] api/report",
-                       errors: "Seçtiğiniz aralıkta çakışan diyetleriniz mevcut"
+                       errors: Errors.ToArray()
                        );
-                var errors = response.ErrorData.Errors.ToList();
-                errors.AddRange(result.Errors);
                 return response.CreateResponseInstance();
             }
                 

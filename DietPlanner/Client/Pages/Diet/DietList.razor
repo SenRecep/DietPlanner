@@ -55,11 +55,11 @@
                                 @foreach (var item in DietCreateDto.TransferDietFoods)
                                 {
                                     <tr>
-                                        <th>@item.Name</th>
-                                        <th class="text-truncate">@item.Description</th>
-                                        <th class="text-center">
+                                        <td>@item.Name</td>
+                                        <td class="text-truncate">@item.Description</td>
+                                        <td class="text-center">
                                             <input @bind="item.IsSelected" type="checkbox" class="form-check-input" />
-                                        </th>
+                                        </td>
                                     </tr>
                                 }
                             }

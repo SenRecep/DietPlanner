@@ -8,6 +8,6 @@ namespace DietPlanner.Server.DAL.Interfaces
 {
     public interface IPatientRepository
     {
-        Task<(bool State, IEnumerable<string> Errors)> CheckReportDateByUserIdAsync(Guid userId,DateTimeRange range);
+        Task<(bool State, List<string> Errors)> CheckReportDateByUserIdAsync(Guid userId,DateTimeRange range);
     }
 }

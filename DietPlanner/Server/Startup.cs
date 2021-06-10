@@ -31,7 +31,7 @@ namespace DietPlanner.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDependencies(configuration, environment);
-            services.AddScoped<UserRoleSeed>();
+            services.AddScoped<Seeder>();
             services.AddControllers(opt =>
             {
                 opt.Filters.Add<ValidateModelAttribute>();

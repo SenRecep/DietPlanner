@@ -31,7 +31,7 @@ namespace DietPlanner.Server
                 IServiceProvider services = serviceScope.ServiceProvider;
 
                 DietPlannerDbContext configurationDbContext = services.GetRequiredService<DietPlannerDbContext>();
-                UserRoleSeed seeder = services.GetRequiredService<UserRoleSeed>();
+                Seeder seeder = services.GetRequiredService<Seeder>();
                 configurationDbContext.Database.Migrate();
                 await seeder.SeedAsync();
 
