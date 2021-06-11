@@ -1,21 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using DietPlanner.Server.BLL.StringInfos;
 using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Contexts;
 using DietPlanner.Server.Entities.Concrete;
+using DietPlanner.Server.Entities.Interfaces;
 using DietPlanner.Shared.DesignPatterns.FluentFactory;
 using DietPlanner.Shared.StringInfo;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace DietPlanner.Server.Seed
 {
+    internal record UserCreate(string Email, string Address, string FirstName, string LastName, string PhoneNumber, string IdentityNumber, string Password, Role Role);
+
     public class Seeder
     {
         private readonly DietPlannerDbContext dbContext;
@@ -47,6 +47,27 @@ namespace DietPlanner.Server.Seed
                .GiveAValue(x => x.Name, name)
                .GiveAValue(x => x.Description, description)
                .Take());
+        private ValueTask<EntityEntry<T>> UserAddAsync<T>(UserCreate user) where T : class, IPerson, new() =>
+             dbContext.Set<T>().AddAsync(FluentFactory<T>.Init()
+               .GiveAValue(x => x.CreateUserId, systemUserId)
+               .GiveAValue(x => x.CreatedTime, now)
+               .GiveAValue(x => x.Address, user.Address)
+               .GiveAValue(x => x.Email, user.Email)
+               .GiveAValue(x => x.FirstName, user.FirstName)
+               .GiveAValue(x => x.LastName, user.LastName)
+               .GiveAValue(x => x.IdentityNumber, user.IdentityNumber)
+               .GiveAValue(x => x.Password, user.Password)
+               .GiveAValue(x => x.PhoneNumber, user.PhoneNumber)
+               .GiveAValue(x => x.Role, user.Role)
+               .Use(instance => instance.Password = BCrypt.Net.BCrypt.HashPassword(instance.Password))
+               .Take());
+        private ValueTask<EntityEntry<Role>> RoleAddAsync(string name) =>
+              dbContext.Roles.AddAsync(FluentFactory<Role>.Init()
+               .GiveAValue(x => x.CreateUserId, systemUserId)
+               .GiveAValue(x => x.CreatedTime, now)
+               .GiveAValue(x => x.Name, name)
+               .Take());
+
         private async Task DietFoodAddAsync(EntityEntry<Diet> diet, params EntityEntry<Food>[] foods)
         {
             var dietId = diet.Entity.Id;
@@ -63,76 +84,44 @@ namespace DietPlanner.Server.Seed
         {
             if (dbContext.Roles.Any())
                 return;
-            await dbContext.Roles.AddAsync(new() { Name = RoleInfo.Admin });
-            await dbContext.Roles.AddAsync(new() { Name = RoleInfo.Patient });
-            await dbContext.Roles.AddAsync(new() { Name = RoleInfo.Dietician });
+            await RoleAddAsync(RoleInfo.Admin);
+            await RoleAddAsync(RoleInfo.Patient);
+            await RoleAddAsync(RoleInfo.Dietician);
             await dbContext.SaveChangesAsync();
         }
 
         public async Task UserSeedAsync()
         {
-            if (dbContext.Admins.Any())
-                return;
-            Role adminRole = await dbContext.Roles.FirstOrDefaultAsync(x => x.Name.Equals(RoleInfo.Admin));
-            Role dieticianRole = await dbContext.Roles.FirstOrDefaultAsync(x => x.Name.Equals(RoleInfo.Dietician));
+            if (!dbContext.Admins.Any())
+            {
+                Role adminRole = await dbContext.Roles.FirstOrDefaultAsync(x => x.Name.Equals(RoleInfo.Admin));
+                await UserAddAsync<Admin>(new("admin@dietplanner.com", "Istanbul", "Admin",
+          "1", "05319649002", "11111111112", "Password12*", adminRole));
+            }
+            if (!dbContext.Dieticians.Any())
+            {
+                Role dieticianRole = await dbContext.Roles.FirstOrDefaultAsync(x => x.Name.Equals(RoleInfo.Dietician));
+
+                await UserAddAsync<Dietician>(new("mehmetfaruk@dietplanner.com", "Istanbul", "Mehmet",
+                    "Faruk", "05327933955", "94381916326", "MehmetFaruk12*", dieticianRole));
+
+                await UserAddAsync<Dietician>(new("ismailtokmakci@dietplanner.com", "Istanbul", "Ismail",
+                   "Tokmakçı", "05329767219", "48343725006", "IsmailTokmakçı12*", dieticianRole));
+
+                await UserAddAsync<Dietician>(new("rakimcelik@dietplanner.com", "Istanbul", "Rakım",
+                       "Çelik", "05326981510", "97485229668", "MehmetFaruk12*", dieticianRole));
+            }
 
 
-            await dbContext.Admins.AddAsync(FluentFactory<Admin>.Init()
-               .GiveAValue(x => x.Address, "Istanbul")
-               .GiveAValue(x => x.CreateUserId, systemUserId)
-               .GiveAValue(x => x.CreatedTime, now)
-               .GiveAValue(x => x.Email, "admin@dietplanner.com")
-               .GiveAValue(x => x.FirstName, "Admin")
-               .GiveAValue(x => x.LastName, "1")
-               .GiveAValue(x => x.IdentityNumber, "11111111112")
-               .GiveAValue(x => x.Password, "Password12*")
-               .GiveAValue(x => x.PhoneNumber, "05319649002")
-               .GiveAValue(x => x.Role, adminRole)
-               .Use(admin => admin.Password = BCrypt.Net.BCrypt.HashPassword(admin.Password))
-               .Take());
+            if (!dbContext.Patients.Any())
+            {
+                Role patientRole = await dbContext.Roles.FirstOrDefaultAsync(x => x.Name.Equals(RoleInfo.Patient));
+
+                await UserAddAsync<Patient>(new("67rsen00@gmail.com", "Istanbul", "Recep",
+                    "Şen", "05319649002", "22222222222", "Password12*", patientRole));
+            }
 
 
-            await dbContext.Dieticians.AddAsync(FluentFactory<Dietician>.Init()
-                .GiveAValue(x => x.Address, "Istanbul")
-                .GiveAValue(x => x.CreateUserId, systemUserId)
-                .GiveAValue(x => x.CreatedTime, now)
-                .GiveAValue(x => x.Email, "mehmetfaruk@dietplanner.com")
-                .GiveAValue(x => x.FirstName, "Mehmet")
-                .GiveAValue(x => x.LastName, "Faruk")
-                .GiveAValue(x => x.IdentityNumber, "94381916326")
-                .GiveAValue(x => x.Password, "MehmetFaruk12*")
-                .GiveAValue(x => x.PhoneNumber, "05327933955")
-                .GiveAValue(x => x.Role, dieticianRole)
-                .Use(dietician => dietician.Password = BCrypt.Net.BCrypt.HashPassword(dietician.Password))
-                .Take());
-
-            await dbContext.Dieticians.AddAsync(FluentFactory<Dietician>.Init()
-                .GiveAValue(x => x.Address, "Istanbul")
-                .GiveAValue(x => x.CreateUserId, systemUserId)
-                .GiveAValue(x => x.CreatedTime, now)
-                .GiveAValue(x => x.Email, "ismailtokmakci@dietplanner.com")
-                .GiveAValue(x => x.FirstName, "Ismail")
-                .GiveAValue(x => x.LastName, "Tokmakçı")
-                .GiveAValue(x => x.IdentityNumber, "48343725006")
-                .GiveAValue(x => x.Password, "IsmailTokmakçı12*")
-                .GiveAValue(x => x.PhoneNumber, "05329767219")
-                .GiveAValue(x => x.Role, dieticianRole)
-                .Use(dietician => dietician.Password = BCrypt.Net.BCrypt.HashPassword(dietician.Password))
-                .Take());
-
-            await dbContext.Dieticians.AddAsync(FluentFactory<Dietician>.Init()
-                .GiveAValue(x => x.Address, "Istanbul")
-                .GiveAValue(x => x.CreateUserId, systemUserId)
-                .GiveAValue(x => x.CreatedTime, now)
-                .GiveAValue(x => x.Email, "rakimcelik@dietplanner.com")
-                .GiveAValue(x => x.FirstName, "Rakım")
-                .GiveAValue(x => x.LastName, "Çelik")
-                .GiveAValue(x => x.IdentityNumber, "97485229668")
-                .GiveAValue(x => x.Password, "MehmetFaruk12*")
-                .GiveAValue(x => x.PhoneNumber, "05326981510")
-                .GiveAValue(x => x.Role, dieticianRole)
-                .Use(dietician => dietician.Password = BCrypt.Net.BCrypt.HashPassword(dietician.Password))
-                .Take());
             await dbContext.SaveChangesAsync();
         }
 

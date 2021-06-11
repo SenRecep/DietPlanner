@@ -12,12 +12,12 @@
         }
         else
         {
-            <EditForm Model="DietCreateDto" OnValidSubmit="DietCreateValidSubmit">
+            <EditForm Model="DietCreateDto" OnValidSubmit="DietCreateValidSubmit" id="disableEnterKeyForm">
                 <FluentValidationValidator Validator="Validator"></FluentValidationValidator>
                 @if (!ErrorMessage.IsEmpty())
                 {
                     <div class="row text-danger mb-2 pl-1">
-                        @((MarkupString)ErrorMessage)
+                        @(ErrorMessage.Cast<MarkupString>())
                     </div>
                 }
                 <div class="form-row">
@@ -30,45 +30,53 @@
                     <InputTextArea @bind-Value="DietCreateDto.Description" type="text" class="form-control" placeholder="Açıklama" id="Description" />
                     <ValidationMessage For="() => DietCreateDto.Description"></ValidationMessage>
                 </div>
+
+                <div class="form-row">
+                    <label for="SearchKey">Ara</label>
+                    <input @bind="SearchKey" @bind:event="oninput" @onkeyup="Search" type="text" class="form-control" placeholder="Ara" id="SearchKey">
+                </div>
+
                 <div class="table-responsive w-100 h-100">
                     <div class="row d-flex justify-content-center mx-0 my-3">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal"><i class="fas fa-plus"></i></button>
                     </div>
-                    <ValidationMessage For="() => DietCreateDto.TransferDietFoods"></ValidationMessage>
+                    <ValidationMessage For="() => DietFoods"></ValidationMessage>
                     @if (!ListValidMessage.IsEmpty())
                     {
                         <div class="row text-danger mb-2 pl-1 mx-0">
-                            @((MarkupString)ListValidMessage)
+                            @(ListValidMessage.Cast<MarkupString>())
                         </div>
                     }
+
+
                     <table class="table position-relative table-light table-striped table-hover mb-0">
                         <thead>
                             <tr>
+                                <th>Durum</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th class="text-center">Durum</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (DietCreateDto.TransferDietFoods.IsNotNull())
+                            @if (SearchedDietFoods.IsNotNull())
                             {
-                                @foreach (var item in DietCreateDto.TransferDietFoods)
+                                @foreach (var item in SearchedDietFoods)
                                 {
                                     <tr>
+                                        <td class="text-center">
+                                            <input @bind="item.IsSelected" type="checkbox" />
+                                        </td>
                                         <td>@item.Name</td>
                                         <td class="text-truncate">@item.Description</td>
-                                        <td class="text-center">
-                                            <input @bind="item.IsSelected" type="checkbox" class="form-check-input" />
-                                        </td>
                                     </tr>
                                 }
                             }
                         </tbody>
                         <tfoot>
                             <tr>
+                                <th>Durum</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th class="text-center">Durum</th>
                             </tr>
                         </tfoot>
                     </table>

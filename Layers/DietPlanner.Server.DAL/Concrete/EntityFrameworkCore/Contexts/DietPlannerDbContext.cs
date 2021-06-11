@@ -26,5 +26,6 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Contexts
         public DbSet<Entities.Concrete.Role> Roles { get; set; }
         public DbSet<Entities.Concrete.Food> Foods { get; set; }
         public DbSet<Entities.Concrete.DietFood> DietFoods { get; set; }
+        public DbSet<Entities.Concrete.FileModel> FileModels { get; set; }
     }
 }

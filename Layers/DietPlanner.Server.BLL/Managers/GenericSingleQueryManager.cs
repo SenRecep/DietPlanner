@@ -11,13 +11,13 @@ using DietPlanner.Server.Entities.Interfaces;
 
 namespace DietPlanner.Server.BLL.Managers
 {
-    public class IGenericSingleQueryManager<T> : IGenericSingleQueryService<T>
+    public class GenericSingleQueryManager<T> : IGenericSingleQueryService<T>
         where T : class, IEntityBase, new()
     {
         private readonly IGenericSingleQueryRepository<T> genericRepository;
         private readonly IMapper mapper;
 
-        public IGenericSingleQueryManager(IGenericSingleQueryRepository<T> genericRepository, IMapper mapper)
+        public GenericSingleQueryManager(IGenericSingleQueryRepository<T> genericRepository, IMapper mapper)
         {
             this.genericRepository = genericRepository;
             this.mapper = mapper;

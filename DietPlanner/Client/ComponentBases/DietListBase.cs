@@ -16,6 +16,7 @@ using DietPlanner.Shared.ExtensionMethods;
 using FluentValidation;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
 namespace DietPlanner.Client.ComponentBases
@@ -36,14 +37,18 @@ namespace DietPlanner.Client.ComponentBases
         public IValidator<FoodCreateDto> ModalValidator { get; set; }
 
         [Inject]
-        public HttpInterceptorService httpInterceptor { get; set; }
+        public HttpInterceptorService HttpInterceptor { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        public List<DietFoodCreateDto> DietFoods { get; set; }
+        public List<DietFoodCreateDto> SearchedDietFoods { get; set; }
+
         public DietCreateDto DietCreateDto { get; set; } = new();
         public FoodCreateDto FoodCreateDto { get; set; } = new();
 
+        public string SearchKey { get; set; } = "";
         public string ErrorMessage { get; set; }
         public string ModalErrorMessage { get; set; }
         public string ListValidMessage { get; set; }
@@ -53,7 +58,7 @@ namespace DietPlanner.Client.ComponentBases
         {
             PageStateService.Title = "Diyet Oluştur";
             PageStateService.NavbarType = NavbarType.Dietician;
-            httpInterceptor.RegisterEvent();
+            HttpInterceptor.RegisterEvent();
         }
 
         protected override async Task OnInitializedAsync()
@@ -61,32 +66,47 @@ namespace DietPlanner.Client.ComponentBases
             await InitFoodTableAsync();
         }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+               await  JSRuntime.InvokeVoidAsync("PreventEnterKey", "disableEnterKeyForm");
+        }
+
         protected async Task InitFoodTableAsync()
         {
-            Response<IEnumerable<DietFoodCreateDto>> response = await DieticianHttpService.GetAllFoodAsync();
+            Response<List<DietFoodCreateDto>> response = await DieticianHttpService.GetAllFoodAsync();
             if (response.IsSuccessful)
-                DietCreateDto.TransferDietFoods = response.Data;
+            {
+                DietFoods = response.Data;
+                SearchedDietFoods = DietFoods;
+            }
+        }
+
+
+        public void Search(KeyboardEventArgs e)
+        {
+            SearchedDietFoods = DietFoods.Where(x=>x.Name.StartsWith(SearchKey,StringComparison.InvariantCultureIgnoreCase)).ToList();
         }
 
         protected async Task DietCreateValidSubmit()
         {
-            if (DietCreateDto.TransferDietFoods.IsNull() || !DietCreateDto.TransferDietFoods.Any(x => x.IsSelected))
+            if (DietFoods.IsNull() || !DietFoods.Any(x => x.IsSelected))
             {
                 ListValidMessage = "Yemek Seçmelisiniz";
                 return;
             }
-            DietCreateDto.SimpleDietFoods = DietCreateDto.TransferDietFoods.Where(x => x.IsSelected).Select(x => new FoodSimpleCreateDto()
+            DietCreateDto.SimpleDietFoods = DietFoods.Where(x => x.IsSelected).Select(x => new FoodSimpleCreateDto()
             {
                 Id = x.Id
             });
-            IEnumerable<DietFoodCreateDto> temp = DietCreateDto.TransferDietFoods;
-            DietCreateDto.TransferDietFoods = null;
+            List<DietFoodCreateDto> temp = DietFoods;
+            DietFoods = null;
             Response<NoContent> response = await DieticianHttpService.CreateDietAsync(DietCreateDto);
             if (response.IsSuccessful)
                 NavigationManager.NavigateTo(UrlInfo.Dietician);
             else
             {
-                DietCreateDto.TransferDietFoods = temp;
+                DietFoods = temp;
                 ErrorMessage = response.ErrorData.GetErrors("<br/>");
             }
         }
@@ -107,6 +127,6 @@ namespace DietPlanner.Client.ComponentBases
             await JSRuntime.InvokeVoidAsync("closeModal", "modal");
         }
 
-        public void Dispose() => httpInterceptor.DisposeEvent();
+        public void Dispose() => HttpInterceptor.DisposeEvent();
     }
 }

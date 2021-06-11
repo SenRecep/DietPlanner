@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
+
 namespace DietPlanner.Shared.Exceptions
 {
     [Serializable]
@@ -8,6 +9,7 @@ namespace DietPlanner.Shared.Exceptions
     {
         public HttpResponseException()
         {
+           
         }
         public HttpResponseException(string message)
             : base(message)

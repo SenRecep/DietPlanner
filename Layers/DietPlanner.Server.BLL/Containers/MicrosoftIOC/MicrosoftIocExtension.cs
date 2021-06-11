@@ -4,6 +4,7 @@ using DietPlanner.DTO.Validation;
 using DietPlanner.Server.BLL.ExtensionMethods;
 using DietPlanner.Server.BLL.Interfaces;
 using DietPlanner.Server.BLL.Managers;
+using DietPlanner.Server.BLL.Managers.ReportExport;
 using DietPlanner.Server.BLL.Settings;
 using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Contexts;
 using DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories;
@@ -41,8 +42,16 @@ namespace DietPlanner.Server.BLL.Containers.MicrosoftIOC
             #region Services
             services.AddTransient(typeof(IGenericQueryService<>), typeof(GenericQueryManager<>));
             services.AddTransient(typeof(IGenericCommandService<>), typeof(GenericCommandManager<>));
+            services.AddTransient(typeof(IGenericSingleQueryService<>), typeof(GenericSingleQueryManager<>));
             services.AddScoped<IPersonService, PersonManager>();
             services.AddScoped<IRoleService, RoleManager>();
+
+            services.AddScoped<HtmlTool>();
+            services.AddScoped<JsonTool>();
+            services.AddScoped<HtmlReportExportCreator>();
+            services.AddScoped<JsonReportExportCreator>();
+
+
             services.AddTransient<IMessageService, MailService>();
             #endregion
 
@@ -54,6 +63,7 @@ namespace DietPlanner.Server.BLL.Containers.MicrosoftIOC
             services.AddScoped<IPersonSingleQueryRepository, EfPersonSingleQueryRepository>();
             services.AddScoped<IRoleRepository, EfRoleRepository>();
             services.AddScoped<IPatientRepository, EfPatientRepository>();
+            services.AddScoped<IExportRepository, EfExportRepository>();
             #endregion
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

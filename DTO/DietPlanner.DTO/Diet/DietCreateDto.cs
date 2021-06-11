@@ -12,7 +12,6 @@ namespace DietPlanner.DTO.Diet
         public string Description { get; set; }
         //------------------
         public IEnumerable<FoodSimpleCreateDto> SimpleDietFoods { get; set; }
-        public IEnumerable<DietFoodCreateDto> TransferDietFoods { get; set; }
         public Guid CreateUserId { get; set; }
     }
 }

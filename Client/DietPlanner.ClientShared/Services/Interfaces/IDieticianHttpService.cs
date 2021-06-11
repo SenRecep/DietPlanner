@@ -21,7 +21,7 @@ namespace DietPlanner.ClientShared.Services.Interfaces
         Task<Response<NoContent>> CreateDietAsync(DietCreateDto dietCreateDto);
 
         Task<Response<NoContent>> CreateFoodAsync(FoodCreateDto foodCreateDto);
-        Task<Response<IEnumerable<DietFoodCreateDto>>> GetAllFoodAsync();
+        Task<Response<List<DietFoodCreateDto>>> GetAllFoodAsync();
 
         Task<Response<NoContent>> CreateDiseaseAsync(DiseaseCreateDto diseaseCreateDto);
 

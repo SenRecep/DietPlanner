@@ -16,6 +16,8 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Mapping
             builder.Property(x=>x.StartTime).IsRequired();
             builder.Property(x=>x.EndTime).IsRequired();
 
+            builder.Property(x=>x.FileModelId).IsRequired(false);
+
             builder.HasOne(x=>x.Diet)
                 .WithMany(x=>x.Reports)
                 .HasForeignKey(x=>x.DietId)
@@ -35,6 +37,11 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Mapping
                 .WithMany(x => x.Reports)
                 .HasForeignKey(x => x.DiseaseId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x=>x.FileModel)
+                .WithOne(x=>x.Report)
+                .HasForeignKey<Report>(x=>x.FileModelId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

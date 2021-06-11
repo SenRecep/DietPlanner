@@ -57,8 +57,8 @@ namespace DietPlanner.ClientShared.Services
 
         public async Task<Response<IEnumerable<DiseaseDto>>> GetAllDieasesAsync()
         => await httpClient.GetFromJsonAsync<Response<IEnumerable<DiseaseDto>>>("api/disease");
-        public async Task<Response<IEnumerable<DietFoodCreateDto>>> GetAllFoodAsync() 
-            => await httpClient.GetFromJsonAsync<Response<IEnumerable<DietFoodCreateDto>>>("api/food");
+        public async Task<Response<List<DietFoodCreateDto>>> GetAllFoodAsync() 
+            => await httpClient.GetFromJsonAsync<Response<List<DietFoodCreateDto>>>("api/food");
 
         public async Task<Response<IEnumerable<UserDto>>> GetAllPatientAsync()
              => await httpClient.GetFromJsonAsync<Response<IEnumerable<UserDto>>>("api/dietician/getallpatient");

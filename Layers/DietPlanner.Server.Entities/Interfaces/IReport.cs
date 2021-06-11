@@ -18,5 +18,8 @@ namespace DietPlanner.Server.Entities.Interfaces
 
         DateTime StartTime { get; set; }
         DateTime EndTime { get; set; }
+
+        Guid? FileModelId { get; set; }
+        FileModel FileModel { get; set; }
     }
 }

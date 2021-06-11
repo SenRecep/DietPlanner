@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using DietPlanner.DTO.Report;
@@ -12,8 +10,6 @@ using DietPlanner.Server.Entities.Concrete;
 using DietPlanner.Server.Filters;
 using DietPlanner.Shared.DesignPatterns.FluentFactory;
 using DietPlanner.Shared.StringInfo;
-
-using Humanizer;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -43,14 +39,14 @@ namespace DietPlanner.Server.Controllers
             FluentFactory<ReportCreateDto>.Init(reportCreateDto)
                 .GiveAValue(x => x.DieticianId, Response.GetUserId())
                 .GiveAValue(x => x.CreateUserId, Response.GetUserId());
-            var (State, Errors) = await patientRepository.CheckReportDateByUserIdAsync(
+            (bool State, List<string> Errors) = await patientRepository.CheckReportDateByUserIdAsync(
                 reportCreateDto.PatientId,
                 new() { Start = reportCreateDto.StartTime, End = reportCreateDto.EndTime });
 
             if (!State)
             {
                 Errors.Add("Seçtiğiniz aralıkta çakışan diyetleriniz mevcut");
-                var response= Response<NoContent>.Fail(
+                Response<NoContent> response = Response<NoContent>.Fail(
                        statusCode: StatusCodes.Status400BadRequest,
                        isShow: true,
                        path: "[HTTPPOST] api/report",
@@ -58,10 +54,10 @@ namespace DietPlanner.Server.Controllers
                        );
                 return response.CreateResponseInstance();
             }
-                
+
 
             await genericReportCommandService.AddAsync(reportCreateDto);
-            var comitState = await genericReportCommandService.Commit();
+            bool comitState = await genericReportCommandService.Commit();
             if (!comitState)
                 return Response<NoContent>.Fail(
                     statusCode: StatusCodes.Status500InternalServerError,

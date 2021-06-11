@@ -16,5 +16,9 @@ namespace DietPlanner.Server.Entities.Concrete
         public Guid DietId { get; set; }
         public DateTime EndTime { get; set; }
         public DateTime StartTime { get; set; }
+
+
+        public Guid? FileModelId { get; set; }
+        public FileModel FileModel { get; set; }
     }
 }

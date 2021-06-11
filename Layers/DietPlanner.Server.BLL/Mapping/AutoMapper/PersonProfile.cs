@@ -16,6 +16,9 @@ namespace DietPlanner.Server.BLL.Mapping.AutoMapper
             CreateMap<IPerson, UserDto>();
             CreateMap<UserCreateDto, Dietician>();
             CreateMap<UserCreateDto, Patient>();
+            CreateMap<UserCreateDto, Patient>();
+
+
         }
     }
 }
