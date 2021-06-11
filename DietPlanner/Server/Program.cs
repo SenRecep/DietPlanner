@@ -30,9 +30,9 @@ namespace DietPlanner.Server
 
                 IServiceProvider services = serviceScope.ServiceProvider;
 
-                DietPlannerDbContext configurationDbContext = services.GetRequiredService<DietPlannerDbContext>();
+                DietPlannerDbContext dbContext = services.GetRequiredService<DietPlannerDbContext>();
                 Seeder seeder = services.GetRequiredService<Seeder>();
-                configurationDbContext.Database.Migrate();
+                dbContext.Database.Migrate();
                 await seeder.SeedAsync();
 
                 Log.Information("Starting host...");
