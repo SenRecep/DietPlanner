@@ -72,14 +72,14 @@ namespace DietPlanner.Server.Seed
                 .Take());
 
             await dbContext.Dieticians.AddAsync(FluentFactory<Dietician>.Init()
-                .GiveAValue(x => x.Address, "Istanbul")
+                .GiveAValue(x => x.Address, "İzmir")
                 .GiveAValue(x => x.CreateUserId, systemUserId)
                 .GiveAValue(x => x.CreatedTime, now)
-                .GiveAValue(x => x.Email, "ismailtokmakci@dietplanner.com")
-                .GiveAValue(x => x.FirstName, "Ismail")
-                .GiveAValue(x => x.LastName, "Tokmakçı")
+                .GiveAValue(x => x.Email, "nisang@dietplanner.com")
+                .GiveAValue(x => x.FirstName, "Nisan")
+                .GiveAValue(x => x.LastName, "Göksel")
                 .GiveAValue(x => x.IdentityNumber, "48343725006")
-                .GiveAValue(x => x.Password, "IsmailTokmakçı12*")
+                .GiveAValue(x => x.Password, "NisanGoksel12*")
                 .GiveAValue(x => x.PhoneNumber, "05329767219")
                 .GiveAValue(x => x.Role, dieticianRole)
                 .Use(dietician => dietician.Password = BCrypt.Net.BCrypt.HashPassword(dietician.Password))
@@ -180,10 +180,10 @@ namespace DietPlanner.Server.Seed
             .GiveAValue(x => x.Description, "Yeşil Biber")
             .Take());
 
-            var maydonoz = await dbContext.Foods.AddAsync(FluentFactory<Food>.Init()
+            var maydanoz = await dbContext.Foods.AddAsync(FluentFactory<Food>.Init()
             .GiveAValue(x => x.CreateUserId, systemUserId)
             .GiveAValue(x => x.CreatedTime, now)
-            .GiveAValue(x => x.Name, "Maydonoz")
+            .GiveAValue(x => x.Name, "Maydanoz")
             .GiveAValue(x => x.Description, "Bir tutam Maydanoz")
             .Take());
 
@@ -446,6 +446,71 @@ namespace DietPlanner.Server.Seed
             .GiveAValue(x => x.Name, "Kahve")
             .GiveAValue(x => x.Description, "Kahve Çeşitleri")
             .Take());
+
+            var diyetEkmek = await dbContext.Foods.AddAsync(FluentFactory<Food>.Init()
+           .GiveAValue(x => x.CreateUserId, systemUserId)
+           .GiveAValue(x => x.CreatedTime, now)
+           .GiveAValue(x => x.Name, "Diyet Ekmeği")
+           .GiveAValue(x => x.Description, "Dilimlenmiş diyet ekmek")
+           .Take());
+
+            var marul = await dbContext.Foods.AddAsync(FluentFactory<Food>.Init()
+            .GiveAValue(x => x.CreateUserId, systemUserId)
+            .GiveAValue(x => x.CreatedTime, now)
+            .GiveAValue(x => x.Name, "Marul")
+            .GiveAValue(x => x.Description, "1 demet marul")
+            .Take());
+
+            var elma = await dbContext.Foods.AddAsync(FluentFactory<Food>.Init()
+            .GiveAValue(x => x.CreateUserId, systemUserId)
+            .GiveAValue(x => x.CreatedTime, now)
+            .GiveAValue(x => x.Name, "Elma")
+            .GiveAValue(x => x.Description, "Taze elma")
+            .Take());
+
+            var yesillikSalata = await dbContext.Foods.AddAsync(FluentFactory<Food>.Init()
+            .GiveAValue(x => x.CreateUserId, systemUserId)
+            .GiveAValue(x => x.CreatedTime, now)
+            .GiveAValue(x => x.Name, "Yeşillikli salata")
+            .GiveAValue(x => x.Description, "Bol yeşillikli salata")
+            .Take());
+
+            var corba = await dbContext.Foods.AddAsync(FluentFactory<Food>.Init()
+            .GiveAValue(x => x.CreateUserId, systemUserId)
+            .GiveAValue(x => x.CreatedTime, now)
+            .GiveAValue(x => x.Name, "Çorba")
+            .GiveAValue(x => x.Description, "1 kase çorba çeşitleri")
+            .Take());
+
+            var diyetYogurt = await dbContext.Foods.AddAsync(FluentFactory<Food>.Init()
+            .GiveAValue(x => x.CreateUserId, systemUserId)
+            .GiveAValue(x => x.CreatedTime, now)
+            .GiveAValue(x => x.Name, "Diyet yoğurt")
+            .GiveAValue(x => x.Description, "150 gram diyet yoğurt")
+            .Take());
+
+            var erik = await dbContext.Foods.AddAsync(FluentFactory<Food>.Init()
+            .GiveAValue(x => x.CreateUserId, systemUserId)
+            .GiveAValue(x => x.CreatedTime, now)
+            .GiveAValue(x => x.Name, "Erik")
+            .GiveAValue(x => x.Description, "2 adet erik")
+            .Take());
+
+            var armut = await dbContext.Foods.AddAsync(FluentFactory<Food>.Init()
+            .GiveAValue(x => x.CreateUserId, systemUserId)
+            .GiveAValue(x => x.CreatedTime, now)
+            .GiveAValue(x => x.Name, "Armut")
+            .GiveAValue(x => x.Description, "1 adet taze armut")
+            .Take());
+
+            var kayısı = await dbContext.Foods.AddAsync(FluentFactory<Food>.Init()
+            .GiveAValue(x => x.CreateUserId, systemUserId)
+            .GiveAValue(x => x.CreatedTime, now)
+            .GiveAValue(x => x.Name, "Kayısı")
+            .GiveAValue(x => x.Description, "1 adet kayısı")
+            .Take());
+
+
             #endregion
 
             await dbContext.SaveChangesAsync();
@@ -456,6 +521,13 @@ namespace DietPlanner.Server.Seed
             .GiveAValue(x => x.CreatedTime, now)
             .GiveAValue(x => x.Name, "Akdeniz")
             .GiveAValue(x => x.Description, "Akdeniz SABAH 1 dilim tam çavdar ekmeği (erkekler için iki dilim) 50 gram lor peyniri 1 tatlı kaşığı zeytinyağı, kekik, pul biber, taze fesleğen Domates, yeşil biber, maydanoz Şekersiz açık çay ARA ÖĞÜN 1 dilim karpuz ÖĞLE 1 kâse mercimek salatası 1 dilim az yağlı beyaz peynir 1 dilim tam çavdar ekmeği ARA ÖĞÜN 1 dilim peynir (erkekler için iki dilim peynir) 2 kepekli grisini (4 kepekli grisini) 5 yeşil zeytin AKŞAM 6 çorba kaşığı kıymalı bezelye 3 çorba kaşığı bulgur pilavı (erkekler için 4 çorba kaşığı bulgur pilavı) Cacık veya ayran ARA 1 şeftali 10 fındık")
+            .Take());
+
+            var yesillikler = await dbContext.Diets.AddAsync(FluentFactory<Diet>.Init()
+            .GiveAValue(x => x.CreateUserId, systemUserId)
+            .GiveAValue(x => x.CreatedTime, now)
+            .GiveAValue(x => x.Name, "Yeşillikler Dünyası")
+            .GiveAValue(x => x.Description, "Yeşillikler Dünyası Kahvaltı: ! dilim diyet ekmeği, 2-3 dilim domates, 2-3 dilim salatalık, Şekersiz çay, Maydanoz, Marul. Ara Öğün: 2 tane kayısı, 1 tane elma. Öğlen Yemeği: Yeşillikli salata, 1 dilim diyet ekmeği, 1 kase çorba, 150 gram diyet yoğurt. Ara Öğün: 2 tane erik. Akşam Yemeği: 1 dilim diyet ekmeği, 1 kase çorba, Yeşillikli salata, 200 gram diyet yoğurt. Ara Öğün: 1 tane armut.")
             .Take());
 
 
@@ -481,6 +553,7 @@ namespace DietPlanner.Server.Seed
             var akdenizId = akdeniz.Entity.Id;
             var gulutensizId = gulutensiz.Entity.Id;
             var denizUrunleriId = denizUrunleri.Entity.Id;
+            var yesilliklerId = yesillikler.Entity.Id;
 
 
 
@@ -546,7 +619,7 @@ namespace DietPlanner.Server.Seed
               .GiveAValue(x => x.CreateUserId, systemUserId)
               .GiveAValue(x => x.CreatedTime, now)
               .GiveAValue(x => x.DietId, akdenizId)
-              .GiveAValue(x => x.FoodId, maydonoz.Entity.Id)
+              .GiveAValue(x => x.FoodId, maydanoz.Entity.Id)
               .Take());
 
             await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
@@ -911,6 +984,97 @@ namespace DietPlanner.Server.Seed
               .GiveAValue(x => x.DietId, denizUrunleriId)
               .GiveAValue(x => x.FoodId, kahve.Entity.Id)
               .Take());
+            #endregion
+
+            #region Yeşillikler dünyası
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                   .GiveAValue(x => x.CreateUserId, systemUserId)
+                   .GiveAValue(x => x.CreatedTime, now)
+                   .GiveAValue(x => x.DietId, yesilliklerId)
+                   .GiveAValue(x => x.FoodId, diyetEkmek.Entity.Id)
+                   .Take());
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                   .GiveAValue(x => x.CreateUserId, systemUserId)
+                   .GiveAValue(x => x.CreatedTime, now)
+                   .GiveAValue(x => x.DietId, yesilliklerId)
+                   .GiveAValue(x => x.FoodId, domates.Entity.Id)
+                   .Take());
+
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                   .GiveAValue(x => x.CreateUserId, systemUserId)
+                   .GiveAValue(x => x.CreatedTime, now)
+                   .GiveAValue(x => x.DietId, yesilliklerId)
+                   .GiveAValue(x => x.FoodId, salatalık.Entity.Id)
+                   .Take());
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                   .GiveAValue(x => x.CreateUserId, systemUserId)
+                   .GiveAValue(x => x.CreatedTime, now)
+                   .GiveAValue(x => x.DietId, yesilliklerId)
+                   .GiveAValue(x => x.FoodId, cay.Entity.Id)
+                   .Take());
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                   .GiveAValue(x => x.CreateUserId, systemUserId)
+                   .GiveAValue(x => x.CreatedTime, now)
+                   .GiveAValue(x => x.DietId, yesilliklerId)
+                   .GiveAValue(x => x.FoodId, maydanoz.Entity.Id)
+                   .Take());
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                    .GiveAValue(x => x.CreateUserId, systemUserId)
+                    .GiveAValue(x => x.CreatedTime, now)
+                    .GiveAValue(x => x.DietId, yesilliklerId)
+                    .GiveAValue(x => x.FoodId, marul.Entity.Id)
+                    .Take());
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                   .GiveAValue(x => x.CreateUserId, systemUserId)
+                   .GiveAValue(x => x.CreatedTime, now)
+                   .GiveAValue(x => x.DietId, yesilliklerId)
+                   .GiveAValue(x => x.FoodId, elma.Entity.Id)
+                   .Take());
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                   .GiveAValue(x => x.CreateUserId, systemUserId)
+                   .GiveAValue(x => x.CreatedTime, now)
+                   .GiveAValue(x => x.DietId, yesilliklerId)
+                   .GiveAValue(x => x.FoodId, kayısı.Entity.Id)
+                   .Take());
+
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                   .GiveAValue(x => x.CreateUserId, systemUserId)
+                   .GiveAValue(x => x.CreatedTime, now)
+                   .GiveAValue(x => x.DietId, yesilliklerId)
+                   .GiveAValue(x => x.FoodId,yesillikSalata.Entity.Id)
+                   .Take());
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                   .GiveAValue(x => x.CreateUserId, systemUserId)
+                   .GiveAValue(x => x.CreatedTime, now)
+                   .GiveAValue(x => x.DietId, yesilliklerId)
+                   .GiveAValue(x => x.FoodId, corba.Entity.Id)
+                   .Take()); 
+
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                   .GiveAValue(x => x.CreateUserId, systemUserId)
+                   .GiveAValue(x => x.CreatedTime, now)
+                   .GiveAValue(x => x.DietId, yesilliklerId)
+                   .GiveAValue(x => x.FoodId, erik.Entity.Id)
+                   .Take());      
+
+            await dbContext.DietFoods.AddAsync(FluentFactory<DietFood>.Init()
+                   .GiveAValue(x => x.CreateUserId, systemUserId)
+                   .GiveAValue(x => x.CreatedTime, now)
+                   .GiveAValue(x => x.DietId, yesilliklerId)
+                   .GiveAValue(x => x.FoodId, armut.Entity.Id)
+                   .Take());
+
             #endregion
 
             await dbContext.SaveChangesAsync();
