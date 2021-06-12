@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using DietPlanner.DTO.FileModel;
@@ -39,7 +37,7 @@ namespace DietPlanner.Server.Controllers
             };
             IReportExport reportExport = reportExportCreator.ReportExportFactory();
             reportExport.ExportInfo = await reportExportCreator.GetExportInfoAsync(fileModelCreateDto.ReportId);
-            var fileModelId= await reportExport.ExportAsync(fileModelCreateDto.SectionOrder);
+            Guid fileModelId = await reportExport.ExportAsync(fileModelCreateDto.SectionOrder);
 
             return Response<ExportInfo>.Success(reportExport.ExportInfo, StatusCodes.Status200OK).CreateResponseInstance();
         }
