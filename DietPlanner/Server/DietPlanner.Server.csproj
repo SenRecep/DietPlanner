@@ -25,5 +25,10 @@
     <ProjectReference Include="..\Shared\DietPlanner.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\HtmlReports\" />
+    <Folder Include="wwwroot\JsonReports\" />
+  </ItemGroup>
+
 
 </Project>

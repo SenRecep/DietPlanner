@@ -1,12 +1,88 @@
-﻿@page "/report"
+﻿@page "/report/{ReportId:guid}"
 @attribute [CustomAuthorize(RoleInfo.Dietician)]
 @inject IPageStateService pageStateService
+@inject IValidator<FileModelCreateDto> validator
+@inject IDieticianHttpService httpService
+@inject HttpInterceptorService interceptorService
+@inject IJSRuntime JS
 
-<h1>Rapor</h1>
+<div class="section">
+    @if (!ErrorMessage.IsEmpty())
+    {
+        <div class="row text-danger mb-2 pl-1">
+            @((MarkupString)ErrorMessage)
+        </div>
+    }
+    <fieldset class="border p-2">
+        <legend class="w-auto">Rapor Düzeni</legend>
+        <div class="d-flex justify-content-center">
+            <div class="btn-group position-relative" role="group">
+                <label class="btn  @(SectionOrder ? "btn-success" : "btn-primary")" for="SectionOrder">Kullanıcı Öncelikli</label>
+                <input @bind="SectionOrder" class="position-absolute invisible" type="checkbox" name="SectionOrder" id="SectionOrder" />
+                <label class="btn  @(SectionOrder ? "btn-primary" : "btn-success")" for="SectionOrder">Diyet Öncelikli</label>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="border p-2">
+        <legend class="w-auto">Rapor Tipi</legend>
+        <div class="d-flex justify-content-center">
+            <div class="btn-group  position-relative" role="group">
+                <label class="btn @(FileType ? "btn-success" : "btn-primary")" for="FileType">HTML<br /><img class="img-fluid" style="height:32px" src="/img/html.svg" /></label>
+                <input @bind="FileType" class="position-absolute invisible" type="checkbox" name="FileType" id="FileType" />
+                <label class="btn  @(FileType ? "btn-primary" : "btn-success")" for="FileType">JSON<br /><img class="img-fluid" style="height:32px" src="/img/json-file.svg" /> </label>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="d-flex justify-content-center mt-2">
+        <button @onclick="Submit" type="button" class="btn btn-success btn-lg w-50">
+            @if (pageStateService.IsLoading)
+            {
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            }
+            <i class="fas fa-download"></i>
+        </button>
+    </div>
+</div>
+
 @code{
-    protected override  void OnInitialized()
+
+    [Parameter]
+    public Guid ReportId { get; set; }
+
+
+    public FileModelCreateDto Model { get; set; } = new();
+    public bool SectionOrder { get; set; } = true;
+    public bool FileType { get; set; } = true;
+    public string ErrorMessage { get; set; }
+    protected override void OnInitialized()
     {
         pageStateService.Title = "Rapor";
         pageStateService.NavbarType = NavbarType.Dietician;
+        Model.ReportId = ReportId;
+        interceptorService.RegisterEvent();
+    }
+
+    protected async Task Submit()
+    {
+        pageStateService.IsLoading = true;
+        Model.SectionOrder = SectionOrder ? DTO.FileModel.SectionOrder.UserInfoTop : DTO.FileModel.SectionOrder.DietInfoTop;
+        Model.FileType = FileType ? DTO.FileModel.FileType.HTML : DTO.FileModel.FileType.JSON;
+        var validationResult = validator.Validate(Model);
+        if (!validationResult.IsValid)
+        {
+            ErrorMessage = string.Join("<br/>", validationResult.Errors.Select(x => x.ErrorMessage));
+            return;
+        }
+
+        var response = await httpService.CreteFileModelAsync(Model);
+        pageStateService.IsLoading = false;
+        if (!response.IsSuccessful)
+        {
+            ErrorMessage = response.ErrorData.GetErrors("<br/>");
+            return;
+        }
+
+        await JS.InvokeVoidAsync("newTabOpen", $"/api/filemodel/{response.Data}");
     }
 }

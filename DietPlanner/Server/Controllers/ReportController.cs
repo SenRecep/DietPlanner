@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using DietPlanner.DTO.Report;
@@ -46,27 +47,26 @@ namespace DietPlanner.Server.Controllers
             if (!State)
             {
                 Errors.Add("Seçtiğiniz aralıkta çakışan diyetleriniz mevcut");
-                Response<NoContent> response = Response<NoContent>.Fail(
+                return Response<Guid>.Fail(
                        statusCode: StatusCodes.Status400BadRequest,
                        isShow: true,
                        path: "[HTTPPOST] api/report",
                        errors: Errors.ToArray()
-                       );
-                return response.CreateResponseInstance();
+                       ).CreateResponseInstance();
             }
 
 
-            await genericReportCommandService.AddAsync(reportCreateDto);
+            var report = await genericReportCommandService.AddAsync(reportCreateDto);
             bool comitState = await genericReportCommandService.Commit();
             if (!comitState)
-                return Response<NoContent>.Fail(
+                return Response<Guid>.Fail(
                     statusCode: StatusCodes.Status500InternalServerError,
                     isShow: false,
                     path: "[HTTPPOST] api/report",
                     errors: "Diyet atamasi yapilirken bir hata ile karsilasildi"
                     )
                     .CreateResponseInstance();
-            return Response<NoContent>.Success(StatusCodes.Status201Created).CreateResponseInstance();
+            return Response<Guid>.Success(report.Id, StatusCodes.Status201Created).CreateResponseInstance();
 
         }
     }

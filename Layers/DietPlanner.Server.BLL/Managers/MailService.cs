@@ -15,6 +15,7 @@ namespace DietPlanner.Server.BLL.Managers
     public class MailService : IMessageService
     {
         private readonly IMailSettings _mailSettings;
+
         public MailService(IMailSettings mailSettings)
         {
             _mailSettings = mailSettings;
@@ -26,6 +27,7 @@ namespace DietPlanner.Server.BLL.Managers
             StreamReader str = new(FilePath);
             string MailText = str.ReadToEnd();
             str.Close();
+
             MailText = MailText
                 .Replace("[FirstName]", request.FirstName)
                 .Replace("[LastName]", request.LastName)

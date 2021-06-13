@@ -9,6 +9,7 @@ namespace DietPlanner.Server.BLL.Managers.ReportExport
     public interface IReportExport
     {
         public ExportInfo ExportInfo { get; set; }
+        public Guid ReportId { get; set; }
         Task<Guid> ExportAsync(SectionOrder sectionOrder);
     }
 }

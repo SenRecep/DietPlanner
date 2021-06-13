@@ -105,11 +105,11 @@ namespace DietPlanner.Server.Seed
                 await UserAddAsync<Dietician>(new("mehmetfaruk@dietplanner.com", "Istanbul", "Mehmet",
                     "Faruk", "05327933955", "94381916326", "MehmetFaruk12*", dieticianRole));
 
-                await UserAddAsync<Dietician>(new("ismailtokmakci@dietplanner.com", "Istanbul", "Ismail",
-                   "Tokmakçı", "05329767219", "48343725006", "IsmailTokmakçı12*", dieticianRole));
-
                 await UserAddAsync<Dietician>(new("rakimcelik@dietplanner.com", "Istanbul", "Rakım",
                        "Çelik", "05326981510", "97485229668", "MehmetFaruk12*", dieticianRole));
+
+                await UserAddAsync<Dietician>(new("nisang@dietplanner.com", "İzmir", "Nisan",
+                      "Göksel", "05329767219", "48343725006", "NisanGoksel12*", dieticianRole));
             }
 
 
@@ -186,6 +186,15 @@ namespace DietPlanner.Server.Seed
             var sut = await FoodAddAsync("Süt", "Yarım yağlı inek sütü");
             var badem = await FoodAddAsync("Badem", "Çiğ Badem");
             var kahve = await FoodAddAsync("Kahve", "Kahve Çeşitleri");
+            var diyetEkmek = await FoodAddAsync("Diyet Ekmeği", "Dilimlenmiş diyet ekmek");
+            var marul = await FoodAddAsync("Marul", "1 demet marul");
+            var elma = await FoodAddAsync("Elma", "Taze elma");
+            var yesillikSalata = await FoodAddAsync("Yeşillikli salata", "Bol yeşillikli salata");
+            var corba = await FoodAddAsync("Çorba", "1 kase çorba çeşitleri");
+            var diyetYogurt = await FoodAddAsync("Diyet yoğurt", "150 gram diyet yoğurt");
+            var erik = await FoodAddAsync("Erik", "2 adet erik");
+            var kayısı = await FoodAddAsync("Kayısı", "1 adet kayısı");
+            var armut = await FoodAddAsync("Armut", "1 adet taze armut");
             await dbContext.SaveChangesAsync();
             #endregion
 
@@ -193,7 +202,7 @@ namespace DietPlanner.Server.Seed
             var akdeniz = await DietAddAsync("Akdeniz", "Akdeniz SABAH 1 dilim tam çavdar ekmeği (erkekler için iki dilim) 50 gram lor peyniri 1 tatlı kaşığı zeytinyağı, kekik, pul biber, taze fesleğen Domates, yeşil biber, maydanoz Şekersiz açık çay ARA ÖĞÜN 1 dilim karpuz ÖĞLE 1 kâse mercimek salatası 1 dilim az yağlı beyaz peynir 1 dilim tam çavdar ekmeği ARA ÖĞÜN 1 dilim peynir (erkekler için iki dilim peynir) 2 kepekli grisini (4 kepekli grisini) 5 yeşil zeytin AKŞAM 6 çorba kaşığı kıymalı bezelye 3 çorba kaşığı bulgur pilavı (erkekler için 4 çorba kaşığı bulgur pilavı) Cacık veya ayran ARA 1 şeftali 10 fındık");
             var gulutensiz = await DietAddAsync("Glutensiz", "Glutensiz Kahvaltı: 1 dilim beyaz peynir 1 adet haşlama veya tavada yumurta 4 adet zeytin + Domates- Salatalık 1-2 dilim glutensiz ekmek Kuşluk: 1 porsiyon taze meyve + Bitki çayı Öğlen: 100-120 gr Izgara et/tavuk veya 1 porsiyon bakliyat yemeği 1 bardak ayran Mevsim salata 3 kaşık pirinç pilavı veya 1 dilim glutensiz ekmek (25 gr) İkindi: 1 porsiyon taze meyve + 2 adet ceviz içi Akşam: 1 porsiyon sebze yemeği 1 kase yoğurt 1-2 dilim glutensiz ekmek Gece: 1 bardak süt + 5-6 adet çiğ badem");
             var denizUrunleri = await DietAddAsync("Deniz Ürünleri", "Deniz Ürünleri Sabah Kalkınca: 1 bardak ılık su KAHVALTI 1.Kahvaltı Menüsü 1 dilim beyaz peynir + 1 adet haşlanmış yumurta + 5-6  adet zeytin + Bol yeşillik + 1 dilim tam tahıllı ekmek 2. Kahvaltı Menüsü Avokadolu tost + 1 porsiyon meyve + Bol yeşillik ÖĞLE YEMEĞİ 1. Öğle Yemeği Menüsü Izgara balık + haşlama sebze + maden suyu 2. Öğle Yemeği Menüsü 1 porsiyon sebze yemeği +  1 kase yoğurt + 1 dilim ekmek AKŞAM YEMEĞİ 1. Akşam Yemeği Menüsü Kinoalı meyveli  salata 2. Akşam Yemeği Menüsü 1 porsiyon kurubaklagil yemeği + 3-4 yemek kaşığı bulgur pilavı + 1 kase salata (z.yağı ve limon ile) ARA ÖĞÜN ÖNERİLERİ 2 adet ceviz veya 5-6 adet badem/fındık 1 porsiyon meyve Bitki çayları Kahve çeşitleri");
-
+            var yesilliklerDunyasi = await DietAddAsync("Yeşillikler Dünyası", "Yeşillikler Dünyası Kahvaltı: ! dilim diyet ekmeği, 2-3 dilim domates, 2-3 dilim salatalık, Şekersiz çay, Maydanoz, Marul. Ara Öğün: 2 tane kayısı, 1 tane elma. Öğlen Yemeği: Yeşillikli salata, 1 dilim diyet ekmeği, 1 kase çorba, 150 gram diyet yoğurt. Ara Öğün: 2 tane erik. Akşam Yemeği: 1 dilim diyet ekmeği, 1 kase çorba, Yeşillikli salata, 200 gram diyet yoğurt. Ara Öğün: 1 tane armut.");
             await dbContext.SaveChangesAsync();
             #endregion
 
@@ -213,6 +222,11 @@ namespace DietPlanner.Server.Seed
             await DietFoodAddAsync(diet: denizUrunleri, su, peynir, haslamaYumurta, siyahZeytin, tamTahilliEkmek, avakadoTost,
                 tazeMeyve, izgaraBalik, madenSuyu, haslamaSebze, yogurt, kinoalıMeyveliSalata, bakliyat, bulgurPilavi,
                 mevsimSalata, cevizIci, badem, findik, tazeMeyve, bitkiCayi, kahve);
+            #endregion
+
+            #region Yesillikler Dunyasi
+            await DietFoodAddAsync(diet: yesilliklerDunyasi, diyetEkmek, domates, salatalık, cay,maydonoz,marul,
+                elma, kayısı, kayısı, yesillikSalata, corba, erik,armut, diyetYogurt);
             #endregion
 
             await dbContext.SaveChangesAsync();

@@ -75,7 +75,7 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
                 await SaveChangesAsync();
                 commitState = true;
             }
-            catch
+            catch 
             {
                 commitState = false;
             }

@@ -29,7 +29,7 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
                 foreach (var item in user.Reports)
                     if ((item.StartTime <= range.Start && item.EndTime > range.Start) ||
                         (item.StartTime <= range.End && item.EndTime > range.End))
-                        errors.Add($"Diyet başlangıç tarihi: {item.StartTime} bitiş tarihi: {item.EndTime}");
+                        errors.Add($"Diyet başlangıç tarihi: {item.StartTime.ToShortDateString()} bitiş tarihi: {item.EndTime.ToShortDateString()}");
                 return (errors.Count==0, errors);
             }
             return (true, new List<string>());

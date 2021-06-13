@@ -14,3 +14,7 @@ function PreventEnterKey(id) {
         }
     });
 }
+
+function newTabOpen(url) {
+    window.open(url,"_blank");
+}

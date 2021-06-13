@@ -85,10 +85,12 @@ else
 
 @code
 {
-    public ReportCreateDto ReportCreateDto { get; set; } = new() { EndTime = DateTime.Now , StartTime = DateTime.Now };
+    public ReportCreateDto ReportCreateDto { get; set; } = new() { EndTime = DateTime.Now, StartTime = DateTime.Now };
     public string ErrorMessage { get; set; }
 
     public TreatmentDto Treatment { get; set; } = new();
+
+    public Guid ReportId { get; set; }
     protected async Task InitAsync()
     {
         pageStateService.IsLoading = true;
@@ -112,7 +114,10 @@ else
         var response = await dieticianHttpService.CreateReportAsync(ReportCreateDto);
         pageStateService.IsLoading = false;
         if (response.IsSuccessful)
+        {
+            ReportId = response.Data;
             await jsRuntime.InvokeVoidAsync("showModal", "modal");
+        }
         else
         {
             ErrorMessage = response.ErrorData.GetErrors("<br/>");
@@ -123,7 +128,7 @@ else
     protected async Task ModalSuccessEvent()
     {
         await jsRuntime.InvokeVoidAsync("closeModal", "modal");
-        navManager.NavigateTo(UrlInfo.Report);
+        navManager.NavigateTo($"{UrlInfo.Report}/{ReportId}");
     }
 
     public void Dispose()

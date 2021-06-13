@@ -33,7 +33,7 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
                     {
                         diet.Name,
                         diet.Description,
-                        Foods = diet.DietFoods.Select(x => x.Food).Select(x => new FoodInfo(x.Name, x.Description)).ToList()
+                        Foods = diet.DietFoods.Select(x => new FoodInfo(x.Food.Name, x.Food.Description)).ToList()
                     }
                 }).Join(dbContext.Diseases, CT => CT.Report.DiseaseId, disease => disease.Id, (CT, disease) => new
                 {
@@ -55,11 +55,16 @@ namespace DietPlanner.Server.DAL.Concrete.EntityFrameworkCore.Repositories
                     Patient = patient
                 }).FirstOrDefaultAsync(x => x.Report.Id == reportId);
 
+            if (export is null) return null;
+
             return new(
-                Patient: new(export.Patient.FirstName, export.Patient.LastName, export.Patient.Email, export.Patient.Address, export.Patient.IdentityNumber, export.Patient.PhoneNumber),
-                Dietician: new(export.Dietician.FirstName, export.Dietician.LastName, export.Dietician.Email, export.Dietician.PhoneNumber),
-                Disease: new(export.Disease.Name),
-                Diet: new(export.Diet.Name, export.Diet.Description, export.Diet.Foods));
+                User: new(
+                    Patient: new(export.Patient.FirstName, export.Patient.LastName, export.Patient.Email, export.Patient.Address, export.Patient.IdentityNumber, export.Patient.PhoneNumber),
+                    Dietician: new(export.Dietician.FirstName, export.Dietician.LastName, export.Dietician.Email, export.Dietician.PhoneNumber),
+                    Disease: new(export.Disease.Name)
+                    ),
+                Diet: new(export.Diet.Name, export.Diet.Description, export.Diet.Foods)
+               );
         }
     }
 }

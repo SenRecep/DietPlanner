@@ -4,10 +4,12 @@ using static DietPlanner.Server.Entities.ComplexTypes.ExportInfo;
 
 namespace DietPlanner.Server.Entities.ComplexTypes
 {
-    public partial record ExportInfo(PatientInfo Patient, DieticianInfo Dietician, DiseaseInfo Disease, DietInfo Diet);
+    public partial record ExportInfo(UserSection User, DietInfo Diet);
 
     public partial record ExportInfo
     {
+        public record UserSection(PatientInfo Patient, DieticianInfo Dietician, DiseaseInfo Disease);
+
         public record PatientInfo(string FirstName, string LastName, string Email, string Address, string IdentityNumber, string PhoneNumber);
 
         public record DieticianInfo(string FirstName, string LastName, string Email, string PhoneNumber);
