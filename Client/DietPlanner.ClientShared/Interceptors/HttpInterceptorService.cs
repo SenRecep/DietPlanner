@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Net;
-using System.Net.Http.Json;
 
 using DietPlanner.Shared.Exceptions;
 
@@ -20,6 +19,7 @@ namespace DietPlanner.ClientShared.Interceptors
         };
         private readonly HttpClientInterceptor _interceptor;
         private readonly NavigationManager _navManager;
+
         public HttpInterceptorService(HttpClientInterceptor interceptor, NavigationManager navManager)
         {
             _interceptor = interceptor;
@@ -43,7 +43,7 @@ namespace DietPlanner.ClientShared.Interceptors
                         break;
                     case HttpStatusCode.NotFound:
                         _navManager.NavigateTo("/404");
-                        message = "The requested resorce was not found.";
+                        message = "The requested resorce was not found";
                         break;
                     default:
                         _navManager.NavigateTo("/500");

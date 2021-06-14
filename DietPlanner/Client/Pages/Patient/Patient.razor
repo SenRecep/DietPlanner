@@ -4,6 +4,7 @@
 @inject IPageStateService pageStateService
 @inject IUserStorage userStorage
 @inject IPatientHttpService patientHttpService
+@inject HttpInterceptorService interceptorService
 
 @if (pageStateService.IsLoading)
 {
@@ -97,6 +98,7 @@ else
     {
         pageStateService.IsLoading = true;
         pageStateService.Title = "Hasta";
+        interceptorService.RegisterEvent();
         if (userStorage.User.Role.Name.Equals(RoleInfo.Patient))
         {
             pageStateService.NavbarType = NavbarType.Patient;

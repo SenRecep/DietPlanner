@@ -12,7 +12,9 @@ using DietPlanner.Server.BLL.ExtensionMethods;
 using DietPlanner.Server.BLL.Interfaces;
 using DietPlanner.Server.DAL.Interfaces;
 using DietPlanner.Server.Entities.Concrete;
+using DietPlanner.Server.Filters;
 using DietPlanner.Shared.ExtensionMethods;
+using DietPlanner.Shared.StringInfo;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +23,7 @@ namespace DietPlanner.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [CustomAuthorize(RoleInfo.Patient,RoleInfo.Dietician)]
     public class PatientController : ControllerBase
     {
         private readonly IGenericSingleQueryService<Patient> patientSingleQueryService;
