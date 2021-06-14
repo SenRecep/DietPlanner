@@ -1,0 +1,123 @@
+﻿@page "/patient"
+@page "/patient/{PatientId:guid}"
+@attribute [CustomAuthorize(RoleInfo.Dietician, RoleInfo.Patient)]
+@inject IPageStateService pageStateService
+@inject IUserStorage userStorage
+@inject IPatientHttpService patientHttpService
+
+@if (pageStateService.IsLoading)
+{
+    <Loading />
+}
+else
+{
+    @if (PatientInfo.IsNotNull())
+    {
+        <div class="section row">
+            <div class="col-md-6 row">
+                <p>Ad: </p>
+                <p class="ml-2">@PatientInfo.FirstName</p>
+            </div>
+            <div class="col-md-6 row">
+                <p>Soyad: </p>
+                <p class="ml-2">@PatientInfo.LastName</p>
+            </div>
+            <div class="col-md-6 row">
+                <p>Tc No: </p>
+                <p class="ml-2">@PatientInfo.IdentityNumber</p>
+            </div>
+            <div class="col-md-6 row">
+                <p>Email: </p>
+                <p class="ml-2">@PatientInfo.Email</p>
+            </div>
+            <div class="col-md-6 row">
+                <p>Telefon: </p>
+                <p class="ml-2">@PatientInfo.PhoneNumber</p>
+            </div>
+            <div class="col-md-12 row">
+                <p>Adres: </p>
+                <p class="ml-2">@PatientInfo.Address</p>
+            </div>
+        </div>
+    }
+
+
+    <div class="section">
+        <div class="table-responsive">
+            <table class="table position-relative table-light table-striped table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Oluşturulma Zamanı</th>
+                        <th>Başlangıç Zamanı</th>
+                        <th>Bitiş Zamanı</th>
+                        <th>Diyet Adı</th>
+                        <th>Hastalık Adı</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Reports.IsNotNull())
+                    {
+                        @foreach (var report in Reports)
+                        {
+                            <tr>
+                                <td>@report.CreateTime.ToShortDateString()</td>
+                                <td>@report.StartTime.ToShortDateString()</td>
+                                <td>@report.EndTime.ToShortDateString()</td>
+                                <td>@report.DietName</td>
+                                <td>@report.DiseaseName</td>
+                                <td><a href="@($"{UrlInfo.Report}/{report.ReportId}")"><i class="fas fa-download"></i></a></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Oluşturulma Zamanı</th>
+                        <th>Başlangıç Zamanı</th>
+                        <th>Bitiş Zamanı</th>
+                        <th>Diyet Adı</th>
+                        <th>Hastalık Adı</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+
+@code{
+    [Parameter]
+    public Guid PatientId { get; set; }
+
+    public UserDto PatientInfo { get; set; }
+    public List<ReportDto> Reports { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        pageStateService.IsLoading = true;
+        pageStateService.Title = "Hasta";
+        if (userStorage.User.Role.Name.Equals(RoleInfo.Patient))
+        {
+            pageStateService.NavbarType = NavbarType.Patient;
+            PatientInfo = userStorage.User;
+        }
+        else
+            pageStateService.NavbarType = NavbarType.Dietician;
+
+        if (PatientInfo.IsNull() && !PatientId.Equals(new Guid()))
+        {
+            var response = await patientHttpService.GetPatient(PatientId);
+            if (response.IsSuccessful)
+                PatientInfo = response.Data;
+        }
+
+        if (PatientInfo.IsNotNull())
+        {
+            var response = await patientHttpService.GetPatientReports(PatientInfo.Id);
+            if (response.IsSuccessful)
+                Reports = response.Data;
+        }
+        pageStateService.IsLoading = false;
+    }
+}

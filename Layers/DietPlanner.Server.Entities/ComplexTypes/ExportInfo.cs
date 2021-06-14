@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using static DietPlanner.Server.Entities.ComplexTypes.ExportInfo;
 
@@ -16,7 +17,7 @@ namespace DietPlanner.Server.Entities.ComplexTypes
 
         public record DiseaseInfo(string Name);
 
-        public record DietInfo(string Name, string Description, IEnumerable<FoodInfo> Foods);
+        public record DietInfo(string Name, string Description,DateTime CreateTime,DateTime StartTime,DateTime EndTime,  IEnumerable<FoodInfo> Foods);
 
         public record FoodInfo(string Name, string Description);
     }

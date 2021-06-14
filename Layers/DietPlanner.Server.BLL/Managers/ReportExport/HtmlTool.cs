@@ -10,6 +10,8 @@ using DietPlanner.Server.Entities.ComplexTypes;
 using DietPlanner.Server.Entities.Concrete;
 using DietPlanner.Shared.DesignPatterns.FluentFactory;
 
+using Humanizer;
+
 using Microsoft.AspNetCore.Hosting;
 
 namespace DietPlanner.Server.BLL.Managers.ReportExport
@@ -91,6 +93,9 @@ namespace DietPlanner.Server.BLL.Managers.ReportExport
                 .Replace("[Disease.Name]", ExportInfo.User.Disease.Name)
                 .Replace("[Diet.Name]", ExportInfo.Diet.Name)
                 .Replace("[Diet.Description]", ExportInfo.Diet.Description)
+                .Replace("[Diet.StartTime]", ExportInfo.Diet.StartTime.ToShortDateString())
+                .Replace("[Diet.EndTime]", ExportInfo.Diet.EndTime.ToShortDateString())
+                .Replace("[Diet.CreateTime]", ExportInfo.Diet.CreateTime.ToShortDateString())
                 .Replace("[FOODS]", string.Join("", ExportInfo.Diet.Foods.Select(x => $"<tr><th>{x.Name}</th><th>{x.Description}</th></tr>")));
             await File.WriteAllTextAsync(path, htmlContent);
             return fileModel.Id;

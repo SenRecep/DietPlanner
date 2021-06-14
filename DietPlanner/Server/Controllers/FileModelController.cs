@@ -26,7 +26,6 @@ namespace DietPlanner.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
     public class FileModelController : ControllerBase
     {
         private readonly IServiceProvider serviceProvider;
@@ -40,7 +39,7 @@ namespace DietPlanner.Server.Controllers
             this.webHostEnvironment = webHostEnvironment;
         }
         [HttpPost]
-        [CustomAuthorize(RoleInfo.Dietician)]
+        [CustomAuthorize(RoleInfo.Dietician,RoleInfo.Patient)]
         public async Task<IActionResult> Create([FromBody] FileModelCreateDto fileModelCreateDto)
         {
             ReportExportCreator reportExportCreator = fileModelCreateDto.FileType switch

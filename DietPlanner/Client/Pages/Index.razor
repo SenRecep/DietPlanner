@@ -3,22 +3,38 @@
 @inject IUserStorage userStorage
 <CustomAuthorizeView>
     <Authorized>
-        <p>@userStorage.User.IdentityNumber</p>
-        <p>@userStorage.User.FirstName</p>
-        <p>@userStorage.User.Role.Name</p>
+        <div class="d-flex justify-content-center mt-4">
+            <a class="btn btn-primary" href="@AuthPage">Kullanıcı Sayfasına Git</a>
+        </div>
     </Authorized>
-    <NotAuthorized>
-        <p>do do dostum giris yapmalisin</p>
-    </NotAuthorized>
 </CustomAuthorizeView>
+
+<div class="section">
+    <div class="d-flex justify-content-center flex-column align-items-center">
+        <img class="img-fluid" style="height:85px" src="/img/apple.svg" alt="Logo" />
+        <h2>Diet Planner</h2>
+        <h5>192804015 - <a href="https://github.com/SenRecep">Recep Şen</a></h5>
+        <h5>192804012 - <a href="https://github.com/YusufTopkaya">Yusuf Topkaya</a></h5>
+        <h4><a href="https://github.com/SenRecep/DietPlanner">Kaynak Kodlar</a></h4>
+    </div>
+    
+</div>
 
 
 @code
 {
+    public string AuthPage { get; set; }
     protected override void OnInitialized()
     {
         PageStateService.Title = "Anasayfa";
         PageStateService.NavbarType = NavbarType.None;
+        AuthPage = userStorage.User?.Role.Name switch
+        {
+            RoleInfo.Admin => "/admin",
+            RoleInfo.Dietician => "/dietician",
+            RoleInfo.Patient => "/patient",
+            _ => "/"
+        };
     }
 
 }

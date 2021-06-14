@@ -1,4 +1,4 @@
-﻿@page "/patient/list"
+﻿@page "/patientlist"
 @attribute [CustomAuthorize(RoleInfo.Dietician)]
 @inject IPageStateService pageStateService
 @inject IDieticianHttpService dieticianService
@@ -27,6 +27,7 @@
                             <th>Soayd</th>
                             <th>TC</th>
                             <th>Tel No</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +40,7 @@
                                     <td>@item.LastName</td>
                                     <td>@item.IdentityNumber</td>
                                     <td>@item.PhoneNumber</td>
+                                    <td><a  href="@UrlInfo.Patient/@item.Id"><i class="fas fa-info-circle"></i></a></td>
                                 </tr>
                             }
                         }
@@ -49,6 +51,7 @@
                             <th>Soayd</th>
                             <th>TC</th>
                             <th>Tel No</th>
+                            <th></th>
                         </tr>
                     </tfoot>
                 </table>

@@ -1,9 +1,10 @@
 ﻿@page "/report/{ReportId:guid}"
-@attribute [CustomAuthorize(RoleInfo.Dietician)]
+@attribute [CustomAuthorize(RoleInfo.Dietician, RoleInfo.Patient)]
 @inject IPageStateService pageStateService
 @inject IValidator<FileModelCreateDto> validator
 @inject IDieticianHttpService httpService
 @inject HttpInterceptorService interceptorService
+@inject IUserStorage userStorage
 @inject IJSRuntime JS
 
 <div class="section">
@@ -35,11 +36,12 @@
     </fieldset>
 
     <div class="d-flex justify-content-center mt-2">
-        <button @onclick="Submit" type="button" class="btn btn-success btn-lg w-50">
+        <button @onclick="Submit" type="button" class="btn btn-success btn-lg w-50 d-flex justify-content-around align-items-center">
             @if (pageStateService.IsLoading)
             {
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             }
+
             <i class="fas fa-download"></i>
         </button>
     </div>
@@ -58,9 +60,15 @@
     protected override void OnInitialized()
     {
         pageStateService.Title = "Rapor";
-        pageStateService.NavbarType = NavbarType.Dietician;
+        pageStateService.NavbarType = userStorage.User.Role.Name switch
+        {
+            RoleInfo.Patient => NavbarType.Patient,
+            RoleInfo.Dietician => NavbarType.Dietician,
+            _=>NavbarType.None
+        };
         Model.ReportId = ReportId;
         interceptorService.RegisterEvent();
+
     }
 
     protected async Task Submit()

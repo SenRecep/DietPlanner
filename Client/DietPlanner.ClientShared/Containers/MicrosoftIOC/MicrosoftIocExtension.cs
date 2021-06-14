@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Reflection;
 
 using Blazored.LocalStorage;
-using Blazored.SessionStorage;
 
 using DietPlanner.ClientShared.Interceptors;
 using DietPlanner.ClientShared.Services;
@@ -27,10 +26,7 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
         private const string HTTP_CLIENT_NAME = "httpClient";
         public static void AddDependencies(this IServiceCollection services, string baseAddress)
         {
-            //services.AddBlazoredSessionStorage(cnf =>
-            //{
-            //    cnf.JsonSerializerOptions.WriteIndented = true;
-            //});
+      
 
             services.AddBlazoredLocalStorage(cnf =>
             {
@@ -55,9 +51,9 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
 
             services.AddScoped<IAdminHttpService,AdminHttpService>();
             services.AddScoped<IDieticianHttpService,DieticianHttpService>();
+            services.AddScoped<IPatientHttpService,PatientHttpService>();
 
-            //services.AddScoped<IUserStorageService, UserSessionService>();
-            //services.AddScoped<IUserStorageSyncService, UserSessionSyncService>();
+     
 
             services.AddScoped<IUserStorageService, UserLocalStorageService>();
             services.AddScoped<IUserStorageSyncService, UserLocalStorageSyncService>();

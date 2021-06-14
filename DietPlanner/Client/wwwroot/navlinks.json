@@ -10,7 +10,7 @@
     },
     {
       "Title": "Hastalar",
-      "Url": "/patient/list"
+      "Url": "/patientlist"
     },
     {
       "Title": "Hastalıklar",
