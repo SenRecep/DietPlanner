@@ -10,7 +10,7 @@ using DietPlanner.Server.Entities.ComplexTypes;
 using DietPlanner.Server.Entities.Concrete;
 using DietPlanner.Shared.DesignPatterns.FluentFactory;
 
-using Humanizer;
+
 
 using Microsoft.AspNetCore.Hosting;
 
