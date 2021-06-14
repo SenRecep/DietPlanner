@@ -5,14 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Mapping\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="ValidationRules\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Blazored.FluentValidation" Version="2.0.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.1.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.2.3" />

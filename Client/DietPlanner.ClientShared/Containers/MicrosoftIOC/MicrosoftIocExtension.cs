@@ -26,8 +26,6 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
         private const string HTTP_CLIENT_NAME = "httpClient";
         public static void AddDependencies(this IServiceCollection services, string baseAddress)
         {
-      
-
             services.AddBlazoredLocalStorage(cnf =>
             {
                 cnf.JsonSerializerOptions.WriteIndented = true;
@@ -53,7 +51,6 @@ namespace DietPlanner.ClientShared.Containers.MicrosoftIOC
             services.AddScoped<IDieticianHttpService,DieticianHttpService>();
             services.AddScoped<IPatientHttpService,PatientHttpService>();
 
-     
 
             services.AddScoped<IUserStorageService, UserLocalStorageService>();
             services.AddScoped<IUserStorageSyncService, UserLocalStorageSyncService>();

@@ -14,8 +14,6 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DietPlanner.Server.Seed
 {
-    internal record UserCreate(string Email, string Address, string FirstName, string LastName, string PhoneNumber, string IdentityNumber, string Password, Role Role);
-
     public class Seeder
     {
         private readonly DietPlannerDbContext dbContext;
@@ -241,4 +239,6 @@ namespace DietPlanner.Server.Seed
 
         }
     }
+    internal record UserCreate(string Email, string Address, string FirstName, string LastName, string PhoneNumber, string IdentityNumber, string Password, Role Role);
+
 }
