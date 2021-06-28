@@ -30,5 +30,10 @@
     <Folder Include="wwwroot\JsonReports\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Templates\Report.html" />
+    <None Include="wwwroot\Templates\WelcomeTemplate.html" />
+  </ItemGroup>
+
 
 </Project>
